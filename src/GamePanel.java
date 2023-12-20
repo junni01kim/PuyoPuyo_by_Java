@@ -5,33 +5,53 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 public class GamePanel extends JPanel {
-	GameGround gameGround1P = new GameGround();
-	GameGround gameGround2P = new GameGround();
-	ScorePanel scorePanel = new ScorePanel(); 
+	// 1P 게임 보드
+	private GameGround gameGround1P = new GameGround();
+
+	// 2P 게임 보드
+	private GameGround gameGround2P = new GameGround();
 	
+	// 점수 패널
+	private ScorePanel scorePanel = new ScorePanel(); 
+	
+	// 화면 분할 패널
 	private JSplitPane splitPanel1P = new JSplitPane();
 	private JSplitPane splitPanel2P = new JSplitPane();
 	
 	GamePanel() {
-		setBackground(Color.YELLOW);
-		setLayout(new BorderLayout());
-		// 1P 게임 보드
+		setBackground(Color.RED);
+		//setLayout(new BorderLayout());
+		setLayout(null);
+		add(gameGround1P);
+		gameGround1P.setLocation(50,60);
 		
-		// 2P 게임 보드
+		add(gameGround2P);
+		gameGround2P.setLocation(830,60);
 		
-		// 다음 뿌요위치
-		// 넘길 방해뿌요 수 그림
-		// 남은 라운드 현재 라운드 수
-		// 자신의 점수
-		splitPanel();
+		add(scorePanel);
+		scorePanel.setLocation(490,60);
+		
+		
+		//splitPanel();
 	}
 	
+	// 화면을 분할해준다.
 	private void splitPanel() {
+		// 1차 1P 패널 분리
 		splitPanel1P.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		splitPanel1P.setDividerLocation(500);
+		splitPanel1P.setDividerLocation(450);
+		splitPanel1P.setDividerSize(0);
 		add(splitPanel1P);
 		
+		// 2차 점수 패널과 2P 분리
 		splitPanel2P.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		splitPanel1P.setDividerLocation(280);
+		splitPanel2P.setDividerLocation(380);
+		splitPanel2P.setDividerSize(0);
+		
+		splitPanel1P.setLeftComponent(gameGround1P);
+		splitPanel2P.setLeftComponent(scorePanel);
+		splitPanel2P.setRightComponent(gameGround2P);
+		
+		splitPanel1P.setRightComponent(splitPanel2P);
 	}
 }

@@ -5,6 +5,6 @@ import javax.swing.JPanel;
 public class GameGround extends JPanel {
 	GameGround() {
 		setBackground(Color.CYAN);
-		setSize(500,720);
+		setSize(400,590);
 	}
 }
