@@ -1,6 +1,9 @@
 # PuyoPuyo_by_Java
 PuyoPuyo_by_C를 객체지향언어(Java Swing)로 수정한 프로그램 입니다.
 
+## 객체구조도
+![PuyoPuyoOOP](https://github.com/junni01kim/PuyoPuyo_by_Java/assets/127941871/89d9ad24-91f4-40a2-91f0-5fc9012ad16c)
+
 ## 파일 설명
 해당 프로그램은 다음과 같은 구조로 되어 있습니다.
 1. 게임 코드 제작에 필요한 객체를 만드는 클래스
