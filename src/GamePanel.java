@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -18,18 +19,22 @@ public class GamePanel extends JPanel {
 	private JSplitPane splitPanel1P = new JSplitPane();
 	private JSplitPane splitPanel2P = new JSplitPane();
 	
+	private RoundThread roundThread = new RoundThread();
+	
 	GamePanel() {
 		setBackground(Color.RED);
 		
 		setLayout(null);
-		add(gameGround1P);
 		gameGround1P.setLocation(50,60);
+		add(gameGround1P);
 		
-		add(gameGround2P);
 		gameGround2P.setLocation(830,60);
+		add(gameGround2P);
 		
-		add(scorePanel);
 		scorePanel.setLocation(490,60);
+		add(scorePanel);
+		
+		roundThread.start();
 	}
 	
 	// 화면을 분할해준다.
@@ -58,6 +63,13 @@ public class GamePanel extends JPanel {
 		PlayerThread PlayerThread1P;
 		PlayerThread PlayerThread2P;
 		
+		public RoundThread() {
+			makePuyoLogic();
+			PlayerThread1P = new PlayerThread(gameGround1P, puyoLogic);
+			PlayerThread2P = new PlayerThread(gameGround2P, puyoLogic);
+			System.out.println("gamePanel");
+		}
+		
 		// puyoLogic을 재설정하는 함수이다.
 		private void makePuyoLogic() {
 			int puyoCase[][] = new int[5][5];
@@ -66,8 +78,8 @@ public class GamePanel extends JPanel {
 			for (int i = 0; i < 25; i++)
 			{
 				while (true) {
-					firstPuyo = (int)(Math.random()*4);
-					secondPuyo = (int)(Math.random()*4);
+					firstPuyo = (int)(Math.random()*5);
+					secondPuyo = (int)(Math.random()*5);
 					if (puyoCase[firstPuyo][secondPuyo] == 0) {
 						puyoCase[firstPuyo][secondPuyo] = 1;
 						puyoLogic[i] = firstPuyo * 10 + secondPuyo;
@@ -75,17 +87,14 @@ public class GamePanel extends JPanel {
 					}
 				}
 			}
+			System.out.println("makePuyoLogic");
 		}
 		
 		@Override
 		public void run() {
-			makePuyoLogic();
-			PlayerThread1P = new PlayerThread(puyoLogic);
-			PlayerThread2P = new PlayerThread(puyoLogic);
-			
-			while(true) {
-				
-			}
+			PlayerThread1P.start();
+			PlayerThread2P.start();
+			System.out.println("gamePanel.run");
 		}
 	}
 }
