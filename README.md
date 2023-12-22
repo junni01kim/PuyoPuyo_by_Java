@@ -18,3 +18,7 @@ PuyoPuyo_by_C를 객체지향언어(Java Swing)로 수정한 프로그램 입니
 #### \- 1일차 -  
 뿌요뿌요 플레이 화면 화면 비율구성  
 뿌요뿌요가 플레이될 공간의 맵 크기를 할당하였다.
+
+#### \- 2일차 -
+RoundThread, makePuyoLogic 구현
+PlayerThread 구현
