@@ -20,5 +20,11 @@ PuyoPuyo_by_C를 객체지향언어(Java Swing)로 수정한 프로그램 입니
 뿌요뿌요가 플레이될 공간의 맵 크기를 할당하였다.
 
 #### \- 2일차 -
-RoundThread, makePuyoLogic 구현
-PlayerThread 구현
+RoundThread, PlayerThread 구현 (틀만)
+makePuyoLogic 구현: 한 라운드간 순회할 뿌요 묶음 순서를 정한다.
+
+#### \- 3일차 -
+2일차 내용 스레드 정상 작동확인
+makePuyoLogic 정상작동 확인(swing)
+nextPuyo 구현: 다음 뿌요를 지정하고 드랍 위치를 초기화
+dropPuyo 구현: 바닥에 닿으면 nextPuyo 호출
