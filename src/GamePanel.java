@@ -20,7 +20,7 @@ public class GamePanel extends JPanel {
 	
 	GamePanel() {
 		setBackground(Color.RED);
-		//setLayout(new BorderLayout());
+		
 		setLayout(null);
 		add(gameGround1P);
 		gameGround1P.setLocation(50,60);
@@ -30,9 +30,6 @@ public class GamePanel extends JPanel {
 		
 		add(scorePanel);
 		scorePanel.setLocation(490,60);
-		
-		
-		//splitPanel();
 	}
 	
 	// 화면을 분할해준다.
@@ -53,5 +50,42 @@ public class GamePanel extends JPanel {
 		splitPanel2P.setRightComponent(gameGround2P);
 		
 		splitPanel1P.setRightComponent(splitPanel2P);
+	}
+	
+	//라운드 스레드
+	public class RoundThread extends Thread {
+		int puyoLogic[] = new int[25];
+		PlayerThread PlayerThread1P;
+		PlayerThread PlayerThread2P;
+		
+		// puyoLogic을 재설정하는 함수이다.
+		private void makePuyoLogic() {
+			int puyoCase[][] = new int[5][5];
+			int firstPuyo;
+			int secondPuyo;
+			for (int i = 0; i < 25; i++)
+			{
+				while (true) {
+					firstPuyo = (int)(Math.random()*4);
+					secondPuyo = (int)(Math.random()*4);
+					if (puyoCase[firstPuyo][secondPuyo] == 0) {
+						puyoCase[firstPuyo][secondPuyo] = 1;
+						puyoLogic[i] = firstPuyo * 10 + secondPuyo;
+						break;
+					}
+				}
+			}
+		}
+		
+		@Override
+		public void run() {
+			makePuyoLogic();
+			PlayerThread1P = new PlayerThread(puyoLogic);
+			PlayerThread2P = new PlayerThread(puyoLogic);
+			
+			while(true) {
+				
+			}
+		}
 	}
 }
