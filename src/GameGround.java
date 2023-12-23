@@ -1,31 +1,27 @@
 
 import java.awt.Color;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GameGround extends JPanel {
-	JLabel testLabel1 = new JLabel("하이요");
-	JLabel testLabel2 = new JLabel("헬로임");
+	private ImageIcon puyoIcon[] = {new ImageIcon("GreenPuyo.png"),new ImageIcon("RedPuyo.png"),new ImageIcon("YellowPuyo.png"),new ImageIcon("BluePuyo.png"),new ImageIcon("PurplePuyo.png")};
 	
-	JLabel getTestLabel1() {return testLabel1;}
-	JLabel getTestLabel2() {return testLabel2;}
+	Puyo puyo1 = new Puyo(this, 0, 140, 10);
+	Puyo puyo2 = new Puyo(this, 0, 200, 10);
+	
+	ImageIcon[] getPuyoIcon() {return puyoIcon;}
+	Puyo getPuyo1() {return puyo1;}
+	Puyo getPuyo2() {return puyo2;}
 	
 	GameGround() {
 		setBackground(Color.CYAN);
 		setLayout(null);
-		setSize(400,590);
+		setSize(400,750);
 		
-		testLabel1.setSize(50, 20);
-		testLabel2.setSize(50, 20);
-		
-		testLabel1.setBackground(Color.WHITE);
-		testLabel2.setBackground(Color.WHITE);
-		
-		testLabel1.setLocation(100,100);
-		testLabel2.setLocation(130,100);
-		
-		add(testLabel1);
-		add(testLabel2);
+		add(puyo1);
+		add(puyo2);
 	}
 }

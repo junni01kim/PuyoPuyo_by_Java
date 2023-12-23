@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 public class ScorePanel extends JPanel{
 	ScorePanel() {
 		setBackground(Color.YELLOW);
-		setSize(300, 590);
+		setSize(300, 750);
 		
 		// 다음 뿌요위치
 		// 넘길 방해뿌요 수 그림

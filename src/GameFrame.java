@@ -8,7 +8,7 @@ public class GameFrame extends JFrame {
 	
 	public GameFrame() {
 		setTitle("»Ñ¿ä»Ñ¿ä");
-		setSize(1280, 720);
+		setSize(1280, 870);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		getContentPane().add(gamePanel, BorderLayout.CENTER);

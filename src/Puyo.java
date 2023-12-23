@@ -1,19 +1,31 @@
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
-public class Puyo {
+public class Puyo extends JLabel{
+	private GameGround gameGround;
+	
 	//»Ñ¿ä´Â 0.ÃÊ·Ï 1.»¡°­ 2.³ë¶û 3.ÆÄ¶û 4.º¸¶ó 5.¹æÇØÀÌ´Ù.
 	private int type;
+	
+	
 	//»Ñ¿äÀÇ ÁÂÇ¥
-	private int x;
-	private int y;
+	private int indexXToPixel(int indexX) { return 20+indexX*60; }
+	private int indexYToPixel(int indexY) { return 10+indexY*60; }
+	private int PixelXToindex() {return (getX()-20)/60;}
+	private int PixelYToindex() {return (getY()-10)/60;}
 	
-	public void setX(int x) {this.x = x;}
-	public void setY(int y) {this.y = y;}
-	
+	public void setType(int type) {this.type = type;}
 	public int getType() {return type;}
-	public int getX() {return x;}
-	public int getY() {return y;}
 	
-	public Puyo(int type){
+	public Puyo(GameGround gameGround, int type, int indexX, int indexY){
+		super();
+		System.out.println("»Ñ¿ä»ý¼ºÀÚ ½ÃÀÛ");
+		
 		this.type = type;
+		setLocation(indexXToPixel(indexX), indexYToPixel(indexY));	
+		setSize(60,60);
+		setIcon(gameGround.getPuyoIcon()[type]);
+		
+		System.out.println("»Ñ¿ä»ý¼ºÀÚ Á¾·á");
 	}
 }
