@@ -28,3 +28,10 @@ makePuyoLogic 구현: 한 라운드간 순회할 뿌요 묶음 순서를 정한�
 makePuyoLogic 정상작동 확인(swing)
 nextPuyo 구현: 다음 뿌요를 지정하고 드랍 위치를 초기화
 dropPuyo 구현: 바닥에 닿으면 nextPuyo 호출
+
+#### \- 4일차 -
+3일차 구현 요소 스윙 graphics를 이용하여 시각화
+Puyo 수정: JLabel을 상속받으며, 뿌요 타입에 따라 생성자가 그래픽과 위치를 지정하여 생성해준다.
+dropPuyo 수정: 
+  1) 다른 뿌요가 설치되어도, nextPuyo를 호출한다.
+  2) 바닥에 닿으면, 뿌요가 그 자리에 남아있는다.
