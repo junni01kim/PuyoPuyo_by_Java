@@ -6,9 +6,4 @@ public class Player {
 	// 방해뿌요 전달 및 전송
 	int nextTimeGetObsturctPuyo=0;
 	int nextTimePassObstructPuyo=0;
-	
-	// 뿌요 객체를 아래로 떨어트리는 함수이다. 
-	void dropPuyo() {
-		
-	}
 }
