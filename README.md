@@ -40,5 +40,5 @@ dropPuyo 수정:
 controlPuyo 구현: 하좌우 방향키 기능 구현(예외처리X)
 
 #### \- 6일차 -
-controlPuyo 완성: 5일차 최적화 및 상 방향키 기능 구현
+controlPuyo 완성: 5일차 최적화 및 상 방향키 기능 구현  
 dropAnotherPuyo 구현: 한 뿌요만 바닥에 닿았을 때, 다른 뿌요의 위치를 지정한다.
