@@ -47,3 +47,4 @@ dropAnotherPuyo 구현: 한 뿌요만 바닥에 닿았을 때, 다른 뿌요의 
 initializeCheckNumberOfSamePuyoVariable 구현: CheckNumberOfSamePuyo와 deletePuyos에 필요한 변수들을 초기화 하는 함수
 checkNumberOfSamePuyo 구현: 놓여진 뿌요 주변에 같은 색상 뿌요가 몇개있는지 계산하는 함수
 deletePuyos 구현: checkNumberOfSamePuyo에서 구한 뿌요들을 한번에 제거하는 함수
+dropPuyos 구현: 뿌요가 삭제된 후 남은 블록을 밑으로 내리는 함수, 제거 되어야 하는 뿌요가 남아있게되는 버그 발생(dropPuyos를 실행하지 않으면 버그는 사라짐)
