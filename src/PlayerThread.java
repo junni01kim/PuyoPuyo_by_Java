@@ -78,14 +78,16 @@ public class PlayerThread extends Thread {
 			
 			initializeCheckNumberOfSamePuyoVariable();
 			checkNumberOfSamePuyo(puyoMap[gameGround.getPuyo1().PixelXToindex()][gameGround.getPuyo1().PixelYToindex()],gameGround.getPuyo1().PixelXToindex(),gameGround.getPuyo1().PixelYToindex());
-			if(numberOfSamePuyo>=4)
+			if(numberOfSamePuyo>=4) {
 				deletePuyos(puyoMap[gameGround.getPuyo1().PixelXToindex()][gameGround.getPuyo1().PixelYToindex()],gameGround.getPuyo1().PixelXToindex(),gameGround.getPuyo1().PixelYToindex());
-			initializeCheckNumberOfSamePuyoVariable();
-			
+				dropPuyos();
+			}
 			initializeCheckNumberOfSamePuyoVariable();
 			checkNumberOfSamePuyo(puyoMap[gameGround.getPuyo2().PixelXToindex()][gameGround.getPuyo2().PixelYToindex()],gameGround.getPuyo2().PixelXToindex(),gameGround.getPuyo2().PixelYToindex());
-			if(numberOfSamePuyo>=4)
+			if(numberOfSamePuyo>=4) {
 				deletePuyos(puyoMap[gameGround.getPuyo2().PixelXToindex()][gameGround.getPuyo2().PixelYToindex()],gameGround.getPuyo2().PixelXToindex(),gameGround.getPuyo2().PixelYToindex());
+				dropPuyos();
+			}
 			nextPuyo();
 		}
 		// 뿌요2가 가장 아래로 내려운 경우
@@ -99,13 +101,16 @@ public class PlayerThread extends Thread {
 			
 			initializeCheckNumberOfSamePuyoVariable();
 			checkNumberOfSamePuyo(puyoMap[gameGround.getPuyo1().PixelXToindex()][gameGround.getPuyo1().PixelYToindex()],gameGround.getPuyo1().PixelXToindex(),gameGround.getPuyo1().PixelYToindex());
-			if(numberOfSamePuyo>=4)
+			if(numberOfSamePuyo>=4) {
 				deletePuyos(puyoMap[gameGround.getPuyo1().PixelXToindex()][gameGround.getPuyo1().PixelYToindex()],gameGround.getPuyo1().PixelXToindex(),gameGround.getPuyo1().PixelYToindex());
-			
+				dropPuyos();
+			}
 			initializeCheckNumberOfSamePuyoVariable();
 			checkNumberOfSamePuyo(puyoMap[gameGround.getPuyo2().PixelXToindex()][gameGround.getPuyo2().PixelYToindex()],gameGround.getPuyo2().PixelXToindex(),gameGround.getPuyo2().PixelYToindex());
-			if(numberOfSamePuyo>=4)
+			if(numberOfSamePuyo>=4) {
 				deletePuyos(puyoMap[gameGround.getPuyo2().PixelXToindex()][gameGround.getPuyo2().PixelYToindex()],gameGround.getPuyo2().PixelXToindex(),gameGround.getPuyo2().PixelYToindex());
+				dropPuyos();
+			}
 			nextPuyo();
 		}
 	}
@@ -120,6 +125,7 @@ public class PlayerThread extends Thread {
 		//System.out.println("dropPuyo");
 	}
 	
+	// CheckNumberOfSamePuyo와 deletePuyos에 필요한 변수들을 초기화 하는 함수
 	void initializeCheckNumberOfSamePuyoVariable() {
 		numberOfSamePuyo=0;
 		for(int i=0; i<puyoMap.length; i++)
@@ -142,7 +148,7 @@ public class PlayerThread extends Thread {
 		if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY+1]) {
 			checkNumberOfSamePuyo(puyo, indexX, indexY+1);
 		}
-		if (indexX >= 0 && indexX <= 5 && indexY < 12 && puyoMap[indexX][indexY-1]!=null && puyoMap[indexX][indexY-1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY-1]) {
+		if (indexX >= 0 && indexX <= 5 && indexY > 0 && indexY < 12 && puyoMap[indexX][indexY-1]!=null && puyoMap[indexX][indexY-1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY-1]) {
 			checkNumberOfSamePuyo(puyo, indexX, indexY-1);
 		}
 		if (indexX >= 0 && indexX <= 4 && indexY < 12 && puyoMap[indexX+1][indexY]!=null && puyoMap[indexX+1][indexY].getType() == puyo.getType() && !samePuyoChecker[indexX+1][indexY]) {
@@ -154,14 +160,16 @@ public class PlayerThread extends Thread {
 	}
 	
 	void deletePuyos(Puyo puyo, int indexX, int indexY) {
-		System.out.println("deletePuyos");
+		System.out.println("deletePuyos"+"("+indexX+","+indexY+")");
 		samePuyoChecker[indexX][indexY] = false;
+		puyoMap[indexX][indexY].setVisible(false);
+		puyoMap[indexX][indexY]=null;
 		
 		// 예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
 		if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY+1]) {
 			deletePuyos(puyo, indexX, indexY+1);
 		}
-		if (indexX >= 0 && indexX <= 5 && indexY < 12 && puyoMap[indexX][indexY-1]!=null && puyoMap[indexX][indexY-1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY-1]) {
+		if (indexX >= 0 && indexX <= 5 && indexY > 0 && indexY < 12 && puyoMap[indexX][indexY-1]!=null && puyoMap[indexX][indexY-1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY-1]) {
 			deletePuyos(puyo, indexX, indexY-1);
 		}
 		if (indexX >= 0 && indexX <= 4 && indexY < 12 && puyoMap[indexX+1][indexY]!=null && puyoMap[indexX+1][indexY].getType() == puyo.getType() && samePuyoChecker[indexX+1][indexY]) {
@@ -170,9 +178,33 @@ public class PlayerThread extends Thread {
 		if (indexX >= 1 && indexX <= 5 && indexY < 12 && puyoMap[indexX-1][indexY]!=null && puyoMap[indexX-1][indexY].getType() == puyo.getType() && samePuyoChecker[indexX-1][indexY]) {
 			deletePuyos(puyo, indexX-1, indexY);
 		}
+	}
+	
+	void dropPuyos() {
+		int i, j, q;
 		
-		puyoMap[indexX][indexY].setVisible(false);
-		puyoMap[indexX][indexY]=null;
+		for (i = 0; i < 6; i++)
+		{
+			for (j = 11; j >= 0; j--)
+			{
+				if (puyoMap[i][j] == null) {
+					for (q = j-1; q >= 0; q--)
+					{
+						if (puyoMap[i][q] != null) {// 만약에 블록이 위에 있다면,
+							puyoMap[i][j] = puyoMap[i][q];
+							puyoMap[i][q] = null;
+							puyoMap[i][j].setLocation(puyoMap[i][j].indexXToPixel(i),puyoMap[i][j].indexYToPixel(j));
+							System.out.println("drop!"+j);
+							break;
+						}
+					}
+					// 만약 블록이 위에 없다면, -> 중첩 되어있지 않으니 j 반복 필요X
+					if (q == -1) 
+						break;
+				}
+			}
+		}
+		checkPuyo();
 	}
 	
 	@Override
