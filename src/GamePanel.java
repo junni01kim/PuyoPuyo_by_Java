@@ -117,7 +117,6 @@ public class GamePanel extends JPanel {
 			switch(e.getKeyCode()) {
 			//Player1
 			case KeyEvent.VK_W:
-				System.out.println("KeyUp");
 				//두 뿌요의 위치에 따라서 뿌요를 회전시킨다.
 				// 경우1. 좌우 배치 - (뿌요1)(뿌요2)
 				if(gameGround1P.getPuyo1().getX()<=gameGround1P.getPuyo2().getX()&&gameGround1P.getPuyo1().getY()==gameGround1P.getPuyo2().getY()) {
@@ -162,11 +161,9 @@ public class GamePanel extends JPanel {
 				}
 				break;
 			case KeyEvent.VK_S:
-				System.out.println("KeyDown");
 				roundThread.getPlayerThread1P().dropPuyo();
 				break;
 			case KeyEvent.VK_A:
-				System.out.println("KeyLeft");
 				//예외처리: 왼쪽에 벽이 있는데 좌측키를 누르는 경우
 				if(gameGround1P.getPuyo1().PixelXToindex()<=0||gameGround1P.getPuyo2().PixelXToindex()<=0)
 					break;
@@ -179,7 +176,6 @@ public class GamePanel extends JPanel {
 				gameGround1P.getPuyo2().setLocation(gameGround1P.getPuyo2().getX()-60,gameGround1P.getPuyo2().getY()+60);
 				break;
 			case KeyEvent.VK_D:
-				System.out.println("KeyRight");
 				//예외처리: 오른쪽에 블록 혹은 벽이 있는데 우측키를 누르는 경우
 				if(gameGround1P.getPuyo1().PixelXToindex()>=5||gameGround1P.getPuyo2().PixelXToindex()>=5)
 					break;
@@ -192,7 +188,6 @@ public class GamePanel extends JPanel {
 				break;
 			//Player2	
 			case KeyEvent.VK_UP:
-				System.out.println("KeyUp");
 				//두 뿌요의 위치에 따라서 뿌요를 회전시킨다.
 				// 경우1. 좌우 배치 - (뿌요1)(뿌요2)
 				if(gameGround2P.getPuyo1().getX()<=gameGround2P.getPuyo2().getX()&&gameGround2P.getPuyo1().getY()==gameGround2P.getPuyo2().getY()) {
@@ -237,11 +232,9 @@ public class GamePanel extends JPanel {
 				}
 				break;
 			case KeyEvent.VK_DOWN:
-				System.out.println("KeyDown");
 				roundThread.getPlayerThread2P().dropPuyo();
 				break;
 			case KeyEvent.VK_LEFT:
-				System.out.println("KeyLeft");
 				//예외처리: 왼쪽에 블록 혹은 벽이 있는데 좌측키를 누르는 경우
 				if(gameGround2P.getPuyo1().PixelXToindex()<=0||gameGround2P.getPuyo2().PixelXToindex()<=0)
 					break;
@@ -254,7 +247,6 @@ public class GamePanel extends JPanel {
 				gameGround2P.getPuyo2().setLocation(gameGround2P.getPuyo2().getX()-60,gameGround2P.getPuyo2().getY()+60);
 				break;
 			case KeyEvent.VK_RIGHT:
-				System.out.println("KeyRight");
 				//예외처리: 오른쪽에 블록 혹은 벽이 있는데 우측키를 누르는 경우
 				if(gameGround2P.getPuyo1().PixelXToindex()>=5||gameGround2P.getPuyo2().PixelXToindex()>=5)
 					break;
