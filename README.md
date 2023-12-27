@@ -48,3 +48,7 @@ initializeCheckNumberOfSamePuyoVariable 구현: CheckNumberOfSamePuyo와 deleteP
 checkNumberOfSamePuyo 구현: 놓여진 뿌요 주변에 같은 색상 뿌요가 몇개있는지 계산하는 함수
 deletePuyos 구현: checkNumberOfSamePuyo에서 구한 뿌요들을 한번에 제거하는 함수
 dropPuyos 구현: 뿌요가 삭제된 후 남은 블록을 밑으로 내리는 함수, (다시 drop되면 한번 더 체크하는 조건 미구현)
+
+#### \- 8일차 -
+dropPuyos 완성: 7일차의 미구현 부분 완성
+scanNumberOfSamePuyo 구현: deletePuyo 이후 뿌요의 연결된 양을 체크하기 위한 함수
