@@ -31,8 +31,8 @@ public class PlayerThread extends Thread {
 	
 	// 다음 뿌요로 전환시켜주는 함수이다.
 	void nextPuyo() {
-		int puyo1Type = puyoLogic[puyoIndex] / 10;
-		int puyo2Type = puyoLogic[puyoIndex++] % 10;
+		int puyo1Type = (puyoLogic[puyoIndex%puyoLogic.length]) / 10;
+		int puyo2Type = (puyoLogic[(puyoIndex++)%puyoLogic.length]) % 10;
 		
 		gameGround.getPuyo1().setType(puyo1Type);
 		gameGround.getPuyo2().setType(puyo2Type);
@@ -70,6 +70,7 @@ public class PlayerThread extends Thread {
 		if(numberOfSamePuyo>=4) {
 			deletePuyos(puyoMap[gameGround.getPuyo1().PixelXToindex()][gameGround.getPuyo1().PixelYToindex()],gameGround.getPuyo1().PixelXToindex(),gameGround.getPuyo1().PixelYToindex());
 			dropPuyos();
+			// 모든 뿌요에 대해서 검색
 		}
 		initializeCheckNumberOfSamePuyoVariable();
 		checkNumberOfSamePuyo(puyoMap[gameGround.getPuyo2().PixelXToindex()][gameGround.getPuyo2().PixelYToindex()],gameGround.getPuyo2().PixelXToindex(),gameGround.getPuyo2().PixelYToindex());
@@ -121,13 +122,48 @@ public class PlayerThread extends Thread {
 	
 	// CheckNumberOfSamePuyo와 deletePuyos에 필요한 변수들을 초기화 하는 함수
 	void initializeCheckNumberOfSamePuyoVariable() {
+		System.out.println("initializeCheckNumberOfSamePuyoVariable");
 		numberOfSamePuyo=0;
 		for(int i=0; i<puyoMap.length; i++)
 			for(int j=0; j<puyoMap[i].length; j++)
 					samePuyoChecker[i][j] = false;
 	}
 	
-	// 유의사항: 아직 samePuyoCheck[][] 초기화 안함
+	void scanNumberOfSamePuyo() {
+		System.out.println("scanNumberOfSamePuyo");
+		int T = 5;
+		Puyo puyo = new Puyo(gameGround, 0, 0, 0);
+		boolean check = false;
+		
+		while (T >= 0) {
+			initializeCheckNumberOfSamePuyoVariable();
+			
+			// 0색 체크
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 12; j++) {
+					if (samePuyoChecker[i][j] == false && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
+						puyo.setLocation(puyo.indexXToPixel(i),puyo.indexYToPixel(j));
+						puyo.setType(T);
+						checkNumberOfSamePuyo(puyo, i, j);
+						// 점수 계산할 때 사용한다.
+						if (numberOfSamePuyo >= 4) {
+							deletePuyos(puyo, i, j);
+							check = true;
+						}
+						numberOfSamePuyo=0;
+					}
+				}
+			}
+			T--;
+		}
+		
+		if (check) {
+			dropPuyos();
+			scanNumberOfSamePuyo();
+		}
+	}
+	
+	// puyo1과 puyo2가 4개 이상 같은 색으로 연결되었는지 체크
 	void checkNumberOfSamePuyo(Puyo puyo, int indexX, int indexY) {
 		// 예외처리: 뿌요1과 2가 동시에 속해서 사라지는 경우 anotherPuyo는 존재하지 않음
 		if(puyoMap[indexX][indexY]==null)
@@ -153,6 +189,7 @@ public class PlayerThread extends Thread {
 		}
 	}
 	
+	// checkNumberOfSamePuyo()에서 포착된 뿌요들을 제거 
 	void deletePuyos(Puyo puyo, int indexX, int indexY) {
 		System.out.println("deletePuyos"+"("+indexX+","+indexY+")");
 		samePuyoChecker[indexX][indexY] = false;
@@ -174,6 +211,8 @@ public class PlayerThread extends Thread {
 		}
 	}
 	
+	
+	// deletePuyo() 이후 공중에 떠있는 블록들을 아래로 정렬한다.
 	void dropPuyos() {
 		int i, j, q;
 		
@@ -197,7 +236,7 @@ public class PlayerThread extends Thread {
 				}
 			}
 		}
-		// checkSamePuyo();
+		scanNumberOfSamePuyo();
 	}
 	
 	@Override
