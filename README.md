@@ -52,3 +52,6 @@ dropPuyos 구현: 뿌요가 삭제된 후 남은 블록을 밑으로 내리는 �
 #### \- 8일차 -
 dropPuyos 완성: 7일차의 미구현 부분 완성
 scanNumberOfSamePuyo 구현: deletePuyo 이후 뿌요의 연결된 양을 체크하기 위한 함수
+
+#### \- 9일차 -
+changeNextPuyo 구현: 다음 뿌요를 scorePanel에 출력한다.
