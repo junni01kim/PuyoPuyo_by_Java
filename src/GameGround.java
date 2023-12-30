@@ -9,19 +9,24 @@ import javax.swing.JPanel;
 public class GameGround extends JPanel {
 	private ImageIcon puyoIcon[] = {new ImageIcon("GreenPuyo.png"),new ImageIcon("RedPuyo.png"),new ImageIcon("YellowPuyo.png"),new ImageIcon("BluePuyo.png"),new ImageIcon("PurplePuyo.png")};
 	
-	Puyo puyo1 = new Puyo(this, 0, 140, 10);
-	Puyo puyo2 = new Puyo(this, 0, 200, 10);
+	GamePanel gamePanel;
+	
+	Puyo leftControlPuyo = new Puyo(this, 0);
+	Puyo rightControlPuyo = new Puyo(this, 0);
 	
 	ImageIcon[] getPuyoIcon() {return puyoIcon;}
-	Puyo getPuyo1() {return puyo1;}
-	Puyo getPuyo2() {return puyo2;}
+	public GamePanel getGamePanel() {return gamePanel;}
+	Puyo getPuyo1() {return leftControlPuyo;}
+	Puyo getPuyo2() {return rightControlPuyo;}
 	
-	GameGround() {
+	GameGround(GamePanel gamePanel) {
+		this.gamePanel = gamePanel;
+		
 		setBackground(Color.CYAN);
 		setLayout(null);
 		setSize(400,750);
 		
-		add(puyo1);
-		add(puyo2);
+		add(leftControlPuyo);
+		add(rightControlPuyo);
 	}
 }

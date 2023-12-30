@@ -17,6 +17,18 @@ public class Puyo extends JLabel{
 	public void setType(int type) {this.type = type;}
 	public int getType() {return type;}
 	
+	// 위치를 지정하지 않는 생성자
+	public Puyo(GameGround gameGround, int type){
+		super();
+		System.out.println("뿌요생성자");
+		
+		this.type = type;
+		
+		setSize(60,60);
+		setIcon(gameGround.getPuyoIcon()[type]);
+	}
+	
+	// 위치를 생성하는 지정자
 	public Puyo(GameGround gameGround, int type, int indexX, int indexY){
 		super();
 		System.out.println("뿌요생성자");

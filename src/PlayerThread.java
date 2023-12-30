@@ -1,3 +1,4 @@
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class PlayerThread extends Thread {
@@ -9,6 +10,8 @@ public class PlayerThread extends Thread {
 	// nextPuyo()에서 사용한다.
 	private int puyoIndex = 0;
 	
+	int iAm;
+	
 	// checkNumberOfSamePuyo()에서 사용한다.
 	private int numberOfSamePuyo = 0;
 	private boolean samePuyoChecker[][] = new boolean[6][12];
@@ -16,9 +19,10 @@ public class PlayerThread extends Thread {
 	private Puyo puyoMap[][] = new Puyo[6][12];
 	public Puyo[][] getPuyoMap() {return puyoMap;}
 	
-	public PlayerThread(GameGround gameGround, int puyoLogic[]) {
+	public PlayerThread(GameGround gameGround, int puyoLogic[], int iAm) {
 		this.gameGround = gameGround;
 		this.puyoLogic = puyoLogic;
+		this.iAm = iAm;
 		
 		for(int i=0;i<puyoMap.length;i++)
 			for(int j=0;j<puyoMap[i].length;j++)
@@ -28,6 +32,9 @@ public class PlayerThread extends Thread {
 		System.out.println("PlayerThread");
 	}
 
+	GameGround getGameGround() {return gameGround;}
+	int[] getPuyoLogic() {return puyoLogic;}
+	int getPuyoIndex() {return puyoIndex;}
 	
 	// 다음 뿌요로 전환시켜주는 함수이다.
 	void nextPuyo() {
@@ -43,6 +50,33 @@ public class PlayerThread extends Thread {
 		
 		gameGround.getPuyo1().setLocation(140,10);
 		gameGround.getPuyo2().setLocation(200,10);
+		
+		changeNextPuyo();
+		
+		System.out.println("nextPuyo");
+	}
+	
+	void changeNextPuyo() {
+		
+		int nextLeftControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])/10;
+		int nextRightControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])%10;
+
+		if(iAm == 1) {
+			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo1P().setType(nextLeftControlPuyoType);
+			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setType(nextRightControlPuyoType);
+			
+			// type에 맞는 아이콘을 사용한다.
+			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo1P().setIcon(gameGround.getPuyoIcon()[nextLeftControlPuyoType]);
+			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setIcon(gameGround.getPuyoIcon()[nextRightControlPuyoType]);
+		}
+		else {
+			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setType(nextLeftControlPuyoType);
+			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setType(nextRightControlPuyoType);
+			
+			// type에 맞는 아이콘을 사용한다.
+			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setIcon(gameGround.getPuyoIcon()[nextLeftControlPuyoType]);
+			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setIcon(gameGround.getPuyoIcon()[nextRightControlPuyoType]);
+		}
 		
 		System.out.println("nextPuyo");
 	}

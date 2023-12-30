@@ -9,23 +9,32 @@ import javax.swing.JSplitPane;
 
 public class GamePanel extends JPanel {
 	// 1P 게임 보드
-	private GameGround gameGround1P = new GameGround();
+	private GameGround gameGround1P = new GameGround(this);
 
 	// 2P 게임 보드
-	private GameGround gameGround2P = new GameGround();
+	private GameGround gameGround2P = new GameGround(this);
+	
+	
+	// 게임 라운드 진행 스레드
+	private RoundThread roundThread = null;
 	
 	// 점수 패널
-	private ScorePanel scorePanel = new ScorePanel(); 
+	private ScorePanel scorePanel = new ScorePanel(gameGround1P, gameGround2P, roundThread);
 	
 	// 화면 분할 패널
 	private JSplitPane splitPanel1P = new JSplitPane();
 	private JSplitPane splitPanel2P = new JSplitPane();
 	
-	private RoundThread roundThread = new RoundThread(this);
+	public ScorePanel getScorePanel() {return scorePanel;}
+	public GameGround getGameGround1P() {return gameGround1P;}
+	public GameGround getGameGround2P() {return gameGround2P;}
+	public RoundThread getRoundThread() {return roundThread;}
 	
 	public GamePanel() {
+		roundThread = new RoundThread(this, gameGround1P, gameGround2P, scorePanel);
+		
 		setBackground(Color.RED);
-		addKeyListener(new ControlPuyo());
+		addKeyListener(new ControlPuyoKeyListener());
 		setLayout(null);
 		gameGround1P.setLocation(50,60);
 		add(gameGround1P);
@@ -63,54 +72,8 @@ public class GamePanel extends JPanel {
 		splitPanel1P.setRightComponent(splitPanel2P);
 	}
 	
-	//라운드 스레드
-	public class RoundThread extends Thread {
-		GamePanel gamePanel;
-		int puyoLogic[] = new int[25];
-		PlayerThread playerThread1P;
-		PlayerThread playerThread2P;
-		
-		public PlayerThread getPlayerThread1P() {return playerThread1P;}
-		public PlayerThread getPlayerThread2P() {return playerThread2P;}
-		
-		public RoundThread(GamePanel gamePanel) {
-			this.gamePanel = gamePanel;
-			makePuyoLogic();
-			playerThread1P = new PlayerThread(gameGround1P, puyoLogic);
-			playerThread2P = new PlayerThread(gameGround2P, puyoLogic);
-			System.out.println("gamePanel");
-		}
-		
-		// puyoLogic을 재설정하는 함수이다.
-		private void makePuyoLogic() {
-			int puyoCase[][] = new int[5][5];
-			int firstPuyo;
-			int secondPuyo;
-			for (int i = 0; i < 25; i++)
-			{
-				while (true) {
-					firstPuyo = (int)(Math.random()*5);
-					secondPuyo = (int)(Math.random()*5);
-					if (puyoCase[firstPuyo][secondPuyo] == 0) {
-						puyoCase[firstPuyo][secondPuyo] = 1;
-						puyoLogic[i] = firstPuyo * 10 + secondPuyo;
-						break;
-					}
-				}
-			}
-			System.out.println("makePuyoLogic");
-		}
-		
-		@Override
-		public void run() {
-			playerThread1P.start();
-			playerThread2P.start();
-			System.out.println("gamePanel.run");
-		}
-	}
-	
-	private class ControlPuyo extends KeyAdapter {
-		public ControlPuyo() {
+	private class ControlPuyoKeyListener extends KeyAdapter {
+		public ControlPuyoKeyListener() {
 			System.out.println("ControlPuyo 생성자");
 		}
 		public void keyPressed(KeyEvent e) {
