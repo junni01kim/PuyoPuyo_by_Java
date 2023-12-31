@@ -52,3 +52,14 @@ dropPuyos 구현: 뿌요가 삭제된 후 남은 블록을 밑으로 내리는 �
 #### \- 8일차 -
 dropPuyos 완성: 7일차의 미구현 부분 완성
 scanNumberOfSamePuyo 구현: deletePuyo 이후 뿌요의 연결된 양을 체크하기 위한 함수
+
+#### \- 9일차 -
+changeNextPuyo 구현: 다음 뿌요를 scorePanel에 출력한다.
+
+### \- 10일차 -
+printScore 구현: 라운드 당 점수 구현, scanNumberOfSamePuyo()에서 점수를 연산한다.
+    점수 계산 기준: (연쇄 마다) 없어진 뿌요 수 x (연쇄 보너스 + 연결 보너스 + 색수 보너스) x 10
+연쇄 뿌요 시각표현 구현: 뿌요가 연쇄로 부서지는 과정을 보여준다.
+
+### \- 느낀점 -
+1. 함수들은 Thread보다는 각 Component에 작성하는 것에 코딩하고 관리하기에 편하다.
