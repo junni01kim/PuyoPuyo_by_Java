@@ -19,6 +19,18 @@ public class PlayerThread extends Thread {
 	private Puyo puyoMap[][] = new Puyo[6][12];
 	public Puyo[][] getPuyoMap() {return puyoMap;}
 	
+	private boolean colorChecker[] = new boolean[5];
+	private int puyoRemovedSum;
+	private int puyoConnect;
+	private int puyoCombo;
+	private int puyoColor;
+	
+	private int puyoComboBonus[] = {0,0,8,16,32,64,96,128,160,192,224,256,288,320,352,384,416,448,480,512};
+	private int puyoConnectBonus[] = {0,0,0,0,0,2,3,4,5,6,7,10};
+	private int puyoColorBonus[]= {0,3,6,12,24};
+	
+	private int score = 0;
+	
 	public PlayerThread(GameGround gameGround, int puyoLogic[], int iAm) {
 		this.gameGround = gameGround;
 		this.puyoLogic = puyoLogic;
@@ -50,6 +62,9 @@ public class PlayerThread extends Thread {
 		
 		gameGround.getPuyo1().setLocation(140,10);
 		gameGround.getPuyo2().setLocation(200,10);
+		
+		gameGround.getPuyo1().setVisible(true);
+		gameGround.getPuyo2().setVisible(true);
 		
 		changeNextPuyo();
 		
@@ -95,6 +110,7 @@ public class PlayerThread extends Thread {
 			indexY--;
 			continue;
 		}
+		anotherPuyo.setVisible(false);
 		//System.out.println("dropAnotherPuyo");
 	}
 	
@@ -103,6 +119,12 @@ public class PlayerThread extends Thread {
 		checkNumberOfSamePuyo(puyoMap[gameGround.getPuyo1().PixelXToindex()][gameGround.getPuyo1().PixelYToindex()],gameGround.getPuyo1().PixelXToindex(),gameGround.getPuyo1().PixelYToindex());
 		if(numberOfSamePuyo>=4) {
 			deletePuyos(puyoMap[gameGround.getPuyo1().PixelXToindex()][gameGround.getPuyo1().PixelYToindex()],gameGround.getPuyo1().PixelXToindex(),gameGround.getPuyo1().PixelYToindex());
+			try {
+				sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			dropPuyos();
 			// 모든 뿌요에 대해서 검색
 		}
@@ -110,6 +132,12 @@ public class PlayerThread extends Thread {
 		checkNumberOfSamePuyo(puyoMap[gameGround.getPuyo2().PixelXToindex()][gameGround.getPuyo2().PixelYToindex()],gameGround.getPuyo2().PixelXToindex(),gameGround.getPuyo2().PixelYToindex());
 		if(numberOfSamePuyo>=4) {
 			deletePuyos(puyoMap[gameGround.getPuyo2().PixelXToindex()][gameGround.getPuyo2().PixelYToindex()],gameGround.getPuyo2().PixelXToindex(),gameGround.getPuyo2().PixelYToindex());
+			try {
+				sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			dropPuyos();
 		}
 	}
@@ -118,7 +146,7 @@ public class PlayerThread extends Thread {
 	void checkPuyo() {
 		// 뿌요1이 가장 아래로 내려운 경우
 		if((gameGround.getPuyo1().getY()-10)/60 >= 11 || puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60+1] != null) {
-			
+			gameGround.getPuyo1().setVisible(false);
 			puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60] = new Puyo(gameGround, gameGround.getPuyo1().getType(),(gameGround.getPuyo1().getX()-20)/60,(gameGround.getPuyo1().getY()-10)/60);
 
 			gameGround.add(puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60]);
@@ -132,6 +160,7 @@ public class PlayerThread extends Thread {
 		}
 		// 뿌요2가 가장 아래로 내려운 경우
 		else if((gameGround.getPuyo2().getY()-10)/60 >= 11 || puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60+1] != null) {
+			gameGround.getPuyo2().setVisible(false);
 			puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60] = new Puyo(gameGround, gameGround.getPuyo2().getType(),(gameGround.getPuyo2().getX()-20)/60,(gameGround.getPuyo2().getY()-10)/60);
 			
 			gameGround.add(puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60]);
@@ -163,11 +192,31 @@ public class PlayerThread extends Thread {
 					samePuyoChecker[i][j] = false;
 	}
 	
+	void initializeScoreVariable() {
+		for(int i=0;i<gameGround.getPuyoIcon().length;i++)
+			colorChecker[i]=false;
+		
+		puyoRemovedSum=0;
+		puyoConnect=0;
+		puyoCombo=0;
+		puyoColor=0;
+	}
+	
+	void printScore() {
+		if(iAm == 1)
+			gameGround.getGamePanel().getScorePanel().getScoreLabel1P().setText(Integer.toString(score));
+		else
+			gameGround.getGamePanel().getScorePanel().getScoreLabel2P().setText(Integer.toString(score));
+	}
+	
 	void scanNumberOfSamePuyo() {
 		System.out.println("scanNumberOfSamePuyo");
 		int T = 5;
 		Puyo puyo = new Puyo(gameGround, 0, 0, 0);
 		boolean check = false;
+		
+		gameGround.getPuyo1().setVisible(false);
+		gameGround.getPuyo2().setVisible(false);
 		
 		while (T >= 0) {
 			initializeCheckNumberOfSamePuyoVariable();
@@ -181,6 +230,14 @@ public class PlayerThread extends Thread {
 						checkNumberOfSamePuyo(puyo, i, j);
 						// 점수 계산할 때 사용한다.
 						if (numberOfSamePuyo >= 4) {
+							if(colorChecker[T]==false) {
+								colorChecker[T]=true;
+								puyoColor++;
+							}
+							puyoConnect = numberOfSamePuyo;
+							puyoRemovedSum += puyoConnect;
+							score += puyoRemovedSum * (puyoComboBonus[++puyoCombo] + puyoColorBonus[puyoColor] +puyoConnectBonus[puyoConnect]) * 10;
+							printScore();
 							deletePuyos(puyo, i, j);
 							check = true;
 						}
@@ -270,6 +327,15 @@ public class PlayerThread extends Thread {
 				}
 			}
 		}
+		
+		try {
+			sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		initializeScoreVariable();
 		scanNumberOfSamePuyo();
 	}
 	
@@ -278,7 +344,7 @@ public class PlayerThread extends Thread {
 		while(true) {
 			try {
 				dropPuyo();
-				sleep(1000);
+				sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

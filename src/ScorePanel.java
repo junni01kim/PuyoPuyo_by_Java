@@ -1,4 +1,7 @@
 import java.awt.Color;
+import java.awt.Font;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,10 +14,21 @@ public class ScorePanel extends JPanel{
 
 	private RoundThread roundThread;
 	
+	private JLabel roundCountLabel = new JLabel("1");
+	private JLabel roundLabel = new JLabel("R O U N D");
+	private JLabel scoreTextLabel = new JLabel("S C O R E");
+	private JLabel scoreLabel1P = new JLabel();
+	private JLabel scoreLabel2P = new JLabel();
+	
+	private JLabel timerTextLabel = new JLabel("T I M E");
+	private JLabel timerLabel = new JLabel("0");
+	
 	public Puyo getNextLeftControlPuyo1P() {return nextLeftControlPuyo1P;}
 	public Puyo getNextRightControlPuyo1P() {return nextRightControlPuyo1P;}
 	public Puyo getNextLeftControlPuyo2P() {return nextLeftControlPuyo2P;}
 	public Puyo getNextRightControlPuyo2P() {return nextRightControlPuyo2P;}
+	public JLabel getScoreLabel1P() {return scoreLabel1P;}
+	public JLabel getScoreLabel2P() {return scoreLabel2P;}
 	
 	ScorePanel(GameGround gameGround1P, GameGround gameGround2P, RoundThread roundThread) {
 		this.roundThread = roundThread;
@@ -29,11 +43,11 @@ public class ScorePanel extends JPanel{
 		setLayout(null);
 		
 		// 다음 뿌요위치
-		nextLeftControlPuyo1P.setLocation(this.getWidth()/2-60,100);
-		nextRightControlPuyo1P.setLocation(this.getWidth()/2,100);
+		nextLeftControlPuyo1P.setLocation(12+this.getWidth()/4-60,100);
+		nextRightControlPuyo1P.setLocation(12+this.getWidth()/4,100);
 		
-		nextLeftControlPuyo2P.setLocation(this.getWidth()/2-60,200);
-		nextRightControlPuyo2P.setLocation(this.getWidth()/2,200);
+		nextLeftControlPuyo2P.setLocation(this.getWidth()/4*3-60-12,100);
+		nextRightControlPuyo2P.setLocation(this.getWidth()/4*3-12,100);
 		
 		nextLeftControlPuyo1P.setSize(60, 60);
 		nextRightControlPuyo1P.setSize(60, 60);
@@ -45,6 +59,44 @@ public class ScorePanel extends JPanel{
 		add(nextRightControlPuyo1P);
 		add(nextLeftControlPuyo2P);
 		add(nextRightControlPuyo2P);
+		
+		roundCountLabel.setFont(new Font("Serif", Font.BOLD, 27));
+		roundCountLabel.setLocation(this.getWidth()/2-75, 43);
+		roundCountLabel.setSize(300, 30);
+		add(roundCountLabel);
+		
+		roundLabel.setFont(new Font("Serif", Font.BOLD, 27));
+		roundLabel.setLocation(this.getWidth()/2-50, 43);
+		roundLabel.setSize(300, 30);
+		add(roundLabel);
+		
+		scoreTextLabel.setFont(new Font("Serif", Font.BOLD, 15));
+		scoreTextLabel.setLocation(this.getWidth()/2-29, 175);
+		scoreTextLabel.setSize(100, 30);
+		add(scoreTextLabel);
+		
+		scoreLabel1P.setFont(new Font("Serif", Font.BOLD, 15));
+		scoreLabel1P.setLocation(this.getWidth()/2, 205);
+		scoreLabel1P.setSize(100, 30);
+		add(scoreLabel1P);
+		
+		scoreLabel2P.setFont(new Font("Serif", Font.BOLD, 15));
+		scoreLabel2P.setLocation(this.getWidth()/2, 235);
+		scoreLabel2P.setSize(100, 30);
+		add(scoreLabel2P);
+		
+		//타이머
+		//timmerLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+		timerTextLabel.setFont(new Font("Serif", Font.BOLD, 15));
+		timerTextLabel.setLocation(this.getWidth()/2-20, 360);
+		timerTextLabel.setSize(100, 30);
+		add(timerTextLabel);
+		
+		timerLabel.setFont(new Font("Serif", Font.BOLD, 15));
+		timerLabel.setLocation(this.getWidth()/2, 400);
+		timerLabel.setSize(100, 30);
+		add(timerLabel);
+		
 		
 		// 넘길 방해뿌요 수 그림
 		// 남은 라운드 현재 라운드 수
