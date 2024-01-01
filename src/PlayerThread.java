@@ -11,6 +11,8 @@ public class PlayerThread extends Thread {
 	private int puyoIndex = 0;
 	
 	int iAm;
+	boolean oneWin = false;
+	public boolean getOneWin() {return oneWin;}
 	
 	// checkNumberOfSamePuyo()에서 사용한다.
 	private int numberOfSamePuyo = 0;
@@ -31,14 +33,38 @@ public class PlayerThread extends Thread {
 	
 	private int score = 0;
 	
+	private boolean endFlag = false;
+	
+	public void changeOneWin() {
+		if(oneWin == true)
+			//gameGround.getGamePanel().getPlayGame.endGame();
+		oneWin = true;
+	}
+	
+	public void changeEndFlag() {
+		endFlag = true;
+	}
+	
+	// 게임이 끝나고 GameGround를 지우는데 사용한다.
+	public void clearPlayerThread() {
+		for(int i=0;i<puyoMap.length;i++)
+			for(int j=0;j<puyoMap[i].length;j++) {
+				if(puyoMap[i][j]!=null)
+					puyoMap[i][j].setVisible(false);
+			}
+		
+		gameGround.getPuyo1().setVisible(false);
+		gameGround.getPuyo2().setVisible(false);
+	}
+	
 	public PlayerThread(GameGround gameGround, int puyoLogic[], int iAm) {
 		this.gameGround = gameGround;
 		this.puyoLogic = puyoLogic;
 		this.iAm = iAm;
 		
 		for(int i=0;i<puyoMap.length;i++)
-			for(int j=0;j<puyoMap[i].length;j++)
-				puyoMap[i][j] = null; 
+			for(int j=0;j<puyoMap[i].length;j++) 
+				puyoMap[i][j] = null;
 		
 		nextPuyo();
 		System.out.println("PlayerThread");
@@ -143,12 +169,12 @@ public class PlayerThread extends Thread {
 	}
 	
 	// 뿌요가 바닥에 닿았는지 확인하는 함수
-	void checkPuyo() {
+	void checkPuyo() {	
 		// 뿌요1이 가장 아래로 내려운 경우
 		if((gameGround.getPuyo1().getY()-10)/60 >= 11 || puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60+1] != null) {
 			gameGround.getPuyo1().setVisible(false);
 			puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60] = new Puyo(gameGround, gameGround.getPuyo1().getType(),(gameGround.getPuyo1().getX()-20)/60,(gameGround.getPuyo1().getY()-10)/60);
-
+			
 			gameGround.add(puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60]);
 			
 			System.out.println("Puyo1:"+(gameGround.getPuyo1().getY()-10)/60);
@@ -170,6 +196,25 @@ public class PlayerThread extends Thread {
 			
 			checkSamePuyo();
 			nextPuyo();
+		}
+		
+		//게임 종료 조건
+		if(puyoMap[3][1]!=null||puyoMap[4][1]!=null) {
+			endFlag = true;
+			// 상대 스레드 oneWin
+			if(iAm == 1) {
+				gameGround.getGamePanel().getRoundThread().plusWinCount2P();
+				gameGround.getGamePanel().getRoundThread().getPlayerThread2P().changeOneWin();
+				gameGround.getGamePanel().getRoundThread().getPlayerThread2P().changeEndFlag();
+			}
+			else {
+				gameGround.getGamePanel().getRoundThread().plusWinCount1P();
+				gameGround.getGamePanel().getRoundThread().getPlayerThread1P().changeOneWin();
+				gameGround.getGamePanel().getRoundThread().getPlayerThread1P().changeEndFlag();
+			}
+					
+			gameGround.getGamePanel().getRoundThread().changeRoundChangeToggle();
+			return;
 		}
 	}
 		
@@ -343,6 +388,8 @@ public class PlayerThread extends Thread {
 	public void run() {
 		while(true) {
 			try {
+				if(endFlag == true)
+					break;
 				dropPuyo();
 				sleep(500);
 			} catch (InterruptedException e) {
@@ -351,5 +398,6 @@ public class PlayerThread extends Thread {
 			}
 			//System.out.println("playerThread.run");
 		}
+		System.out.println("endGame!");
 	}
 }
