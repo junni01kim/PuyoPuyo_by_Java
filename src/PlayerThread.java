@@ -21,7 +21,7 @@ public class PlayerThread extends Thread {
 	private Puyo puyoMap[][] = new Puyo[6][12];
 	public Puyo[][] getPuyoMap() {return puyoMap;}
 	
-	private boolean colorChecker[] = new boolean[5];
+	private boolean colorChecker[] = null;
 	private int puyoRemovedSum;
 	private int puyoConnect;
 	private int puyoCombo;
@@ -31,15 +31,14 @@ public class PlayerThread extends Thread {
 	private int puyoConnectBonus[] = {0,0,0,0,0,2,3,4,5,6,7,10};
 	private int puyoColorBonus[]= {0,3,6,12,24};
 	
+	private int garbagePuyo = 0;
+	public void setGarbagePuyo(int numberOfGarbagePuyo) {garbagePuyo = numberOfGarbagePuyo;}
+	
 	private int score = 0;
 	
 	private boolean endFlag = false;
 	
-	public void changeOneWin() {
-		if(oneWin == true)
-			//gameGround.getGamePanel().getPlayGame.endGame();
-		oneWin = true;
-	}
+	public void changeOneWin() {oneWin = true;}
 	
 	public void changeEndFlag() {
 		endFlag = true;
@@ -60,6 +59,7 @@ public class PlayerThread extends Thread {
 	public PlayerThread(GameGround gameGround, int puyoLogic[], int iAm) {
 		this.gameGround = gameGround;
 		this.puyoLogic = puyoLogic;
+		colorChecker = new boolean[gameGround.getPuyoIcon().length];
 		this.iAm = iAm;
 		
 		for(int i=0;i<puyoMap.length;i++)
@@ -98,7 +98,6 @@ public class PlayerThread extends Thread {
 	}
 	
 	void changeNextPuyo() {
-		
 		int nextLeftControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])/10;
 		int nextRightControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])%10;
 
@@ -168,6 +167,45 @@ public class PlayerThread extends Thread {
 		}
 	}
 	
+	void dropGarbagePuyo() {
+		System.out.println("dropGarbagePuyo:"+garbagePuyo);
+		int seperateGarbagePuyo = garbagePuyo / 6;
+		int moduloGarbagePuyo = garbagePuyo % 6;
+		int randomVariable;
+		//Puyo.type = 5;
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 12; j++)
+			{
+				if (puyoMap[i][j] == null)
+				{
+					for (int p = 0; p < seperateGarbagePuyo; p++)
+					{
+						if (j + p > 10) continue;
+						puyoMap[i][j + p] = new Puyo(gameGround, 5);
+						puyoMap[i][j + p].setLocation(puyoMap[i][j + p].indexXToPixel(i), puyoMap[i][j + p].indexYToPixel(j + p));
+					}
+					break;
+				}
+			}
+		}
+		
+		while (moduloGarbagePuyo-- > 0)
+		{
+			randomVariable = (int)(Math.random()*6);
+			for (int j = 0; j < 12; j++)
+			{
+				if (puyoMap[randomVariable][j] == null)
+				{
+					puyoMap[randomVariable][j] = new Puyo(gameGround, 5);
+					puyoMap[randomVariable][j].setLocation(puyoMap[randomVariable][j].indexXToPixel(randomVariable), puyoMap[randomVariable][j].indexYToPixel(j));
+					break;
+				}
+			}
+		}
+		setGarbagePuyo(0);
+	}
+	
 	// 뿌요가 바닥에 닿았는지 확인하는 함수
 	void checkPuyo() {	
 		// 뿌요1이 가장 아래로 내려운 경우
@@ -181,6 +219,9 @@ public class PlayerThread extends Thread {
 			dropAnotherPuyo(gameGround.getPuyo2());
 			
 			checkSamePuyo();
+			
+			// 방해뿌요 드롭
+			dropGarbagePuyo();
 
 			nextPuyo();
 		}
@@ -195,6 +236,10 @@ public class PlayerThread extends Thread {
 			dropAnotherPuyo(gameGround.getPuyo1());
 			
 			checkSamePuyo();
+			
+			// 방해뿌요 드롭
+			dropGarbagePuyo();
+			
 			nextPuyo();
 		}
 		
@@ -256,7 +301,7 @@ public class PlayerThread extends Thread {
 	
 	void scanNumberOfSamePuyo() {
 		System.out.println("scanNumberOfSamePuyo");
-		int T = 5;
+		int T = 4;
 		Puyo puyo = new Puyo(gameGround, 0, 0, 0);
 		boolean check = false;
 		
@@ -281,7 +326,13 @@ public class PlayerThread extends Thread {
 							}
 							puyoConnect = numberOfSamePuyo;
 							puyoRemovedSum += puyoConnect;
-							score += puyoRemovedSum * (puyoComboBonus[++puyoCombo] + puyoColorBonus[puyoColor] +puyoConnectBonus[puyoConnect]) * 10;
+							int plusScore = puyoRemovedSum * (puyoComboBonus[++puyoCombo] + puyoColorBonus[puyoColor] +puyoConnectBonus[puyoConnect]) * 10;
+							if(iAm == 1)
+								gameGround.getGamePanel().getRoundThread().getPlayerThread2P().setGarbagePuyo(plusScore/70);
+							else
+								gameGround.getGamePanel().getRoundThread().getPlayerThread1P().setGarbagePuyo(plusScore/70);
+							System.out.println("----------------------------------");
+							score += plusScore;
 							printScore();
 							deletePuyos(puyo, i, j);
 							check = true;
