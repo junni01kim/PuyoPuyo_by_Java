@@ -4,6 +4,10 @@ PuyoPuyo_by_C를 객체지향언어(Java Swing)로 수정한 프로그램 입니
 ## 객체구조도
 ![PuyoPuyoOOP](https://github.com/junni01kim/PuyoPuyo_by_Java/assets/127941871/89d9ad24-91f4-40a2-91f0-5fc9012ad16c)
 
+## 실제 실행화면
+![image](https://github.com/junni01kim/PuyoPuyo_by_Java/assets/127941871/573698a0-ca61-44d8-ba59-3860dbeaa528)
+
+
 ## 파일 설명
 해당 프로그램은 다음과 같은 구조로 되어 있습니다.
 1. 게임 코드 제작에 필요한 객체를 만드는 클래스
@@ -63,6 +67,11 @@ printScore 구현: 라운드 당 점수 구현, scanNumberOfSamePuyo()에서 점
 
 ### \- 11일차 -
 changeRound 구현: 3판 2선승제로 구성. 매 게임마다 platerThread가 초기화된다.
+
+### \- 12일차 -
+garbagePuyo 구현(미완): 일정 점수를 넘기면 상대방에게 garBagePuyo가 전달된다.
+    - 오류가 존재하여 garbagePuyoIcon이 바로 출력되지 않는다.
+    - 추가필요: garbagePuyo 폭발 함수 및, 전달될 방해뿌요 양 출력
 
 ### \- 느낀점 -
 1. 함수들은 Thread보다는 각 Component에 작성하는 것에 코딩하고 관리하기에 편하다.  
