@@ -4,17 +4,17 @@ import javax.swing.JLabel;
 public class PlayerThread extends Thread {
 	GameGround gameGround;
 	
-	// ¶ó¿îµåº° ¼øÈ¸ÇÒ »Ñ¿ä ·ÎÁ÷
+	// ë¼ìš´ë“œë³„ ìˆœíšŒí•  ë¿Œìš” ë¡œì§
 	private int puyoLogic[] = new int[25];
 	
-	// nextPuyo()¿¡¼­ »ç¿ëÇÑ´Ù.
+	// nextPuyo()ì—ì„œ ì‚¬ìš©í•œë‹¤.
 	private int puyoIndex = 0;
 	
 	int iAm;
 	boolean oneWin = false;
 	public boolean getOneWin() {return oneWin;}
 	
-	// checkNumberOfSamePuyo()¿¡¼­ »ç¿ëÇÑ´Ù.
+	// checkNumberOfSamePuyo()ì—ì„œ ì‚¬ìš©í•œë‹¤.
 	private int numberOfSamePuyo = 0;
 	private boolean samePuyoChecker[][] = new boolean[6][12];
 	
@@ -44,7 +44,7 @@ public class PlayerThread extends Thread {
 		endFlag = true;
 	}
 	
-	// °ÔÀÓÀÌ ³¡³ª°í GameGround¸¦ Áö¿ì´Âµ¥ »ç¿ëÇÑ´Ù.
+	// ê²Œì„ì´ ëë‚˜ê³  GameGroundë¥¼ ì§€ìš°ëŠ”ë° ì‚¬ìš©í•œë‹¤.
 	public void clearPlayerThread() {
 		for(int i=0;i<puyoMap.length;i++)
 			for(int j=0;j<puyoMap[i].length;j++) {
@@ -74,7 +74,7 @@ public class PlayerThread extends Thread {
 	int[] getPuyoLogic() {return puyoLogic;}
 	int getPuyoIndex() {return puyoIndex;}
 	
-	// ´ÙÀ½ »Ñ¿ä·Î ÀüÈ¯½ÃÄÑÁÖ´Â ÇÔ¼öÀÌ´Ù.
+	// ë‹¤ìŒ ë¿Œìš”ë¡œ ì „í™˜ì‹œì¼œì£¼ëŠ” í•¨ìˆ˜ì´ë‹¤.
 	void nextPuyo() {
 		int puyo1Type = (puyoLogic[puyoIndex%puyoLogic.length]) / 10;
 		int puyo2Type = (puyoLogic[(puyoIndex++)%puyoLogic.length]) % 10;
@@ -82,7 +82,7 @@ public class PlayerThread extends Thread {
 		gameGround.getPuyo1().setType(puyo1Type);
 		gameGround.getPuyo2().setType(puyo2Type);
 		
-		// type¿¡ ¸Â´Â ¾ÆÀÌÄÜÀ» »ç¿ëÇÑ´Ù.
+		// typeì— ë§ëŠ” ì•„ì´ì½˜ì„ ì‚¬ìš©í•œë‹¤.
 		gameGround.getPuyo1().setIcon(gameGround.getPuyoIcon()[puyo1Type]);
 		gameGround.getPuyo2().setIcon(gameGround.getPuyoIcon()[puyo2Type]);
 		
@@ -105,7 +105,7 @@ public class PlayerThread extends Thread {
 			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo1P().setType(nextLeftControlPuyoType);
 			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setType(nextRightControlPuyoType);
 			
-			// type¿¡ ¸Â´Â ¾ÆÀÌÄÜÀ» »ç¿ëÇÑ´Ù.
+			// typeì— ë§ëŠ” ì•„ì´ì½˜ì„ ì‚¬ìš©í•œë‹¤.
 			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo1P().setIcon(gameGround.getPuyoIcon()[nextLeftControlPuyoType]);
 			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setIcon(gameGround.getPuyoIcon()[nextRightControlPuyoType]);
 		}
@@ -113,7 +113,7 @@ public class PlayerThread extends Thread {
 			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setType(nextLeftControlPuyoType);
 			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setType(nextRightControlPuyoType);
 			
-			// type¿¡ ¸Â´Â ¾ÆÀÌÄÜÀ» »ç¿ëÇÑ´Ù.
+			// typeì— ë§ëŠ” ì•„ì´ì½˜ì„ ì‚¬ìš©í•œë‹¤.
 			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setIcon(gameGround.getPuyoIcon()[nextLeftControlPuyoType]);
 			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setIcon(gameGround.getPuyoIcon()[nextRightControlPuyoType]);
 		}
@@ -121,7 +121,7 @@ public class PlayerThread extends Thread {
 		System.out.println("nextPuyo");
 	}
 	
-	// ÇÑ »Ñ¿äÀÇ À§Ä¡°¡ Á¤ÇØÁöµµ ´ÙÀ½ »Ñ¿äÀÇ À§Ä¡¸¦ º¸¿©ÁÖ´Â ÇÔ¼ö
+	// í•œ ë¿Œìš”ì˜ ìœ„ì¹˜ê°€ ì •í•´ì§€ë„ ë‹¤ìŒ ë¿Œìš”ì˜ ìœ„ì¹˜ë¥¼ ë³´ì—¬ì£¼ëŠ” í•¨ìˆ˜
 	void dropAnotherPuyo(Puyo anotherPuyo) {
 		int indexY = 11;
 		while(true) {
@@ -151,7 +151,7 @@ public class PlayerThread extends Thread {
 				e.printStackTrace();
 			}
 			dropPuyos();
-			// ¸ğµç »Ñ¿ä¿¡ ´ëÇØ¼­ °Ë»ö
+			// ëª¨ë“  ë¿Œìš”ì— ëŒ€í•´ì„œ ê²€ìƒ‰
 		}
 		initializeCheckNumberOfSamePuyoVariable();
 		checkNumberOfSamePuyo(puyoMap[gameGround.getPuyo2().PixelXToindex()][gameGround.getPuyo2().PixelYToindex()],gameGround.getPuyo2().PixelXToindex(),gameGround.getPuyo2().PixelYToindex());
@@ -182,8 +182,7 @@ public class PlayerThread extends Thread {
 					for (int p = 0; p < seperateGarbagePuyo; p++)
 					{
 						if (j + p > 10) continue;
-						puyoMap[i][j + p] = new Puyo(gameGround, 5);
-						puyoMap[i][j + p].setLocation(puyoMap[i][j + p].indexXToPixel(i), puyoMap[i][j + p].indexYToPixel(j + p));
+						puyoMap[i][j + p] = new Puyo(gameGround, 5, i , i+p);
 					}
 					break;
 				}
@@ -206,9 +205,9 @@ public class PlayerThread extends Thread {
 		setGarbagePuyo(0);
 	}
 	
-	// »Ñ¿ä°¡ ¹Ù´Ú¿¡ ´ê¾Ò´ÂÁö È®ÀÎÇÏ´Â ÇÔ¼ö
+	// ë¿Œìš”ê°€ ë°”ë‹¥ì— ë‹¿ì•˜ëŠ”ì§€ í™•ì¸í•˜ëŠ” í•¨ìˆ˜
 	void checkPuyo() {	
-		// »Ñ¿ä1ÀÌ °¡Àå ¾Æ·¡·Î ³»·Á¿î °æ¿ì
+		// ë¿Œìš”1ì´ ê°€ì¥ ì•„ë˜ë¡œ ë‚´ë ¤ìš´ ê²½ìš°
 		if((gameGround.getPuyo1().getY()-10)/60 >= 11 || puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60+1] != null) {
 			gameGround.getPuyo1().setVisible(false);
 			puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60] = new Puyo(gameGround, gameGround.getPuyo1().getType(),(gameGround.getPuyo1().getX()-20)/60,(gameGround.getPuyo1().getY()-10)/60);
@@ -220,12 +219,12 @@ public class PlayerThread extends Thread {
 			
 			checkSamePuyo();
 			
-			// ¹æÇØ»Ñ¿ä µå·Ó
+			// ë°©í•´ë¿Œìš” ë“œë¡­
 			dropGarbagePuyo();
 
 			nextPuyo();
 		}
-		// »Ñ¿ä2°¡ °¡Àå ¾Æ·¡·Î ³»·Á¿î °æ¿ì
+		// ë¿Œìš”2ê°€ ê°€ì¥ ì•„ë˜ë¡œ ë‚´ë ¤ìš´ ê²½ìš°
 		else if((gameGround.getPuyo2().getY()-10)/60 >= 11 || puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60+1] != null) {
 			gameGround.getPuyo2().setVisible(false);
 			puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60] = new Puyo(gameGround, gameGround.getPuyo2().getType(),(gameGround.getPuyo2().getX()-20)/60,(gameGround.getPuyo2().getY()-10)/60);
@@ -237,16 +236,16 @@ public class PlayerThread extends Thread {
 			
 			checkSamePuyo();
 			
-			// ¹æÇØ»Ñ¿ä µå·Ó
+			// ë°©í•´ë¿Œìš” ë“œë¡­
 			dropGarbagePuyo();
 			
 			nextPuyo();
 		}
 		
-		//°ÔÀÓ Á¾·á Á¶°Ç
+		//ê²Œì„ ì¢…ë£Œ ì¡°ê±´
 		if(puyoMap[3][1]!=null||puyoMap[4][1]!=null) {
 			endFlag = true;
-			// »ó´ë ½º·¹µå oneWin
+			// ìƒëŒ€ ìŠ¤ë ˆë“œ oneWin
 			if(iAm == 1) {
 				gameGround.getGamePanel().getRoundThread().plusWinCount2P();
 				gameGround.getGamePanel().getRoundThread().getPlayerThread2P().changeOneWin();
@@ -263,17 +262,17 @@ public class PlayerThread extends Thread {
 		}
 	}
 		
-	// »Ñ¿ä °´Ã¼¸¦ ¾Æ·¡·Î ¶³¾îÆ®¸®´Â ÇÔ¼ö 
+	// ë¿Œìš” ê°ì²´ë¥¼ ì•„ë˜ë¡œ ë–¨ì–´íŠ¸ë¦¬ëŠ” í•¨ìˆ˜ 
 	void dropPuyo() {
 		checkPuyo();
-		// JLabelÀ» +60 ÇÈ¼¿¸¸Å­ ³»¸°´Ù.
+		// JLabelì„ +60 í”½ì…€ë§Œí¼ ë‚´ë¦°ë‹¤.
 		gameGround.getPuyo1().setLocation(gameGround.getPuyo1().getX(),gameGround.getPuyo1().getY()+60);
 		gameGround.getPuyo2().setLocation(gameGround.getPuyo2().getX(),gameGround.getPuyo2().getY()+60);
 		
 		//System.out.println("dropPuyo");
 	}
 	
-	// CheckNumberOfSamePuyo¿Í deletePuyos¿¡ ÇÊ¿äÇÑ º¯¼öµéÀ» ÃÊ±âÈ­ ÇÏ´Â ÇÔ¼ö
+	// CheckNumberOfSamePuyoì™€ deletePuyosì— í•„ìš”í•œ ë³€ìˆ˜ë“¤ì„ ì´ˆê¸°í™” í•˜ëŠ” í•¨ìˆ˜
 	void initializeCheckNumberOfSamePuyoVariable() {
 		System.out.println("initializeCheckNumberOfSamePuyoVariable");
 		numberOfSamePuyo=0;
@@ -311,14 +310,14 @@ public class PlayerThread extends Thread {
 		while (T >= 0) {
 			initializeCheckNumberOfSamePuyoVariable();
 			
-			// 0»ö Ã¼Å©
+			// 0ìƒ‰ ì²´í¬
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 12; j++) {
 					if (samePuyoChecker[i][j] == false && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
 						puyo.setLocation(puyo.indexXToPixel(i),puyo.indexYToPixel(j));
 						puyo.setType(T);
 						checkNumberOfSamePuyo(puyo, i, j);
-						// Á¡¼ö °è»êÇÒ ¶§ »ç¿ëÇÑ´Ù.
+						// ì ìˆ˜ ê³„ì‚°í•  ë•Œ ì‚¬ìš©í•œë‹¤.
 						if (numberOfSamePuyo >= 4) {
 							if(colorChecker[T]==false) {
 								colorChecker[T]=true;
@@ -350,18 +349,18 @@ public class PlayerThread extends Thread {
 		}
 	}
 	
-	// puyo1°ú puyo2°¡ 4°³ ÀÌ»ó °°Àº »öÀ¸·Î ¿¬°áµÇ¾ú´ÂÁö Ã¼Å©
+	// puyo1ê³¼ puyo2ê°€ 4ê°œ ì´ìƒ ê°™ì€ ìƒ‰ìœ¼ë¡œ ì—°ê²°ë˜ì—ˆëŠ”ì§€ ì²´í¬
 	void checkNumberOfSamePuyo(Puyo puyo, int indexX, int indexY) {
-		// ¿¹¿ÜÃ³¸®: »Ñ¿ä1°ú 2°¡ µ¿½Ã¿¡ ¼ÓÇØ¼­ »ç¶óÁö´Â °æ¿ì anotherPuyo´Â Á¸ÀçÇÏÁö ¾ÊÀ½
+		// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”1ê³¼ 2ê°€ ë™ì‹œì— ì†í•´ì„œ ì‚¬ë¼ì§€ëŠ” ê²½ìš° anotherPuyoëŠ” ì¡´ì¬í•˜ì§€ ì•ŠìŒ
 		if(puyoMap[indexX][indexY]==null)
 			return;
 		numberOfSamePuyo++;
 		samePuyoChecker[indexX][indexY] = true;
 		
 		if(numberOfSamePuyo>=4)
-			System.out.println("»Ñ¿ä°³¼ö:"+numberOfSamePuyo);
+			System.out.println("ë¿Œìš”ê°œìˆ˜:"+numberOfSamePuyo);
 		
-		// ¿¹¿ÜÃ³¸®: puyoMap[][] ¹üÀ§¹Û¿¡¼­ Puyo¸¦ È£ÃâÇÑ´Ù.
+		// ì˜ˆì™¸ì²˜ë¦¬: puyoMap[][] ë²”ìœ„ë°–ì—ì„œ Puyoë¥¼ í˜¸ì¶œí•œë‹¤.
 		if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY+1]) {
 			checkNumberOfSamePuyo(puyo, indexX, indexY+1);
 		}
@@ -376,14 +375,14 @@ public class PlayerThread extends Thread {
 		}
 	}
 	
-	// checkNumberOfSamePuyo()¿¡¼­ Æ÷ÂøµÈ »Ñ¿äµéÀ» Á¦°Å 
+	// checkNumberOfSamePuyo()ì—ì„œ í¬ì°©ëœ ë¿Œìš”ë“¤ì„ ì œê±° 
 	void deletePuyos(Puyo puyo, int indexX, int indexY) {
 		System.out.println("deletePuyos"+"("+indexX+","+indexY+")");
 		samePuyoChecker[indexX][indexY] = false;
 		puyoMap[indexX][indexY].setVisible(false);
 		puyoMap[indexX][indexY]=null;
 		
-		// ¿¹¿ÜÃ³¸®: puyoMap[][] ¹üÀ§¹Û¿¡¼­ Puyo¸¦ È£ÃâÇÑ´Ù.
+		// ì˜ˆì™¸ì²˜ë¦¬: puyoMap[][] ë²”ìœ„ë°–ì—ì„œ Puyoë¥¼ í˜¸ì¶œí•œë‹¤.
 		if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY+1]) {
 			deletePuyos(puyo, indexX, indexY+1);
 		}
@@ -399,7 +398,7 @@ public class PlayerThread extends Thread {
 	}
 	
 	
-	// deletePuyo() ÀÌÈÄ °øÁß¿¡ ¶°ÀÖ´Â ºí·ÏµéÀ» ¾Æ·¡·Î Á¤·ÄÇÑ´Ù.
+	// deletePuyo() ì´í›„ ê³µì¤‘ì— ë– ìˆëŠ” ë¸”ë¡ë“¤ì„ ì•„ë˜ë¡œ ì •ë ¬í•œë‹¤.
 	void dropPuyos() {
 		int i, j, q;
 		
@@ -410,14 +409,14 @@ public class PlayerThread extends Thread {
 				if (puyoMap[i][j] == null) {
 					for (q = j-1; q >= 0; q--)
 					{
-						if (puyoMap[i][q] != null) {// ¸¸¾à¿¡ ºí·ÏÀÌ À§¿¡ ÀÖ´Ù¸é,
+						if (puyoMap[i][q] != null) {// ë§Œì•½ì— ë¸”ë¡ì´ ìœ„ì— ìˆë‹¤ë©´,
 							puyoMap[i][j] = puyoMap[i][q];
 							puyoMap[i][q] = null;
 							puyoMap[i][j].setLocation(puyoMap[i][j].indexXToPixel(i),puyoMap[i][j].indexYToPixel(j));
 							break;
 						}
 					}
-					// ¸¸¾à ºí·ÏÀÌ À§¿¡ ¾ø´Ù¸é, -> ÁßÃ¸ µÇ¾îÀÖÁö ¾ÊÀ¸´Ï j ¹İº¹ ÇÊ¿äX
+					// ë§Œì•½ ë¸”ë¡ì´ ìœ„ì— ì—†ë‹¤ë©´, -> ì¤‘ì²© ë˜ì–´ìˆì§€ ì•Šìœ¼ë‹ˆ j ë°˜ë³µ í•„ìš”X
 					if (q == -1) 
 						break;
 				}
