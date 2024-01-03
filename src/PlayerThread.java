@@ -305,16 +305,14 @@ public class PlayerThread extends Thread {
 	
 	void scanNumberOfSamePuyo() {
 		//System.out.println("scanNumberOfSamePuyo");
-		int T = 4;
 		Puyo puyo = new Puyo(gameGround, 0, 0, 0);
 		boolean check = false;
 		
 		gameGround.getPuyo1().setVisible(false);
 		gameGround.getPuyo2().setVisible(false);
 		
-		while (T >= 0) {
+		for(int T=0; T < gameGround.getPuyoIcon().length-1; T++) {
 			initializeCheckNumberOfSamePuyoVariable();
-			
 			// 0»ö Ã¼Å©
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 12; j++) {
@@ -330,7 +328,8 @@ public class PlayerThread extends Thread {
 							}
 							puyoConnect = numberOfSamePuyo;
 							puyoRemovedSum += puyoConnect;
-							int plusScore = puyoRemovedSum * (puyoComboBonus[++puyoCombo] + puyoColorBonus[puyoColor] + puyoConnectBonus[puyoConnect]) * 10;
+							//int plusScore = puyoRemovedSum * (puyoComboBonus[++puyoCombo] + puyoColorBonus[puyoColor] + puyoConnectBonus[puyoConnect]) * 10;
+							int plusScore = puyoRemovedSum * (++puyoCombo + puyoColor + puyoConnect) * 10;
 							//System.out.println("----------------------------------");
 							score += plusScore;
 							printScore();
@@ -341,10 +340,10 @@ public class PlayerThread extends Thread {
 								gameGround.getGamePanel().getRoundThread().getPlayerThread1P().setGarbagePuyo(plusScore/70);
 							check = true;
 						}
+						puyoRemovedSum = 0;
 					}
 				}
 			}
-			T--;
 		}
 		
 		if (check) {
@@ -398,6 +397,27 @@ public class PlayerThread extends Thread {
 		}
 		if (indexX >= 1 && indexX <= 5 && indexY < 12 && puyoMap[indexX-1][indexY]!=null && puyoMap[indexX-1][indexY].getType() == puyo.getType() && samePuyoChecker[indexX-1][indexY]) {
 			deletePuyos(puyo, indexX-1, indexY);
+		}
+		
+		splashObstructPuyo(indexX, indexY);
+	}
+	
+	void splashObstructPuyo(int indexX, int indexY) {
+		if (indexX+1 < 6 && puyoMap[indexX+1][indexY] != null && puyoMap[indexX+1][indexY].getType() == 5) {
+			puyoMap[indexX+1][indexY].setVisible(false);
+			puyoMap[indexX+1][indexY] = null;
+		}
+		if (indexX-1 >= 0 && puyoMap[indexX-1][indexY] != null && puyoMap[indexX-1][indexY].getType() == 5) {
+			puyoMap[indexX-1][indexY].setVisible(false);
+			puyoMap[indexX-1][indexY] = null;
+		}
+		if (indexY+1 < 12 && puyoMap[indexX][indexY+1] != null && puyoMap[indexX][indexY+1].getType() == 5) {
+			puyoMap[indexX][indexY+1].setVisible(false);
+			puyoMap[indexX][indexY+1] = null;
+		}
+		if (indexY-1 >= 0 && puyoMap[indexX][indexY-1] != null && puyoMap[indexX][indexY-1].getType() == 5) {
+			puyoMap[indexX][indexY-1].setVisible(false);
+			puyoMap[indexX][indexY-1] = null;
 		}
 	}
 	
