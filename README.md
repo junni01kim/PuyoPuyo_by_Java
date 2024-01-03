@@ -73,6 +73,10 @@ garbagePuyo 구현(미완): 일정 점수를 넘기면 상대방에게 garBagePu
     - 오류가 존재하여 garbagePuyoIcon이 바로 출력되지 않는다.
     - 추가필요: garbagePuyo 폭발 함수 및, 전달될 방해뿌요 양 출력
 
+### \- 13일차 -
+splashSarbagePuyo 구현: 뿌요가 폭발하면 주변 방해뿌요도 함께 폭발
+
 ### \- 느낀점 -
 1. 함수들은 Thread보다는 각 Component에 작성하는 것에 코딩하고 관리하기에 편하다.  
     - 각 클래스에 자기자신의 승패를 구분하는 코드들이 별도로 추가되었다.
+    - 오류: splashPuyo()와 함께 puyoMap[indexX]의 라인 한줄이 같이 사라지는 현상 발생
