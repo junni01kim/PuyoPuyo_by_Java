@@ -172,7 +172,7 @@ public class PlayerThread extends Thread {
 		System.out.println("moduloGarbagePuyo:"+moduloGarbagePuyo);
 		int randomVariable;
 		//Puyo.type = 5;
-		for (int i = 5; i >= 0; i--)
+		for (int i = 0; i < 6; i++)
 		{
 			for (int j = 11; j >= 0; j--)
 			{
@@ -204,6 +204,10 @@ public class PlayerThread extends Thread {
 			}
 		}
 		setGarbagePuyo(0);
+		if(iAm == 1)
+			gameGround.gamePanel.getScorePanel().getNumberOfGarbagePuyoLabel1P().setText("0");
+		else
+			gameGround.gamePanel.getScorePanel().getNumberOfGarbagePuyoLabel2P().setText("0");
 	}
 	
 	// 뿌요가 바닥에 닿았는지 확인하는 함수
@@ -218,8 +222,13 @@ public class PlayerThread extends Thread {
 			System.out.println("Puyo1:"+(gameGround.getPuyo1().getY()-10)/60);
 			dropAnotherPuyo(gameGround.getPuyo2());
 			
-			checkSamePuyo();
+			scanNumberOfSamePuyo();
+			//checkSamePuyo();
 
+			// 방해뿌요 드롭
+			if(garbagePuyo != 0)
+				dropGarbagePuyo();
+			
 			nextPuyo();
 		}
 		// 뿌요2가 가장 아래로 내려운 경우
@@ -232,19 +241,19 @@ public class PlayerThread extends Thread {
 			System.out.println("Puyo2:"+(gameGround.getPuyo2().getY()-10)/60);
 			dropAnotherPuyo(gameGround.getPuyo1());
 			
-			checkSamePuyo();
+			scanNumberOfSamePuyo();
+			//checkSamePuyo();
+			
+			// 방해뿌요 드롭
+			if(garbagePuyo != 0)
+				dropGarbagePuyo();
 			
 			nextPuyo();
 		}
 		
-
-		// 방해뿌요 드롭
-		if(garbagePuyo != 0)
-			dropGarbagePuyo();
-		
 		//게임 종료 조건
 		if(puyoMap[3][1]!=null||puyoMap[4][1]!=null) {
-			endFlag = true;
+			endFlag = true;  // 실습조교 02 760 5885
 		if(puyoMap[3][1]!=null)
 			System.out.println("끝난 이유:"+puyoMap[3][1].getType());
 		if(puyoMap[4][1]!=null)
@@ -312,13 +321,13 @@ public class PlayerThread extends Thread {
 		gameGround.getPuyo2().setVisible(false);
 		
 		for(int T=0; T < gameGround.getPuyoIcon().length-1; T++) {
-			initializeCheckNumberOfSamePuyoVariable();
 			// 0색 체크
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 12; j++) {
 					if (samePuyoChecker[i][j] == false && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
 						puyo.setLocation(puyo.indexXToPixel(i),puyo.indexYToPixel(j));
 						puyo.setType(T);
+						initializeCheckNumberOfSamePuyoVariable();
 						checkNumberOfSamePuyo(puyo, i, j);
 						// 점수 계산할 때 사용한다.
 						if (numberOfSamePuyo >= 4) {
@@ -334,10 +343,14 @@ public class PlayerThread extends Thread {
 							score += plusScore;
 							printScore();
 							deletePuyos(puyo, i, j);
-							if(iAm == 1)
+							if(iAm == 1) {
 								gameGround.getGamePanel().getRoundThread().getPlayerThread2P().setGarbagePuyo(plusScore/70);
-							else
+								gameGround.getGamePanel().getScorePanel().getNumberOfGarbagePuyoLabel2P().setText(Integer.toString(plusScore/70));
+							}
+							else {
 								gameGround.getGamePanel().getRoundThread().getPlayerThread1P().setGarbagePuyo(plusScore/70);
+								gameGround.getGamePanel().getScorePanel().getNumberOfGarbagePuyoLabel1P().setText(Integer.toString(plusScore/70));
+							}
 							check = true;
 						}
 						puyoRemovedSum = 0;
@@ -345,6 +358,7 @@ public class PlayerThread extends Thread {
 				}
 			}
 		}
+		
 		
 		if (check) {
 			dropPuyos();
@@ -355,8 +369,9 @@ public class PlayerThread extends Thread {
 	// puyo1과 puyo2가 4개 이상 같은 색으로 연결되었는지 체크
 	void checkNumberOfSamePuyo(Puyo puyo, int indexX, int indexY) {
 		// 예외처리: 뿌요1과 2가 동시에 속해서 사라지는 경우 anotherPuyo는 존재하지 않음
-		if(puyoMap[indexX][indexY]==null)
+		if(samePuyoChecker[indexX][indexY] == true)
 			return;
+		
 		numberOfSamePuyo++;
 		samePuyoChecker[indexX][indexY] = true;
 		
@@ -382,8 +397,11 @@ public class PlayerThread extends Thread {
 	void deletePuyos(Puyo puyo, int indexX, int indexY) {
 		//System.out.println("deletePuyos"+"("+indexX+","+indexY+")");
 		samePuyoChecker[indexX][indexY] = false;
+		
 		puyoMap[indexX][indexY].setVisible(false);
 		puyoMap[indexX][indexY]=null;
+		
+		splashObstructPuyo(indexX, indexY);
 		
 		// 예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
 		if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY+1]) {
@@ -399,7 +417,6 @@ public class PlayerThread extends Thread {
 			deletePuyos(puyo, indexX-1, indexY);
 		}
 		
-		splashObstructPuyo(indexX, indexY);
 	}
 	
 	void splashObstructPuyo(int indexX, int indexY) {
@@ -440,9 +457,6 @@ public class PlayerThread extends Thread {
 							break;
 						}
 					}
-					// 만약 블록이 위에 없다면, -> 중첩 되어있지 않으니 j 반복 필요X
-					if (q == -1) 
-						break;
 				}
 			}
 		}

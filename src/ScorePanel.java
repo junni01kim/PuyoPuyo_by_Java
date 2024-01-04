@@ -17,8 +17,10 @@ public class ScorePanel extends JPanel{
 	private JLabel roundCountLabel = new JLabel("1");
 	private JLabel roundLabel = new JLabel("R O U N D");
 	private JLabel scoreTextLabel = new JLabel("S C O R E");
-	private JLabel scoreLabel1P = new JLabel();
-	private JLabel scoreLabel2P = new JLabel();
+	private JLabel scoreLabel1P = new JLabel("0");
+	private JLabel scoreLabel2P = new JLabel("0");
+	private JLabel numberOfGarbagePuyoLabel1P = new JLabel("임시");
+	private JLabel numberOfGarbagePuyoLabel2P = new JLabel("임시");
 	
 	private JLabel timerTextLabel = new JLabel("T I M E");
 	private JLabel timerLabel = new JLabel("0");
@@ -29,6 +31,8 @@ public class ScorePanel extends JPanel{
 	public Puyo getNextRightControlPuyo2P() {return nextRightControlPuyo2P;}
 	public JLabel getScoreLabel1P() {return scoreLabel1P;}
 	public JLabel getScoreLabel2P() {return scoreLabel2P;}
+	public JLabel getNumberOfGarbagePuyoLabel1P() {return numberOfGarbagePuyoLabel1P;}
+	public JLabel getNumberOfGarbagePuyoLabel2P() {return numberOfGarbagePuyoLabel2P;}
 	
 	ScorePanel(GameGround gameGround1P, GameGround gameGround2P, RoundThread roundThread) {
 		this.roundThread = roundThread;
@@ -97,6 +101,13 @@ public class ScorePanel extends JPanel{
 		timerLabel.setSize(100, 30);
 		add(timerLabel);
 		
+		numberOfGarbagePuyoLabel1P.setLocation(this.getWidth()/2-75, 600);
+		numberOfGarbagePuyoLabel1P.setSize(100,30);
+		add(numberOfGarbagePuyoLabel1P);
+		
+		numberOfGarbagePuyoLabel2P.setLocation(this.getWidth()/2+50, 600);
+		numberOfGarbagePuyoLabel2P.setSize(100,30);
+		add(numberOfGarbagePuyoLabel2P);
 		
 		// 넘길 방해뿌요 수 그림
 		// 남은 라운드 현재 라운드 수
