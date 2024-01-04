@@ -78,6 +78,7 @@ splashSarbagePuyo 구현: 뿌요가 폭발하면 주변 방해뿌요도 함께 �
 
 ### \- 14일차(완성) -
 garbagePuyo 완성: 방해뿌요 전달 개수 출력(그래픽 구현 X)
+checkSamePuyo 폐기: scanNumberOfSamePuyo와 역할이 겹침
 
 ### 이후
 버그 수정
