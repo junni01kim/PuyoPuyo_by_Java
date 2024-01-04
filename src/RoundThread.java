@@ -88,8 +88,6 @@ public class RoundThread extends Thread {
 			}
 		}
 		
-		playerThread1P.clearPlayerThread();
-		playerThread2P.clearPlayerThread();
 		countThreeSecond();
 		playerThread1P = new PlayerThread(gameGround1P, puyoLogic, 1);
 		playerThread2P = new PlayerThread(gameGround2P, puyoLogic, 2);
@@ -107,8 +105,6 @@ public class RoundThread extends Thread {
 		}
 		
 		if(getWinCount1P() == 1 && getWinCount2P() == 1) {
-			playerThread1P.clearPlayerThread();
-			playerThread2P.clearPlayerThread();
 			countThreeSecond();
 			playerThread1P = new PlayerThread(gameGround1P, puyoLogic, 1);
 			playerThread2P = new PlayerThread(gameGround2P, puyoLogic, 2);

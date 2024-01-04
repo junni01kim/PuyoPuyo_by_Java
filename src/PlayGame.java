@@ -1,6 +1,5 @@
 
 public class PlayGame extends Thread{
-	private GamePanel gamePanel;
 	
 	public boolean endFlag = false;
 	

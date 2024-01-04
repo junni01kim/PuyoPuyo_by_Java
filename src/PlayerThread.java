@@ -1,5 +1,3 @@
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 public class PlayerThread extends Thread {
 	GameGround gameGround;
@@ -45,11 +43,13 @@ public class PlayerThread extends Thread {
 	}
 	
 	// 게임이 끝나고 GameGround를 지우는데 사용한다.
-	public void clearPlayerThread() {
+	synchronized public void clearPlayerThread() {
 		for(int i=0;i<puyoMap.length;i++)
 			for(int j=0;j<puyoMap[i].length;j++) {
-				if(puyoMap[i][j]!=null)
+				if(puyoMap[i][j]!=null) {
 					puyoMap[i][j].setVisible(false);
+					puyoMap[i][j] = null;
+				}
 			}
 		
 		gameGround.getPuyo1().setVisible(false);
@@ -211,7 +211,26 @@ public class PlayerThread extends Thread {
 	}
 	
 	// 뿌요가 바닥에 닿았는지 확인하는 함수
-	void checkPuyo() {	
+	synchronized void checkPuyo() {	
+		//게임 종료 조건
+		if(puyoMap[3][1]!=null||puyoMap[4][1]!=null) {
+			endFlag = true;  // 실습조교 02 760 5885
+			// 상대 스레드 oneWin
+			if(iAm == 1) {
+				gameGround.getGamePanel().getRoundThread().plusWinCount2P();
+				gameGround.getGamePanel().getRoundThread().getPlayerThread2P().changeOneWin();
+				gameGround.getGamePanel().getRoundThread().getPlayerThread2P().changeEndFlag();
+			}
+			else {
+				gameGround.getGamePanel().getRoundThread().plusWinCount1P();
+				gameGround.getGamePanel().getRoundThread().getPlayerThread1P().changeOneWin();
+				gameGround.getGamePanel().getRoundThread().getPlayerThread1P().changeEndFlag();
+			}
+			
+			gameGround.getGamePanel().getRoundThread().changeRoundChangeToggle();
+			return;
+		}
+		
 		// 뿌요1이 가장 아래로 내려운 경우
 		if((gameGround.getPuyo1().getY()-10)/60 >= 11 || puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60+1] != null) {
 			gameGround.getPuyo1().setVisible(false);
@@ -249,35 +268,11 @@ public class PlayerThread extends Thread {
 				dropGarbagePuyo();
 			
 			nextPuyo();
-		}
-		
-		//게임 종료 조건
-		if(puyoMap[3][1]!=null||puyoMap[4][1]!=null) {
-			endFlag = true;  // 실습조교 02 760 5885
-		if(puyoMap[3][1]!=null)
-			System.out.println("끝난 이유:"+puyoMap[3][1].getType());
-		if(puyoMap[4][1]!=null)
-			System.out.println("끝난 이유:"+puyoMap[4][1].getType());
-			
-			// 상대 스레드 oneWin
-			if(iAm == 1) {
-				gameGround.getGamePanel().getRoundThread().plusWinCount2P();
-				gameGround.getGamePanel().getRoundThread().getPlayerThread2P().changeOneWin();
-				gameGround.getGamePanel().getRoundThread().getPlayerThread2P().changeEndFlag();
-			}
-			else {
-				gameGround.getGamePanel().getRoundThread().plusWinCount1P();
-				gameGround.getGamePanel().getRoundThread().getPlayerThread1P().changeOneWin();
-				gameGround.getGamePanel().getRoundThread().getPlayerThread1P().changeEndFlag();
-			}
-					
-			gameGround.getGamePanel().getRoundThread().changeRoundChangeToggle();
-			return;
-		}
+		}	
 	}
 		
 	// 뿌요 객체를 아래로 떨어트리는 함수 
-	void dropPuyo() {
+	synchronized void dropPuyo() {
 		checkPuyo();
 		// JLabel을 +60 픽셀만큼 내린다.
 		gameGround.getPuyo1().setLocation(gameGround.getPuyo1().getX(),gameGround.getPuyo1().getY()+60);
@@ -486,6 +481,8 @@ public class PlayerThread extends Thread {
 			}
 			//System.out.println("playerThread.run");
 		}
+		
+		clearPlayerThread();
 		System.out.println("endGame!");
 	}
 }
