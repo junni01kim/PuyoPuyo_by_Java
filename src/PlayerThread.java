@@ -59,7 +59,7 @@ public class PlayerThread extends Thread {
 	public PlayerThread(GameGround gameGround, int puyoLogic[], int iAm) {
 		this.gameGround = gameGround;
 		this.puyoLogic = puyoLogic;
-		colorChecker = new boolean[gameGround.getPuyoIcon().length];
+		colorChecker = new boolean[Puyo.getPuyoIcon().length];
 		this.iAm = iAm;
 		
 		for(int i=0;i<puyoMap.length;i++)
@@ -83,8 +83,8 @@ public class PlayerThread extends Thread {
 		gameGround.getPuyo2().setType(puyo2Type);
 		
 		// type에 맞는 아이콘을 사용한다.
-		gameGround.getPuyo1().setIcon(gameGround.getPuyoIcon()[puyo1Type]);
-		gameGround.getPuyo2().setIcon(gameGround.getPuyoIcon()[puyo2Type]);
+		gameGround.getPuyo1().setIcon(Puyo.getPuyoIcon()[puyo1Type]);
+		gameGround.getPuyo2().setIcon(Puyo.getPuyoIcon()[puyo2Type]);
 		
 		gameGround.getPuyo1().setLocation(140,10);
 		gameGround.getPuyo2().setLocation(200,10);
@@ -106,16 +106,16 @@ public class PlayerThread extends Thread {
 			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setType(nextRightControlPuyoType);
 			
 			// type에 맞는 아이콘을 사용한다.
-			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo1P().setIcon(gameGround.getPuyoIcon()[nextLeftControlPuyoType]);
-			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setIcon(gameGround.getPuyoIcon()[nextRightControlPuyoType]);
+			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo1P().setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
+			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
 		}
 		else {
 			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setType(nextLeftControlPuyoType);
 			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setType(nextRightControlPuyoType);
 			
 			// type에 맞는 아이콘을 사용한다.
-			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setIcon(gameGround.getPuyoIcon()[nextLeftControlPuyoType]);
-			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setIcon(gameGround.getPuyoIcon()[nextRightControlPuyoType]);
+			gameGround.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
+			gameGround.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
 		}
 	}
 	
@@ -124,9 +124,10 @@ public class PlayerThread extends Thread {
 		int indexY = 11;
 		while(true) {
 			if(puyoMap[anotherPuyo.PixelXToindex()][indexY]==null) {
+				anotherPuyo.setLocation(anotherPuyo.getX(),Puyo.indexXToPixel(indexY));
 				puyoMap[anotherPuyo.PixelXToindex()][indexY] = new Puyo(gameGround, anotherPuyo.getType(), anotherPuyo.PixelXToindex(), indexY);
-				anotherPuyo.setLocation(anotherPuyo.getX(),anotherPuyo.indexXToPixel(indexY));
-				gameGround.add(puyoMap[(anotherPuyo.getX()-20)/60][indexY]);
+				puyoMap[anotherPuyo.PixelXToindex()][indexY].setVisible(true);
+				gameGround.add(puyoMap[anotherPuyo.PixelXToindex()][indexY]);
 				//System.out.println("tempPuyo:"+indexY);
 				break;
 			}
@@ -182,6 +183,7 @@ public class PlayerThread extends Thread {
 					{
 						if (j - p <= 2) continue;
 						puyoMap[i][j - p] = new Puyo(gameGround, 5, i, j-p);
+						puyoMap[i][j - p].setVisible(true);
 						gameGround.add(puyoMap[i][j - p]);
 					}
 					break;
@@ -198,6 +200,7 @@ public class PlayerThread extends Thread {
 				{
 					if(j<=2) continue;
 					puyoMap[randomVariable][j] = new Puyo(gameGround, 5, randomVariable, j);
+					puyoMap[randomVariable][j].setVisible(true);
 					gameGround.add(puyoMap[randomVariable][j]);
 					break;
 				}
@@ -235,7 +238,7 @@ public class PlayerThread extends Thread {
 		if((gameGround.getPuyo1().getY()-10)/60 >= 11 || puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60+1] != null) {
 			gameGround.getPuyo1().setVisible(false);
 			puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60] = new Puyo(gameGround, gameGround.getPuyo1().getType(),(gameGround.getPuyo1().getX()-20)/60,(gameGround.getPuyo1().getY()-10)/60);
-			
+			puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60].setVisible(true);
 			gameGround.add(puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60]);
 			
 			System.out.println("Puyo1:"+(gameGround.getPuyo1().getY()-10)/60);
@@ -248,13 +251,15 @@ public class PlayerThread extends Thread {
 			if(garbagePuyo != 0)
 				dropGarbagePuyo();
 			
+			gameGround.repaint();
+			
 			nextPuyo();
 		}
 		// 뿌요2가 가장 아래로 내려운 경우
 		else if((gameGround.getPuyo2().getY()-10)/60 >= 11 || puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60+1] != null) {
 			gameGround.getPuyo2().setVisible(false);
 			puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60] = new Puyo(gameGround, gameGround.getPuyo2().getType(),(gameGround.getPuyo2().getX()-20)/60,(gameGround.getPuyo2().getY()-10)/60);
-			
+			puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60].setVisible(true);
 			gameGround.add(puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60]);
 			
 			System.out.println("Puyo2:"+(gameGround.getPuyo2().getY()-10)/60);
@@ -266,6 +271,8 @@ public class PlayerThread extends Thread {
 			// 방해뿌요 드롭
 			if(garbagePuyo != 0)
 				dropGarbagePuyo();
+			
+			gameGround.repaint();
 			
 			nextPuyo();
 		}	
@@ -291,7 +298,7 @@ public class PlayerThread extends Thread {
 	}
 	
 	void initializeScoreVariable() {
-		for(int i=0;i<gameGround.getPuyoIcon().length;i++)
+		for(int i=0;i<Puyo.getPuyoIcon().length;i++)
 			colorChecker[i]=false;
 		
 		puyoRemovedSum=0;
@@ -315,12 +322,12 @@ public class PlayerThread extends Thread {
 		gameGround.getPuyo1().setVisible(false);
 		gameGround.getPuyo2().setVisible(false);
 		
-		for(int T=0; T < gameGround.getPuyoIcon().length-1; T++) {
+		for(int T=0; T < puyo.getPuyoIcon().length-1; T++) {
 			// 0색 체크
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 12; j++) {
 					if (samePuyoChecker[i][j] == false && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
-						puyo.setLocation(puyo.indexXToPixel(i),puyo.indexYToPixel(j));
+						puyo.setLocation(Puyo.indexXToPixel(i),Puyo.indexYToPixel(j));
 						puyo.setType(T);
 						initializeCheckNumberOfSamePuyoVariable();
 						checkNumberOfSamePuyo(puyo, i, j);
@@ -448,7 +455,7 @@ public class PlayerThread extends Thread {
 						if (puyoMap[i][q] != null) {// 만약에 블록이 위에 있다면,
 							puyoMap[i][j] = puyoMap[i][q];
 							puyoMap[i][q] = null;
-							puyoMap[i][j].setLocation(puyoMap[i][j].indexXToPixel(i),puyoMap[i][j].indexYToPixel(j));
+							puyoMap[i][j].setLocation(Puyo.indexXToPixel(i),Puyo.indexYToPixel(j));
 							break;
 						}
 					}
@@ -483,6 +490,7 @@ public class PlayerThread extends Thread {
 		}
 		
 		clearPlayerThread();
+		gameGround.repaint();
 		System.out.println("endGame!");
 	}
 }
