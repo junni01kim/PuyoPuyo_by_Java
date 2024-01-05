@@ -85,6 +85,7 @@ checkSamePuyo 폐기: scanNumberOfSamePuyo와 역할이 겹침
     - 각 클래스에 자기자신의 승패를 구분하는 코드들이 별도로 추가되었다.
     - 오류: splashPuyo()와 함께 puyoMap[indexX]의 라인 한줄이 같이 사라지는 현상 발생
 gameGround에 있던 puyoIcon이 Puyo객체에 포함되는게 올바르다 생각하여 Puyo 클래스로 이동 후 static으로 객체없이 호출 가능하게 함
+repaint()를 통해 다 완전하게 그려지지 않거나 그래픽이 반만 그려진 뿌요들을 다시 그려지게 함
     
 ### \- 느낀점 -
 1. 함수들은 Thread보다는 각 Component에 작성하는 것에 코딩하고 관리하기에 편하다.  
