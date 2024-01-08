@@ -1,12 +1,18 @@
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 public class GamePanel extends JPanel {
+	private ImageIcon gamePanelIcon = new ImageIcon("GamePanel.jpg");
+	
+	
+	private GameFrame gameFrame = null;
 	// 1P 게임 보드
 	private GameGround gameGround1P = new GameGround(this);
 
@@ -28,8 +34,16 @@ public class GamePanel extends JPanel {
 	public GameGround getGameGround1P() {return gameGround1P;}
 	public GameGround getGameGround2P() {return gameGround2P;}
 	public RoundThread getRoundThread() {return roundThread;}
+	public GameFrame getGameFrame() {return gameFrame;}
 	
-	public GamePanel() {
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(gamePanelIcon.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+	}
+	
+	public GamePanel(GameFrame gameFrame) {
+		this.gameFrame = gameFrame;
 		roundThread = new RoundThread(this, gameGround1P, gameGround2P, scorePanel);
 		
 		setBackground(Color.RED);
@@ -48,7 +62,6 @@ public class GamePanel extends JPanel {
 		
 		// 각 플레이어의 move() Key 값을 동시에 받기 위해서
 		setFocusable(true);
-		requestFocus();
 	}
 	
 	// 화면을 분할해준다.
@@ -72,9 +85,6 @@ public class GamePanel extends JPanel {
 	}
 	
 	private class ControlPuyoKeyListener extends KeyAdapter {
-		public ControlPuyoKeyListener() {
-			System.out.println("ControlPuyo 생성자");
-		}
 		synchronized public void keyPressed(KeyEvent e) {
 			switch(e.getKeyCode()) {
 			//Player1

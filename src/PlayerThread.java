@@ -67,7 +67,7 @@ public class PlayerThread extends Thread {
 				puyoMap[i][j] = null;
 		
 		nextPuyo();
-		System.out.println("PlayerThread");
+		//System.out.println("PlayerThread");
 	}
 
 	GameGround getGameGround() {return gameGround;}
@@ -168,9 +168,9 @@ public class PlayerThread extends Thread {
 	
 	void dropGarbagePuyo() {
 		int seperateGarbagePuyo = garbagePuyo / 6;
-		System.out.println("seperateGarbagePuyo:"+seperateGarbagePuyo);
+		//System.out.println("seperateGarbagePuyo:"+seperateGarbagePuyo);
 		int moduloGarbagePuyo = garbagePuyo % 6;
-		System.out.println("moduloGarbagePuyo:"+moduloGarbagePuyo);
+		//System.out.println("moduloGarbagePuyo:"+moduloGarbagePuyo);
 		int randomVariable;
 		//Puyo.type = 5;
 		for (int i = 0; i < 6; i++)
@@ -241,7 +241,7 @@ public class PlayerThread extends Thread {
 			puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60].setVisible(true);
 			gameGround.add(puyoMap[(gameGround.getPuyo1().getX()-20)/60][(gameGround.getPuyo1().getY()-10)/60]);
 			
-			System.out.println("Puyo1:"+(gameGround.getPuyo1().getY()-10)/60);
+			//System.out.println("Puyo1:"+(gameGround.getPuyo1().getY()-10)/60);
 			dropAnotherPuyo(gameGround.getPuyo2());
 			
 			scanNumberOfSamePuyo();
@@ -262,7 +262,7 @@ public class PlayerThread extends Thread {
 			puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60].setVisible(true);
 			gameGround.add(puyoMap[(gameGround.getPuyo2().getX()-20)/60][(gameGround.getPuyo2().getY()-10)/60]);
 			
-			System.out.println("Puyo2:"+(gameGround.getPuyo2().getY()-10)/60);
+			//System.out.println("Puyo2:"+(gameGround.getPuyo2().getY()-10)/60);
 			dropAnotherPuyo(gameGround.getPuyo1());
 			
 			scanNumberOfSamePuyo();
@@ -378,7 +378,7 @@ public class PlayerThread extends Thread {
 		samePuyoChecker[indexX][indexY] = true;
 		
 		if(numberOfSamePuyo>=4)
-			System.out.println("뿌요개수:"+numberOfSamePuyo);
+			//System.out.println("뿌요개수:"+numberOfSamePuyo);
 		
 		// 예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
 		if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY+1]) {
@@ -491,6 +491,6 @@ public class PlayerThread extends Thread {
 		
 		clearPlayerThread();
 		gameGround.repaint();
-		System.out.println("endGame!");
+		//System.out.println("endGame!");
 	}
 }

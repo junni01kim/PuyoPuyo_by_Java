@@ -37,7 +37,7 @@ public class RoundThread extends Thread {
 		makePuyoLogic();
 		playerThread1P = new PlayerThread(gameGround1P, puyoLogic, 1);
 		playerThread2P = new PlayerThread(gameGround2P, puyoLogic, 2);
-		System.out.println("gamePanel");
+		//System.out.println("gamePanel");
 	}
 	
 	// puyoLogic을 재설정하는 함수이다.
@@ -57,13 +57,13 @@ public class RoundThread extends Thread {
 				}
 			}
 		}
-		System.out.println("makePuyoLogic");
+		//System.out.println("makePuyoLogic");
 	}
 
 	private void countThreeSecond() {
 		try {
 			for(int i=3; i>0; i--) {
-				System.out.println(i);
+				//System.out.println(i);
 				sleep(1000);
 			}
 		} catch (InterruptedException e) {
@@ -74,6 +74,7 @@ public class RoundThread extends Thread {
 	
 	@Override
 	public void run() {
+		roundChangeToggle = false;
 		countThreeSecond();
 		playerThread1P.start();
 		playerThread2P.start();
@@ -113,11 +114,24 @@ public class RoundThread extends Thread {
 		}
 		else {
 			if(getWinCount1P() == 2) {
-				System.out.println("1P Win");		
+				//System.out.println("1P Win");		
 			}
 			else if(getWinCount2P() == 2) {
-				System.out.println("2P Win");
+				//System.out.println("2P Win");
 			}
 		}
+		while(true) {
+			if(roundChangeToggle == true)
+				break;
+			try {
+				sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		gamePanel.getGameFrame().closeGamePanel();
+		gamePanel.getGameFrame().openGameMenuPanel();
+		
 	}
 }
