@@ -15,7 +15,9 @@ PuyoPuyo_by_C를 객체지향언어(Java Swing)로 수정한 프로그램 입니
 3. 운용 클래스를 이용해 애플릿을 만드는 Swing 도구 클래스
 
 ## 객체화 된 프로그램
-
+게임은 RoundThread에서 3판 2선으로을 기준으로 PlayerThread를 호출한다.  
+각 gameGround를 각각 1개의 PlayerThread를 가지며, 독자적으로 플레이 된다. 두 PlayerThread는 방해뿌요 전달 부분에서 연동되어있다.
+키입력은 GamePanel의 ControlPuyoKeyListener에서 작동하며, 키 포커스를 반복적으로 변화시키지 않고 지속적으로 받기 위해 GameGround가 아닌 GamePanel에서 입력받는다.
 
 ### 이후
 버그 수정  
