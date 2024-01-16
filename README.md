@@ -15,11 +15,11 @@ PuyoPuyo_by_C를 객체지향언어(Java Swing)로 수정한 프로그램 입니
 3. 운용 클래스를 이용해 애플릿을 만드는 Swing 도구 클래스
 
 ## 프로그램 설명
-```GameMenuPanel```은 처음 메뉴창을 띄우고 버튼을 누를 시 본인을 ```setVisible(false)```로 만든 후 ```GamePanel```을 만든다.
-게임은 ```RoundThread```에서 3판 2선으로을 기준으로 ```PlayerThread```를 호출한다.  
-각 ```GameGround```는 ```ScorePanel```은 ```GamePanel``` 내부에 객체로 존재하며, 각각 1개의 ```PlayerThread```를 가진다. 두 ```GameGround```는 독자적으로 플레이 된다. 두 ```PlayerThread```는 방해뿌요 전달 부분에서 연동되어있다.
-키입력은 ```GamePanel```의 ```ControlPuyoKeyListener```에서 작동하며, 키 포커스를 반복적으로 변화시키지 않고 지속적으로 받기 위해 ```GameGround```가 아닌 ```GamePanel```에서 입력받는다.
-```ScorePanel```은 ```GamePanel``` 내부에 객체로 존재하며, ```PlayerThread```에서 동적으로 변화시킨다.
+- ```GameMenuPanel```은 처음 메뉴창을 띄우고 버튼을 누를 시 본인을 ```setVisible(false)```로 만든 후 ```GamePanel```을 만든다.
+- 게임은 ```RoundThread```에서 3판 2선으로을 기준으로 ```PlayerThread```를 호출한다.  
+- 각 ```GameGround```는 ```ScorePanel```은 ```GamePanel``` 내부에 객체로 존재하며, 각각 1개의 ```PlayerThread```를 가진다. 두 ```GameGround```는 독자적으로 플레이 된다. 두 ```PlayerThread```는 방해뿌요 전달 부분에서 연동되어있다.
+- 키입력은 ```GamePanel```의 ```ControlPuyoKeyListener```에서 작동하며, 키 포커스를 반복적으로 변화시키지 않고 지속적으로 받기 위해 ```GameGround```가 아닌 ```GamePanel```에서 입력받는다.
+- ```ScorePanel```은 ```GamePanel``` 내부에 객체로 존재하며, ```PlayerThread```에서 동적으로 변화시킨다.
 
 
 ### 이후
