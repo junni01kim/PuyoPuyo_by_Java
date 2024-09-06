@@ -1,3 +1,7 @@
+# PuyoPuyo_by_Java 리뉴얼
+하단에 기술된 PuyoPuyo_by_Java를 `IntelliJ`에서 이용하기 위해 다시 깃 다시 제작
+제작 중단했던 `eclips` 버전은 tag를 통해 남겨져 있다. (복구 예정)
+
 # PuyoPuyo_by_Java
 PuyoPuyo_by_C를 객체지향언어(Java Swing)로 수정한 프로그램 입니다.
 
