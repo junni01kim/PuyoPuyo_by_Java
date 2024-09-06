@@ -9,24 +9,23 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 public class GamePanel extends JPanel {
-	private ImageIcon gamePanelIcon = new ImageIcon("GamePanel.jpg");
-	
+	private ImageIcon gamePanelIcon = new ImageIcon("res/GamePanel.jpg");
 	
 	private GameFrame gameFrame = null;
-	// 1P °ÔÀÓ º¸µå
+	// 1P ê²Œì„ ë³´ë“œ
 	private GameGround gameGround1P = new GameGround(this);
 
-	// 2P °ÔÀÓ º¸µå
+	// 2P ê²Œì„ ë³´ë“œ
 	private GameGround gameGround2P = new GameGround(this);
-	
-	
-	// °ÔÀÓ ¶ó¿îµå ÁøÇà ½º·¹µå
+
+
+	// ê²Œì„ ë¼ìš´ë“œ ì§„í–‰ ìŠ¤ë ˆë“œ
 	private RoundThread roundThread = null;
-	
-	// Á¡¼ö ÆĞ³Î
+
+	// ì ìˆ˜ íŒ¨ë„
 	private ScorePanel scorePanel = new ScorePanel(gameGround1P, gameGround2P, roundThread);
-	
-	// È­¸é ºĞÇÒ ÆĞ³Î
+
+	// í™”ë©´ ë¶„í•  íŒ¨ë„
 	private JSplitPane splitPanel1P = new JSplitPane();
 	private JSplitPane splitPanel2P = new JSplitPane();
 	
@@ -59,20 +58,20 @@ public class GamePanel extends JPanel {
 		add(scorePanel);
 		
 		roundThread.start();
-		
-		// °¢ ÇÃ·¹ÀÌ¾îÀÇ move() Key °ªÀ» µ¿½Ã¿¡ ¹Ş±â À§ÇØ¼­
+
+		// ê° í”Œë ˆì´ì–´ì˜ move() Key ê°’ì„ ë™ì‹œì— ë°›ê¸° ìœ„í•´ì„œ
 		setFocusable(true);
 	}
-	
-	// È­¸éÀ» ºĞÇÒÇØÁØ´Ù.
+
+	// í™”ë©´ì„ ë¶„í• í•´ì¤€ë‹¤.
 	private void splitPanel() {
-		// 1Â÷ 1P ÆĞ³Î ºĞ¸®
+		// 1ì°¨ 1P íŒ¨ë„ ë¶„ë¦¬
 		splitPanel1P.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		splitPanel1P.setDividerLocation(450);
 		splitPanel1P.setDividerSize(0);
 		add(splitPanel1P);
-		
-		// 2Â÷ Á¡¼ö ÆĞ³Î°ú 2P ºĞ¸®
+
+		// 2ì°¨ ì ìˆ˜ íŒ¨ë„ê³¼ 2P ë¶„ë¦¬
 		splitPanel2P.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		splitPanel2P.setDividerLocation(380);
 		splitPanel2P.setDividerSize(0);
@@ -89,12 +88,12 @@ public class GamePanel extends JPanel {
 			switch(e.getKeyCode()) {
 			//Player1
 			case KeyEvent.VK_W:
-				//µÎ »Ñ¿äÀÇ À§Ä¡¿¡ µû¶ó¼­ »Ñ¿ä¸¦ È¸Àü½ÃÅ²´Ù.
-				// °æ¿ì1. ÁÂ¿ì ¹èÄ¡ - (»Ñ¿ä1)(»Ñ¿ä2)
+				//ë‘ ë¿Œìš”ì˜ ìœ„ì¹˜ì— ë”°ë¼ì„œ ë¿Œìš”ë¥¼ íšŒì „ì‹œí‚¨ë‹¤.
+				// ê²½ìš°1. ì¢Œìš° ë°°ì¹˜ - (ë¿Œìš”1)(ë¿Œìš”2)
 				if(gameGround1P.getPuyo1().getX()<=gameGround1P.getPuyo2().getX()&&gameGround1P.getPuyo1().getY()==gameGround1P.getPuyo2().getY()) {
-					// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ ¹Ù´Ú¿¡¼­ È¸ÀüÇÏ¿© ¸ÊÀ» ¶Õ°í ³ª°¡´Â °æ¿ì
+					// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë°”ë‹¥ì—ì„œ íšŒì „í•˜ì—¬ ë§µì„ ëš«ê³  ë‚˜ê°€ëŠ” ê²½ìš°
 					if(gameGround1P.getPuyo1().PixelYToindex()==11
-							// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ ´Ù¸¥ »Ñ¿ä À§¿¡¼­ È¸ÀüÇÏ¿© ´Ù¸¥ »Ñ¿ä¿Í °ãÄ¡´Â °æ¿ì
+							// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë‹¤ë¥¸ ë¿Œìš” ìœ„ì—ì„œ íšŒì „í•˜ì—¬ ë‹¤ë¥¸ ë¿Œìš”ì™€ ê²¹ì¹˜ëŠ” ê²½ìš°
 							||(gameGround1P.getPuyo1().PixelYToindex()<11&&roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo1().PixelXToindex()][gameGround1P.getPuyo1().PixelYToindex()+1]!=null)) {
 						gameGround1P.getPuyo1().setLocation(gameGround1P.getPuyo1().getX(), gameGround1P.getPuyo1().getY()-60);
 						gameGround1P.getPuyo2().setLocation(gameGround1P.getPuyo1().getX(), gameGround1P.getPuyo1().getY()+60);
@@ -102,18 +101,18 @@ public class GamePanel extends JPanel {
 					gameGround1P.getPuyo2().setLocation(gameGround1P.getPuyo1().getX(), gameGround1P.getPuyo1().getY()+60);
 					break;
 				}
-				// °æ¿ì2. ÁÂ¿ì ¹èÄ¡ - (»Ñ¿ä2)(»Ñ¿ä1)
+				// ê²½ìš°2. ì¢Œìš° ë°°ì¹˜ - (ë¿Œìš”2)(ë¿Œìš”1)
 				if(gameGround1P.getPuyo1().getX()>gameGround1P.getPuyo2().getX()&&gameGround1P.getPuyo1().getY()==gameGround1P.getPuyo2().getY()) {
 					gameGround1P.getPuyo2().setLocation(gameGround1P.getPuyo1().getX(), gameGround1P.getPuyo1().getY()-60);
 					break;
 				}
-				// °æ¿ì3. »óÇÏ ¹èÄ¡ - (»Ñ¿ä1)(»Ñ¿ä2)
+				// ê²½ìš°3. ìƒí•˜ ë°°ì¹˜ - (ë¿Œìš”1)(ë¿Œìš”2)
 				if(gameGround1P.getPuyo1().getX()==gameGround1P.getPuyo2().getX()&&gameGround1P.getPuyo1().getY()<=gameGround1P.getPuyo2().getY()) {
-					// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ º®¿¡¼­ ºÙÀº Ã¤ È¸ÀüÇÏ¿© ¸ÊÀ» ¶Õ°í ³ª°¡´Â °æ¿ì
+					// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë²½ì—ì„œ ë¶™ì€ ì±„ íšŒì „í•˜ì—¬ ë§µì„ ëš«ê³  ë‚˜ê°€ëŠ” ê²½ìš°
 					if(gameGround1P.getPuyo1().PixelXToindex()==0
-							// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ ´Ù¸¥ »Ñ¿ä ¿·¿¡¼­ È¸ÀüÇÏ¿© ´Ù¸¥ »Ñ¿ä¿Í °ãÄ¡´Â °æ¿ì
+							// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë‹¤ë¥¸ ë¿Œìš” ì˜†ì—ì„œ íšŒì „í•˜ì—¬ ë‹¤ë¥¸ ë¿Œìš”ì™€ ê²¹ì¹˜ëŠ” ê²½ìš°
 							||(gameGround1P.getPuyo1().PixelXToindex()>0&&roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo1().PixelXToindex()-1][gameGround1P.getPuyo1().PixelYToindex()]!=null)) {
-						// ¿¹¿ÜÃ³¸®: È¸ÀüÇÏ·Á´Â Àå¼Ò¿¡ ÀÌ¹Ì »Ñ¿ä°¡ ¸·Çô ÀÖ´Â °æ¿ì
+						// ì˜ˆì™¸ì²˜ë¦¬: íšŒì „í•˜ë ¤ëŠ” ì¥ì†Œì— ì´ë¯¸ ë¿Œìš”ê°€ ë§‰í˜€ ìˆëŠ” ê²½ìš°
 						if(roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo1().PixelXToindex()+1][gameGround1P.getPuyo1().PixelYToindex()]!=null)
 							break;
 						gameGround1P.getPuyo1().setLocation(gameGround1P.getPuyo1().getX()+60, gameGround1P.getPuyo1().getY());
@@ -122,13 +121,13 @@ public class GamePanel extends JPanel {
 					gameGround1P.getPuyo2().setLocation(gameGround1P.getPuyo1().getX()-60, gameGround1P.getPuyo1().getY());
 					break;
 				}
-				// °æ¿ì4. »óÇÏ ¹èÄ¡ - (»Ñ¿ä2)(»Ñ¿ä1)					
+				// ê²½ìš°4. ìƒí•˜ ë°°ì¹˜ - (ë¿Œìš”2)(ë¿Œìš”1)
 				if(gameGround1P.getPuyo1().getX()==gameGround1P.getPuyo2().getX()&&gameGround1P.getPuyo1().getY()>gameGround1P.getPuyo2().getY()) {
-					// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ º®¿¡¼­ ºÙÀº Ã¤ È¸ÀüÇÏ¿© ¸ÊÀ» ¶Õ°í ³ª°¡´Â °æ¿ì
+					// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë²½ì—ì„œ ë¶™ì€ ì±„ íšŒì „í•˜ì—¬ ë§µì„ ëš«ê³  ë‚˜ê°€ëŠ” ê²½ìš°
 					if(gameGround1P.getPuyo1().PixelXToindex()==5
-							// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ ´Ù¸¥ »Ñ¿ä ¿·¿¡¼­ È¸ÀüÇÏ¿© ´Ù¸¥ »Ñ¿ä¿Í °ãÄ¡´Â °æ¿ì
+							// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë‹¤ë¥¸ ë¿Œìš” ì˜†ì—ì„œ íšŒì „í•˜ì—¬ ë‹¤ë¥¸ ë¿Œìš”ì™€ ê²¹ì¹˜ëŠ” ê²½ìš°
 							||(gameGround1P.getPuyo1().PixelXToindex()<5&&roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo1().PixelXToindex()+1][gameGround1P.getPuyo1().PixelYToindex()]!=null)) {
-						// ¿¹¿ÜÃ³¸®: È¸ÀüÇÏ·Á´Â Àå¼Ò¿¡ ÀÌ¹Ì »Ñ¿ä°¡ ¸·Çô ÀÖ´Â °æ¿ì
+						// ì˜ˆì™¸ì²˜ë¦¬: íšŒì „í•˜ë ¤ëŠ” ì¥ì†Œì— ì´ë¯¸ ë¿Œìš”ê°€ ë§‰í˜€ ìˆëŠ” ê²½ìš°
 						if(roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo1().PixelXToindex()-1][gameGround1P.getPuyo1().PixelYToindex()]!=null)
 							break;
 						
@@ -143,10 +142,10 @@ public class GamePanel extends JPanel {
 				roundThread.getPlayerThread1P().dropPuyo();
 				break;
 			case KeyEvent.VK_A:
-				//¿¹¿ÜÃ³¸®: ¿ŞÂÊ¿¡ º®ÀÌ ÀÖ´Âµ¥ ÁÂÃøÅ°¸¦ ´©¸£´Â °æ¿ì
+				//ì˜ˆì™¸ì²˜ë¦¬: ì™¼ìª½ì— ë²½ì´ ìˆëŠ”ë° ì¢Œì¸¡í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ê²½ìš°
 				if(gameGround1P.getPuyo1().PixelXToindex()<=0||gameGround1P.getPuyo2().PixelXToindex()<=0)
 					break;
-				//¿¹¿ÜÃ³¸®: ¿ŞÂÊ¿¡ ºí·ÏÀÌ ÀÖ´Âµ¥ ÁÂÃøÅ°¸¦ ´©¸£´Â °æ¿ì
+				//ì˜ˆì™¸ì²˜ë¦¬: ì™¼ìª½ì— ë¸”ë¡ì´ ìˆëŠ”ë° ì¢Œì¸¡í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ê²½ìš°
 				if(roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo1().PixelXToindex()-1][gameGround1P.getPuyo1().PixelYToindex()]!=null
 						||roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo2().PixelXToindex()-1][gameGround1P.getPuyo2().PixelYToindex()]!=null)
 					break;
@@ -155,10 +154,10 @@ public class GamePanel extends JPanel {
 				gameGround1P.getPuyo2().setLocation(gameGround1P.getPuyo2().getX()-60,gameGround1P.getPuyo2().getY());
 				break;
 			case KeyEvent.VK_D:
-				//¿¹¿ÜÃ³¸®: ¿À¸¥ÂÊ¿¡ ºí·Ï È¤Àº º®ÀÌ ÀÖ´Âµ¥ ¿ìÃøÅ°¸¦ ´©¸£´Â °æ¿ì
+				//ì˜ˆì™¸ì²˜ë¦¬: ì˜¤ë¥¸ìª½ì— ë¸”ë¡ í˜¹ì€ ë²½ì´ ìˆëŠ”ë° ìš°ì¸¡í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ê²½ìš°
 				if(gameGround1P.getPuyo1().PixelXToindex()>=5||gameGround1P.getPuyo2().PixelXToindex()>=5)
 					break;
-				//¿¹¿ÜÃ³¸®: ¿À¸¥ÂÊ¿¡ ºí·ÏÀÌ ÀÖ´Âµ¥ ¿ìÃøÅ°¸¦ ´©¸£´Â °æ¿ì
+				//ì˜ˆì™¸ì²˜ë¦¬: ì˜¤ë¥¸ìª½ì— ë¸”ë¡ì´ ìˆëŠ”ë° ìš°ì¸¡í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ê²½ìš°
 				if(roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo1().PixelXToindex()+1][gameGround1P.getPuyo1().PixelYToindex()]!=null
 						||roundThread.getPlayerThread1P().getPuyoMap()[gameGround1P.getPuyo2().PixelXToindex()+1][gameGround1P.getPuyo2().PixelYToindex()]!=null)
 					break;
@@ -167,12 +166,12 @@ public class GamePanel extends JPanel {
 				break;
 			//Player2	
 			case KeyEvent.VK_UP:
-				//µÎ »Ñ¿äÀÇ À§Ä¡¿¡ µû¶ó¼­ »Ñ¿ä¸¦ È¸Àü½ÃÅ²´Ù.
-				// °æ¿ì1. ÁÂ¿ì ¹èÄ¡ - (»Ñ¿ä1)(»Ñ¿ä2)
+				//ë‘ ë¿Œìš”ì˜ ìœ„ì¹˜ì— ë”°ë¼ì„œ ë¿Œìš”ë¥¼ íšŒì „ì‹œí‚¨ë‹¤.
+				// ê²½ìš°1. ì¢Œìš° ë°°ì¹˜ - (ë¿Œìš”1)(ë¿Œìš”2)
 				if(gameGround2P.getPuyo1().getX()<=gameGround2P.getPuyo2().getX()&&gameGround2P.getPuyo1().getY()==gameGround2P.getPuyo2().getY()) {
-					// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ ¹Ù´Ú¿¡¼­ È¸ÀüÇÏ¿© ¸ÊÀ» ¶Õ°í ³ª°¡´Â °æ¿ì
+					// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë°”ë‹¥ì—ì„œ íšŒì „í•˜ì—¬ ë§µì„ ëš«ê³  ë‚˜ê°€ëŠ” ê²½ìš°
 					if(gameGround2P.getPuyo1().PixelYToindex()==11
-							// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ ´Ù¸¥ »Ñ¿ä À§¿¡¼­ È¸ÀüÇÏ¿© ´Ù¸¥ »Ñ¿ä¿Í °ãÄ¡´Â °æ¿ì
+							// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë‹¤ë¥¸ ë¿Œìš” ìœ„ì—ì„œ íšŒì „í•˜ì—¬ ë‹¤ë¥¸ ë¿Œìš”ì™€ ê²¹ì¹˜ëŠ” ê²½ìš°
 							||(gameGround2P.getPuyo1().PixelYToindex()<11&&roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo1().PixelXToindex()][gameGround2P.getPuyo1().PixelYToindex()+1]!=null)) {
 						gameGround2P.getPuyo1().setLocation(gameGround2P.getPuyo1().getX(), gameGround2P.getPuyo1().getY()-60);
 						gameGround2P.getPuyo2().setLocation(gameGround2P.getPuyo1().getX(), gameGround2P.getPuyo1().getY()+60);
@@ -180,18 +179,18 @@ public class GamePanel extends JPanel {
 					gameGround2P.getPuyo2().setLocation(gameGround2P.getPuyo1().getX(), gameGround2P.getPuyo1().getY()+60);
 					break;
 				}
-				// °æ¿ì2. ÁÂ¿ì ¹èÄ¡ - (»Ñ¿ä2)(»Ñ¿ä1)
+				// ê²½ìš°2. ì¢Œìš° ë°°ì¹˜ - (ë¿Œìš”2)(ë¿Œìš”1)
 				if(gameGround2P.getPuyo1().getX()>gameGround2P.getPuyo2().getX()&&gameGround2P.getPuyo1().getY()==gameGround2P.getPuyo2().getY()) {
 					gameGround2P.getPuyo2().setLocation(gameGround2P.getPuyo1().getX(), gameGround2P.getPuyo1().getY()-60);
 					break;
 				}
-				// °æ¿ì3. »óÇÏ ¹èÄ¡ - (»Ñ¿ä1)(»Ñ¿ä2)
+				// ê²½ìš°3. ìƒí•˜ ë°°ì¹˜ - (ë¿Œìš”1)(ë¿Œìš”2)
 				if(gameGround2P.getPuyo1().getX()==gameGround2P.getPuyo2().getX()&&gameGround2P.getPuyo1().getY()<=gameGround2P.getPuyo2().getY()) {
-					// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ º®¿¡¼­ ºÙÀº Ã¤ È¸ÀüÇÏ¿© ¸ÊÀ» ¶Õ°í ³ª°¡´Â °æ¿ì
+					// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë²½ì—ì„œ ë¶™ì€ ì±„ íšŒì „í•˜ì—¬ ë§µì„ ëš«ê³  ë‚˜ê°€ëŠ” ê²½ìš°
 					if(gameGround2P.getPuyo1().PixelXToindex()==0
-							// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ ´Ù¸¥ »Ñ¿ä ¿·¿¡¼­ È¸ÀüÇÏ¿© ´Ù¸¥ »Ñ¿ä¿Í °ãÄ¡´Â °æ¿ì
+							// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë‹¤ë¥¸ ë¿Œìš” ì˜†ì—ì„œ íšŒì „í•˜ì—¬ ë‹¤ë¥¸ ë¿Œìš”ì™€ ê²¹ì¹˜ëŠ” ê²½ìš°
 							||(gameGround2P.getPuyo1().PixelXToindex()>0&&roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo1().PixelXToindex()-1][gameGround2P.getPuyo1().PixelYToindex()]!=null)) {
-						// ¿¹¿ÜÃ³¸®: È¸ÀüÇÏ·Á´Â Àå¼Ò¿¡ ÀÌ¹Ì »Ñ¿ä°¡ ¸·Çô ÀÖ´Â °æ¿ì
+						// ì˜ˆì™¸ì²˜ë¦¬: íšŒì „í•˜ë ¤ëŠ” ì¥ì†Œì— ì´ë¯¸ ë¿Œìš”ê°€ ë§‰í˜€ ìˆëŠ” ê²½ìš°
 						if(roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo1().PixelXToindex()+1][gameGround2P.getPuyo1().PixelYToindex()]!=null)
 							break;
 						gameGround2P.getPuyo1().setLocation(gameGround2P.getPuyo1().getX()+60, gameGround2P.getPuyo1().getY());
@@ -200,13 +199,13 @@ public class GamePanel extends JPanel {
 					gameGround2P.getPuyo2().setLocation(gameGround2P.getPuyo1().getX()-60, gameGround2P.getPuyo1().getY());
 					break;
 				}
-				// °æ¿ì4. »óÇÏ ¹èÄ¡ - (»Ñ¿ä2)(»Ñ¿ä1)					
+				// ê²½ìš°4. ìƒí•˜ ë°°ì¹˜ - (ë¿Œìš”2)(ë¿Œìš”1)
 				if(gameGround2P.getPuyo1().getX()==gameGround2P.getPuyo2().getX()&&gameGround2P.getPuyo1().getY()>gameGround2P.getPuyo2().getY()) {
-					// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ º®¿¡¼­ ºÙÀº Ã¤ È¸ÀüÇÏ¿© ¸ÊÀ» ¶Õ°í ³ª°¡´Â °æ¿ì
+					// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë²½ì—ì„œ ë¶™ì€ ì±„ íšŒì „í•˜ì—¬ ë§µì„ ëš«ê³  ë‚˜ê°€ëŠ” ê²½ìš°
 					if(gameGround2P.getPuyo1().PixelXToindex()==5
-							// ¿¹¿ÜÃ³¸®: »Ñ¿ä°¡ ´Ù¸¥ »Ñ¿ä ¿·¿¡¼­ È¸ÀüÇÏ¿© ´Ù¸¥ »Ñ¿ä¿Í °ãÄ¡´Â °æ¿ì
+							// ì˜ˆì™¸ì²˜ë¦¬: ë¿Œìš”ê°€ ë‹¤ë¥¸ ë¿Œìš” ì˜†ì—ì„œ íšŒì „í•˜ì—¬ ë‹¤ë¥¸ ë¿Œìš”ì™€ ê²¹ì¹˜ëŠ” ê²½ìš°
 							||(gameGround2P.getPuyo1().PixelXToindex()<5&&roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo1().PixelXToindex()+1][gameGround2P.getPuyo1().PixelYToindex()]!=null)) {
-						// ¿¹¿ÜÃ³¸®: È¸ÀüÇÏ·Á´Â Àå¼Ò¿¡ ÀÌ¹Ì »Ñ¿ä°¡ ¸·Çô ÀÖ´Â °æ¿ì
+						// ì˜ˆì™¸ì²˜ë¦¬: íšŒì „í•˜ë ¤ëŠ” ì¥ì†Œì— ì´ë¯¸ ë¿Œìš”ê°€ ë§‰í˜€ ìˆëŠ” ê²½ìš°
 						if(roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo1().PixelXToindex()-1][gameGround2P.getPuyo1().PixelYToindex()]!=null)
 							break;
 						gameGround2P.getPuyo1().setLocation(gameGround2P.getPuyo1().getX()-60, gameGround2P.getPuyo1().getY());
@@ -220,10 +219,10 @@ public class GamePanel extends JPanel {
 				roundThread.getPlayerThread2P().dropPuyo();
 				break;
 			case KeyEvent.VK_LEFT:
-				//¿¹¿ÜÃ³¸®: ¿ŞÂÊ¿¡ ºí·Ï È¤Àº º®ÀÌ ÀÖ´Âµ¥ ÁÂÃøÅ°¸¦ ´©¸£´Â °æ¿ì
+				//ì˜ˆì™¸ì²˜ë¦¬: ì™¼ìª½ì— ë¸”ë¡ í˜¹ì€ ë²½ì´ ìˆëŠ”ë° ì¢Œì¸¡í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ê²½ìš°
 				if(gameGround2P.getPuyo1().PixelXToindex()<=0||gameGround2P.getPuyo2().PixelXToindex()<=0)
 					break;
-				//¿¹¿ÜÃ³¸®: ¿ŞÂÊ¿¡ ºí·ÏÀÌ ÀÖ´Âµ¥ ÁÂÃøÅ°¸¦ ´©¸£´Â °æ¿ì
+				//ì˜ˆì™¸ì²˜ë¦¬: ì™¼ìª½ì— ë¸”ë¡ì´ ìˆëŠ”ë° ì¢Œì¸¡í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ê²½ìš°
 				if(roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo1().PixelXToindex()-1][gameGround2P.getPuyo1().PixelYToindex()]!=null
 						||roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo2().PixelXToindex()-1][gameGround2P.getPuyo2().PixelYToindex()]!=null)
 					break;
@@ -232,10 +231,10 @@ public class GamePanel extends JPanel {
 				gameGround2P.getPuyo2().setLocation(gameGround2P.getPuyo2().getX()-60,gameGround2P.getPuyo2().getY());
 				break;
 			case KeyEvent.VK_RIGHT:
-				//¿¹¿ÜÃ³¸®: ¿À¸¥ÂÊ¿¡ ºí·Ï È¤Àº º®ÀÌ ÀÖ´Âµ¥ ¿ìÃøÅ°¸¦ ´©¸£´Â °æ¿ì
+				//ì˜ˆì™¸ì²˜ë¦¬: ì˜¤ë¥¸ìª½ì— ë¸”ë¡ í˜¹ì€ ë²½ì´ ìˆëŠ”ë° ìš°ì¸¡í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ê²½ìš°
 				if(gameGround2P.getPuyo1().PixelXToindex()>=5||gameGround2P.getPuyo2().PixelXToindex()>=5)
 					break;
-				//¿¹¿ÜÃ³¸®: ¿À¸¥ÂÊ¿¡ ºí·ÏÀÌ ÀÖ´Âµ¥ ¿ìÃøÅ°¸¦ ´©¸£´Â °æ¿ì
+				//ì˜ˆì™¸ì²˜ë¦¬: ì˜¤ë¥¸ìª½ì— ë¸”ë¡ì´ ìˆëŠ”ë° ìš°ì¸¡í‚¤ë¥¼ ëˆ„ë¥´ëŠ” ê²½ìš°
 				if(roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo1().PixelXToindex()+1][gameGround2P.getPuyo1().PixelYToindex()]!=null
 						||roundThread.getPlayerThread2P().getPuyoMap()[gameGround2P.getPuyo2().PixelXToindex()+1][gameGround2P.getPuyo2().PixelYToindex()]!=null)
 					break;

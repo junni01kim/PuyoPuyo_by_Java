@@ -12,12 +12,12 @@ import javax.swing.JPanel;
 public class GameMenuPanel extends JPanel{
 	private GameFrame gameFrame;
 	
-	private ImageIcon gameMenuPanelIcon = new ImageIcon("GameMenuPanel.jpg");
+	private ImageIcon gameMenuPanelIcon = new ImageIcon("res/GameMenuPanel.jpg");
 	
-	private ImageIcon startGameButtonImage = new ImageIcon("StartGameButton.png");
+	private ImageIcon startGameButtonImage = new ImageIcon("res/StartGameButton.png");
 	private JButton startGameButton = new JButton(startGameButtonImage);
 	
-	private JButton explainGameButton = new JButton("ExplainGame");
+	private JButton explainGameButton = new JButton("res/ExplainGame");
 	
 	@Override
 	public void paintComponent(Graphics g) {
