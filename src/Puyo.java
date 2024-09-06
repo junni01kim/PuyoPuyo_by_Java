@@ -3,7 +3,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class Puyo extends JLabel{
-	static private ImageIcon puyoIcon[] = {new ImageIcon("res/GreenPuyo.png"),new ImageIcon("res/RedPuyo.png"),new ImageIcon("res/YellowPuyo.png"),new ImageIcon("res/BluePuyo.png"),new ImageIcon("res/PurplePuyo.png"), new ImageIcon("res/GarbagePuyo.png")};
 	private GameGround gameGround;
 	
 	//�ѿ�� 0.�ʷ� 1.���� 2.��� 3.�Ķ� 4.���� 5.�����̴�.
@@ -18,7 +17,7 @@ public class Puyo extends JLabel{
 	
 	public void setType(int type) {this.type = type;}
 	public int getType() {return type;}
-	public static ImageIcon[] getPuyoIcon() {return puyoIcon;}
+	public static ImageIcon[] getPuyoIcon() {return GameImageIcon.puyoIcon;}
 	
 	// ��ġ�� �������� �ʴ� ������
 	public Puyo(GameGround gameGround, int type){
@@ -28,7 +27,7 @@ public class Puyo extends JLabel{
 		this.type = type;
 		
 		setSize(60,60);
-		setIcon(puyoIcon[type]);
+		setIcon(GameImageIcon.puyoIcon[type]);
 	}
 	
 	// ��ġ�� �����ϴ� ������
@@ -39,6 +38,6 @@ public class Puyo extends JLabel{
 		this.type = type;
 		setLocation(indexXToPixel(indexX), indexYToPixel(indexY));	
 		setSize(60,60);
-		setIcon(puyoIcon[type]);
+		setIcon(GameImageIcon.puyoIcon[type]);
 	}
 }

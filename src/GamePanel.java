@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 public class GamePanel extends JPanel {
-	private ImageIcon gamePanelIcon = new ImageIcon("res/GamePanel.jpg");
 	
 	private GameFrame gameFrame = null;
 	// 1P 게임 보드
@@ -38,7 +37,7 @@ public class GamePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(gamePanelIcon.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+		g.drawImage(GameImageIcon.gamePanelIcon.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
 	}
 	
 	public GamePanel(GameFrame gameFrame) {
