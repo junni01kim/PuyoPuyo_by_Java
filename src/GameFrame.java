@@ -40,7 +40,7 @@ public class GameFrame extends JFrame {
 	}
 
 	/**
-	 * GamePanel을 종료한다.(보이지 않게 한다)
+	 * GamePanel을 제거한다.
 	 */
 	public void closeGameMenuPanel() {
 		getContentPane().remove(gameMenuPanel);
