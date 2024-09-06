@@ -22,10 +22,6 @@ public class GamePanel extends JPanel {
 	/** 점수 패널 */
 	private final ScorePanel scorePanel = new ScorePanel(gameGround1P, gameGround2P, roundThread);
 
-	/** 화면 분할 패널 */
-	private final JSplitPane splitPanel1P = new JSplitPane();
-	private final JSplitPane splitPanel2P = new JSplitPane();
-
 	/** getter */
 	public ScorePanel getScorePanel() {return scorePanel;}
 	public GameGround getGameGround1P() {return gameGround1P;}
@@ -34,17 +30,16 @@ public class GamePanel extends JPanel {
 	public GameFrame getGameFrame() {return gameFrame;}
 
 	/**
-	 * 게임 진행이 되는 실제 화면이다.
+	 * 게임을 진행하는 화면이다.
 	 * <p>
-	 * 1. 기본세팅: 키보드 값을 받기위한 리스너가 존재한다.
-	 * 2. 라운드를 진행하는 스레드가 존재한다.
-	 * 3. TODO: 지금 패널 배치를 수동으로 지정해두었는데, 화면을 자유롭게 조정할 수 있도록 배치관리자를 주성할 것
-	 * 4. 실제 게임이 진행될 화면 1p, 2p를 구성한다.
-	 * 5. 게임의 점수가 표시될 scorePanel을 생성한다.
+	 * 1. 기본세팅: 키보드 값을 받기위한 리스너가 존재한다. <br>
+	 * 2. 라운드를 진행하는 스레드가 존재한다. <br>
+	 * 3. TODO: 지금 패널 배치를 수동으로 지정해두었는데, 화면을 자유롭게 조정할 수 있도록 배치관리자를 주성할 것 <br>
+	 * 4. 실제 게임이 진행될 화면 1p, 2p를 구성한다. <br>
+	 * 5. 게임의 점수가 표시될 scorePanel을 생성한다. <br>
 	 * @param gameFrame 다른 패널들을 참조하기 위해 gameFrame의 패널 객체를 이용한다.
 	 */
 	public GamePanel(GameFrame gameFrame) {
-		setBackground(Color.RED);
 		addKeyListener(new ControlPuyoKeyListener());
 		setLayout(null);
 
@@ -69,38 +64,12 @@ public class GamePanel extends JPanel {
 		setFocusable(true);
 	}
 
-	/**
-	 * 화면을 분리해준다.
-	 * TODO: (2024-09-07) 왜 만들었는지 모르겠음
-	 */
-	private void splitPanel() {
-		// 1차 1P 패널 분리
-		splitPanel1P.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		splitPanel1P.setDividerLocation(450);
-		splitPanel1P.setDividerSize(0);
-		add(splitPanel1P);
-
-		// 2차 점수 패널과 2P 분리
-		splitPanel2P.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		splitPanel2P.setDividerLocation(380);
-		splitPanel2P.setDividerSize(0);
-		
-		splitPanel1P.setLeftComponent(gameGround1P);
-		splitPanel2P.setLeftComponent(scorePanel);
-		splitPanel2P.setRightComponent(gameGround2P);
-		
-		splitPanel1P.setRightComponent(splitPanel2P);
-	}
-
-	/**
-	 * GamePanel의 키 입력 로직
-	 */
+	/** GamePanel의 키 입력 로직 */
+	// TODO: 개인적으로 굳이 픽셀 단위로 하는 것 보다 인덱스 단위로 하는게 더 편할거 같긴한데, 나중에 기회되면 바꿔보기
 	private class ControlPuyoKeyListener extends KeyAdapter {
 		synchronized public void keyPressed(KeyEvent e) {
 			switch(e.getKeyCode()) {
-				/**
-				 * Player1에 대한 키입력
-				 */
+				/** Player1에 대한 키입력 */
 				case KeyEvent.VK_W:
 					//두 뿌요의 위치에 따라서 뿌요를 회전시킨다.
 					// 경우1. 좌우 배치 - (뿌요1)(뿌요2)
@@ -178,9 +147,7 @@ public class GamePanel extends JPanel {
 					gameGround1P.getPuyo1().setLocation(gameGround1P.getPuyo1().getX()+60,gameGround1P.getPuyo1().getY());
 					gameGround1P.getPuyo2().setLocation(gameGround1P.getPuyo2().getX()+60,gameGround1P.getPuyo2().getY());
 					break;
-				/**
-				 * Player2
- 				 */
+				/** Player2에 대한 키입력 */
 				case KeyEvent.VK_UP:
 					//두 뿌요의 위치에 따라서 뿌요를 회전시킨다.
 					// 경우1. 좌우 배치 - (뿌요1)(뿌요2)
