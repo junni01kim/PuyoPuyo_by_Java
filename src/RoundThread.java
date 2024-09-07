@@ -1,4 +1,4 @@
-//¶ó¿îµå ½º·¹µå
+//ë¼ìš´ë“œ ìŠ¤ë ˆë“œ
 public class RoundThread extends Thread {
 	GamePanel gamePanel;
 	GameGround gameGround1P;
@@ -39,8 +39,8 @@ public class RoundThread extends Thread {
 		playerThread2P = new PlayerThread(gameGround2P, puyoLogic, 2);
 		//System.out.println("gamePanel");
 	}
-	
-	// puyoLogicÀ» Àç¼³Á¤ÇÏ´Â ÇÔ¼öÀÌ´Ù.
+
+	// puyoLogicì„ ì¬ì„¤ì •í•˜ëŠ” í•¨ìˆ˜ì´ë‹¤.
 	private void makePuyoLogic() {
 		int puyoCase[][] = new int[5][5];
 		int firstPuyo;
