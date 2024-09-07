@@ -1,11 +1,9 @@
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 
 public class GamePanel extends JPanel {
 	/** 타 패널들을 참조하기 위함 */
@@ -20,12 +18,10 @@ public class GamePanel extends JPanel {
 	private RoundThread roundThread = null;
 
 	/** 점수 패널 */
-	private final ScorePanel scorePanel = new ScorePanel(gameGround1P, gameGround2P, roundThread);
+	private final ScorePanel scorePanel = new ScorePanel();
 
 	/** getter */
 	public ScorePanel getScorePanel() {return scorePanel;}
-	public GameGround getGameGround1P() {return gameGround1P;}
-	public GameGround getGameGround2P() {return gameGround2P;}
 	public RoundThread getRoundThread() {return roundThread;}
 	public GameFrame getGameFrame() {return gameFrame;}
 

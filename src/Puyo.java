@@ -14,6 +14,7 @@ public class Puyo extends JLabel{
 	 * @return ImageIcon이 배치될 좌표 값
 	 */
 	static public int indexXToPixel(int indexX) { return 20+indexX*60; }
+
 	/**
 	 * 뿌요의 맵 인덱스를 좌표로 바꿔준다.
 	 *

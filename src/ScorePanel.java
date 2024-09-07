@@ -7,46 +7,55 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ScorePanel extends JPanel{
-	Puyo nextLeftControlPuyo1P;
-	Puyo nextRightControlPuyo1P;
-	Puyo nextLeftControlPuyo2P;
-	Puyo nextRightControlPuyo2P;
+	/** @property nextLeftControlPuyo1P 다음 왼쪽 뿌요의 색상 */
+	Puyo nextLeftControlPuyo1P = new Puyo(0);
 
-	private RoundThread roundThread;
+	/** @property nextRightControlPuyo1P 다음 오른쪽 뿌요의 색상 */
+	Puyo nextRightControlPuyo1P = new Puyo(0);
+
+	/** @property nextLeftControlPuyo2P 다음 왼쪽 뿌요의 색상 */
+	Puyo nextLeftControlPuyo2P = new Puyo(0);
+
+	/** @property nextRightControlPuyo2P 다음 오른쪽 뿌요의 색상 */
+	Puyo nextRightControlPuyo2P = new Puyo(0);
 	
 	private JLabel roundCountLabel = new JLabel("1");
 	private JLabel roundLabel = new JLabel("R O U N D");
 	private JLabel scoreTextLabel = new JLabel("S C O R E");
 	private JLabel scoreLabel1P = new JLabel("0");
 	private JLabel scoreLabel2P = new JLabel("0");
-	private JLabel numberOfGarbagePuyoLabel1P = new JLabel("�ӽ�");
-	private JLabel numberOfGarbagePuyoLabel2P = new JLabel("�ӽ�");
+	private JLabel numberOfGarbagePuyoLabel1P = new JLabel("임시");
+	private JLabel numberOfGarbagePuyoLabel2P = new JLabel("임시");
 	
 	private JLabel timerTextLabel = new JLabel("T I M E");
 	private JLabel timerLabel = new JLabel("0");
-	
+
+	/** next0000ControlPuyo0P getter */
 	public Puyo getNextLeftControlPuyo1P() {return nextLeftControlPuyo1P;}
 	public Puyo getNextRightControlPuyo1P() {return nextRightControlPuyo1P;}
 	public Puyo getNextLeftControlPuyo2P() {return nextLeftControlPuyo2P;}
 	public Puyo getNextRightControlPuyo2P() {return nextRightControlPuyo2P;}
+
+	/** scoreLabel0P getter */
 	public JLabel getScoreLabel1P() {return scoreLabel1P;}
 	public JLabel getScoreLabel2P() {return scoreLabel2P;}
+
+	/** numberOfGarbagePuyoLabel0P getter */
 	public JLabel getNumberOfGarbagePuyoLabel1P() {return numberOfGarbagePuyoLabel1P;}
 	public JLabel getNumberOfGarbagePuyoLabel2P() {return numberOfGarbagePuyoLabel2P;}
-	
-	ScorePanel(GameGround gameGround1P, GameGround gameGround2P, RoundThread roundThread) {
-		this.roundThread = roundThread;
-		
-		nextLeftControlPuyo1P = new Puyo(0);
-		nextRightControlPuyo1P = new Puyo(0);
-		nextLeftControlPuyo2P = new Puyo(0);
-		nextRightControlPuyo2P = new Puyo(0);
-		
+
+	/**
+	 * 게임 라운드 내 인게임 정보를 나타내는 화면이다.
+	 * <p>
+	 * 1. 기본세팅: 키보드 값을 받기위한 리스너가 존재한다. <br>
+	 *
+	 */
+	ScorePanel() {
 		setBackground(Color.YELLOW);
 		setSize(300, 750);
 		setLayout(null);
-		
-		// ���� �ѿ���ġ
+
+		// 다음 뿌요위치
 		nextLeftControlPuyo1P.setLocation(12+this.getWidth()/4-60,100);
 		nextRightControlPuyo1P.setLocation(12+this.getWidth()/4,100);
 		
@@ -88,8 +97,8 @@ public class ScorePanel extends JPanel{
 		scoreLabel2P.setLocation(this.getWidth()/2, 235);
 		scoreLabel2P.setSize(100, 30);
 		add(scoreLabel2P);
-		
-		//Ÿ�̸�
+
+		//타이머
 		//timmerLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
 		timerTextLabel.setFont(new Font("Serif", Font.BOLD, 15));
 		timerTextLabel.setLocation(this.getWidth()/2-20, 360);
@@ -108,9 +117,9 @@ public class ScorePanel extends JPanel{
 		numberOfGarbagePuyoLabel2P.setLocation(this.getWidth()/2+50, 600);
 		numberOfGarbagePuyoLabel2P.setSize(100,30);
 		add(numberOfGarbagePuyoLabel2P);
-		
-		// �ѱ� ���ػѿ� �� �׸�
-		// ���� ���� ���� ���� ��
-		// �ڽ��� ����
+
+		// TODO: 넘길 방해뿌요 수 그림
+		// TODO: 남은 라운드 현재 라운드 수
+		// TODO: 자신의 점수
 	}
 }
