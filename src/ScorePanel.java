@@ -1,7 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
