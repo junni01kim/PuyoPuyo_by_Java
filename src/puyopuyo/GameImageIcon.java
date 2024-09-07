@@ -7,7 +7,7 @@ import javax.swing.*;
  */
 public class GameImageIcon {
     /** @property gameMenuPanelIcon <p> GameMenuPanel을 구성하기 위한 백그라운드 디자인 */
-    public static final ImageIcon gameMenuPanelIcon = new ImageIcon("res/puyopuyo.GameMenuPanel.jpg");
+    public static final ImageIcon gameMenuPanelIcon = new ImageIcon("res/puyopuyo.gamemenu.GameMenuPanel.jpg");
     /** @property gamePanelIcon <p> GamePanel을 구성하기 위한 백그라운드 디자인 */
     public static final ImageIcon gamePanelIcon = new ImageIcon("res/puyopuyo.gamepanel.GamePanel.jpg");
 

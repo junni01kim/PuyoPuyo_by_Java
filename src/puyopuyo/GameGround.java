@@ -1,6 +1,6 @@
 package puyopuyo;
 
-import puyopuyo.gamepanel.GamePanel;
+import puyopuyo.game.GamePanel;
 
 import java.awt.Color;
 
