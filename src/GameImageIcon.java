@@ -20,6 +20,6 @@ public class GameImageIcon {
     private static final ImageIcon bluePuyo = new ImageIcon("res/BluePuyo.png");
     private static final ImageIcon purplePuyo = new ImageIcon("res/PurplePuyo.png");
     private static final ImageIcon garbagePuyo =  new ImageIcon("res/GarbagePuyo.png");
-    /** @property puyoIcon <p> 각 뿌요 색상을 지정해 둔 배열 <br> 0.초록, 1.빨강, 2.노랑, 3.파랑 4.보라, 5.쓰레기 */
+    /** @property puyoIcon <p> 각 뿌요 색상을 지정해 둔 배열 <br> 0.초록, 1.빨강, 2.노랑, 3.파랑 4.보라, 5.방해 */
     public static final ImageIcon[] puyoIcon = {greenPuyo,redPuyo,yelloPuyo,bluePuyo,purplePuyo,garbagePuyo};
 }
