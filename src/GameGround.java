@@ -10,8 +10,8 @@ public class GameGround extends JPanel {
 	
 	GamePanel gamePanel;
 	
-	Puyo leftControlPuyo = new Puyo(this, 0);
-	Puyo rightControlPuyo = new Puyo(this, 0);
+	Puyo leftControlPuyo = new Puyo(0);
+	Puyo rightControlPuyo = new Puyo(0);
 	
 	public GamePanel getGamePanel() {return gamePanel;}
 	Puyo getPuyo1() {return leftControlPuyo;}

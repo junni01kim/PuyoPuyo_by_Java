@@ -19,8 +19,8 @@ public class ScorePanel extends JPanel{
 	private JLabel scoreTextLabel = new JLabel("S C O R E");
 	private JLabel scoreLabel1P = new JLabel("0");
 	private JLabel scoreLabel2P = new JLabel("0");
-	private JLabel numberOfGarbagePuyoLabel1P = new JLabel("ÀÓ½Ã");
-	private JLabel numberOfGarbagePuyoLabel2P = new JLabel("ÀÓ½Ã");
+	private JLabel numberOfGarbagePuyoLabel1P = new JLabel("ï¿½Ó½ï¿½");
+	private JLabel numberOfGarbagePuyoLabel2P = new JLabel("ï¿½Ó½ï¿½");
 	
 	private JLabel timerTextLabel = new JLabel("T I M E");
 	private JLabel timerLabel = new JLabel("0");
@@ -37,16 +37,16 @@ public class ScorePanel extends JPanel{
 	ScorePanel(GameGround gameGround1P, GameGround gameGround2P, RoundThread roundThread) {
 		this.roundThread = roundThread;
 		
-		nextLeftControlPuyo1P = new Puyo(gameGround1P,0);
-		nextRightControlPuyo1P = new Puyo(gameGround1P,0);
-		nextLeftControlPuyo2P = new Puyo(gameGround2P,0);
-		nextRightControlPuyo2P = new Puyo(gameGround2P,0);
+		nextLeftControlPuyo1P = new Puyo(0);
+		nextRightControlPuyo1P = new Puyo(0);
+		nextLeftControlPuyo2P = new Puyo(0);
+		nextRightControlPuyo2P = new Puyo(0);
 		
 		setBackground(Color.YELLOW);
 		setSize(300, 750);
 		setLayout(null);
 		
-		// ´ÙÀ½ »Ñ¿äÀ§Ä¡
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¿ï¿½ï¿½ï¿½Ä¡
 		nextLeftControlPuyo1P.setLocation(12+this.getWidth()/4-60,100);
 		nextRightControlPuyo1P.setLocation(12+this.getWidth()/4,100);
 		
@@ -89,7 +89,7 @@ public class ScorePanel extends JPanel{
 		scoreLabel2P.setSize(100, 30);
 		add(scoreLabel2P);
 		
-		//Å¸ÀÌ¸Ó
+		//Å¸ï¿½Ì¸ï¿½
 		//timmerLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
 		timerTextLabel.setFont(new Font("Serif", Font.BOLD, 15));
 		timerTextLabel.setLocation(this.getWidth()/2-20, 360);
@@ -109,8 +109,8 @@ public class ScorePanel extends JPanel{
 		numberOfGarbagePuyoLabel2P.setSize(100,30);
 		add(numberOfGarbagePuyoLabel2P);
 		
-		// ³Ñ±æ ¹æÇØ»Ñ¿ä ¼ö ±×¸²
-		// ³²Àº ¶ó¿îµå ÇöÀç ¶ó¿îµå ¼ö
-		// ÀÚ½ÅÀÇ Á¡¼ö
+		// ï¿½Ñ±ï¿½ ï¿½ï¿½ï¿½Ø»Ñ¿ï¿½ ï¿½ï¿½ ï¿½×¸ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+		// ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 }
