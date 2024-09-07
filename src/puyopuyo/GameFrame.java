@@ -1,3 +1,6 @@
+package puyopuyo;
+
+import puyopuyo.gamepanel.GamePanel;
 
 import java.awt.BorderLayout;
 

@@ -1,9 +1,10 @@
+package puyopuyo;
 
 public class PlayerThread extends Thread {
 	GameGround gameGround;
 
 	// 라운드별 순회할 뿌요 로직
-	private int puyoLogic[] = new int[25];
+	private int[] puyoLogic = new int[25];
 
 	// nextPuyo()에서 사용한다.
 	private int puyoIndex = 0;
@@ -14,20 +15,20 @@ public class PlayerThread extends Thread {
 
 	// checkNumberOfSamePuyo()에서 사용한다.
 	private int numberOfSamePuyo = 0;
-	private boolean samePuyoChecker[][] = new boolean[6][12];
+	private final boolean[][] samePuyoChecker = new boolean[6][12];
 	
-	private Puyo puyoMap[][] = new Puyo[6][12];
+	private final Puyo[][] puyoMap = new Puyo[6][12];
 	public Puyo[][] getPuyoMap() {return puyoMap;}
 	
-	private boolean colorChecker[] = null;
+	private boolean[] colorChecker = null;
 	private int puyoRemovedSum;
 	private int puyoConnect;
 	private int puyoCombo;
 	private int puyoColor;
 	
-	private int puyoComboBonus[] = {0,0,8,16,32,64,96,128,160,192,224,256,288,320,352,384,416,448,480,512};
-	private int puyoConnectBonus[] = {0,0,0,0,0,2,3,4,5,6,7,10};
-	private int puyoColorBonus[]= {0,3,6,12,24};
+	private final int[] puyoComboBonus = {0,0,8,16,32,64,96,128,160,192,224,256,288,320,352,384,416,448,480,512};
+	private final int[] puyoConnectBonus = {0,0,0,0,0,2,3,4,5,6,7,10};
+	private final int[] puyoColorBonus = {0,3,6,12,24};
 	
 	private int garbagePuyo = 0;
 	public void setGarbagePuyo(int numberOfGarbagePuyo) {garbagePuyo = numberOfGarbagePuyo;}
@@ -56,18 +57,18 @@ public class PlayerThread extends Thread {
 		gameGround.getPuyo2().setVisible(false);
 	}
 	
-	public PlayerThread(GameGround gameGround, int puyoLogic[], int iAm) {
+	public PlayerThread(GameGround gameGround, int[] puyoLogic, int iAm) {
 		this.gameGround = gameGround;
 		this.puyoLogic = puyoLogic;
 		colorChecker = new boolean[Puyo.getPuyoIcon().length];
 		this.iAm = iAm;
-		
+
 		for(int i=0;i<puyoMap.length;i++)
-			for(int j=0;j<puyoMap[i].length;j++) 
+			for(int j=0;j<puyoMap[i].length;j++)
 				puyoMap[i][j] = null;
 		
 		nextPuyo();
-		//System.out.println("PlayerThread");
+		//System.out.println("puyopuyo.PlayerThread");
 	}
 
 	GameGround getGameGround() {return gameGround;}
@@ -172,7 +173,7 @@ public class PlayerThread extends Thread {
 		int moduloGarbagePuyo = garbagePuyo % 6;
 		//System.out.println("moduloGarbagePuyo:"+moduloGarbagePuyo);
 		int randomVariable;
-		//Puyo.type = 5;
+		//puyopuyo.Puyo.type = 5;
 		for (int i = 0; i < 6; i++)
 		{
 			for (int j = 11; j >= 0; j--)
@@ -279,7 +280,7 @@ public class PlayerThread extends Thread {
 	}
 
 	// 뿌요 객체를 아래로 떨어트리는 함수
-	synchronized void dropPuyo() {
+	public synchronized void dropPuyo() {
 		checkPuyo();
 		// JLabel을 +60 픽셀만큼 내린다.
 		gameGround.getPuyo1().setLocation(gameGround.getPuyo1().getX(),gameGround.getPuyo1().getY()+60);
@@ -322,11 +323,11 @@ public class PlayerThread extends Thread {
 		gameGround.getPuyo1().setVisible(false);
 		gameGround.getPuyo2().setVisible(false);
 		
-		for(int T=0; T < puyo.getPuyoIcon().length-1; T++) {
+		for(int T = 0; T < Puyo.getPuyoIcon().length-1; T++) {
 			// 0�� üũ
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 12; j++) {
-					if (samePuyoChecker[i][j] == false && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
+					if (!samePuyoChecker[i][j] && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
 						puyo.setLocation(Puyo.indexXToPixel(i),Puyo.indexYToPixel(j));
 						puyo.setType(T);
 						initializeCheckNumberOfSamePuyoVariable();
@@ -371,7 +372,7 @@ public class PlayerThread extends Thread {
 	// puyo1과 puyo2가 4개 이상 같은 색으로 연결되었는지 체크
 	void checkNumberOfSamePuyo(Puyo puyo, int indexX, int indexY) {
 		// 예외처리: 뿌요1과 2가 동시에 속해서 사라지는 경우 anotherPuyo는 존재하지 않음
-		if(samePuyoChecker[indexX][indexY] == true)
+		if(samePuyoChecker[indexX][indexY])
 			return;
 		
 		numberOfSamePuyo++;
@@ -478,7 +479,7 @@ public class PlayerThread extends Thread {
 	public void run() {
 		while(true) {
 			try {
-				if(endFlag == true)
+				if(endFlag)
 					break;
 				dropPuyo();
 				sleep(500);

@@ -1,3 +1,4 @@
+package puyopuyo;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;

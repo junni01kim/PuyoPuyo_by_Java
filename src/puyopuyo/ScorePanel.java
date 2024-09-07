@@ -1,3 +1,5 @@
+package puyopuyo;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -49,7 +51,7 @@ public class ScorePanel extends JPanel{
 	 * 6. 타이머 표시
 	 * 7. 전달할 방해뿌요 개수 표시
 	 */
-	ScorePanel() {
+    public ScorePanel() {
 		setBackground(Color.YELLOW);
 		setSize(300, 750);
 		setLayout(null);

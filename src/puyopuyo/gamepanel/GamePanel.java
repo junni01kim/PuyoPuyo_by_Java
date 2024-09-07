@@ -1,3 +1,6 @@
+package puyopuyo.gamepanel;
+
+import puyopuyo.*;
 
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -7,7 +10,7 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 	/** 타 패널들을 참조하기 위함 */
-	private GameFrame gameFrame;
+	private final GameFrame gameFrame;
 
 	/** 1P 게임 보드 */
 	private final GameGround gameGround1P = new GameGround(this);
