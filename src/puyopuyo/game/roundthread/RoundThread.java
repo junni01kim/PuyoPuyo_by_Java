@@ -1,10 +1,8 @@
 package puyopuyo.game.roundthread;
 
-import puyopuyo.PlayerThread;
-import puyopuyo.game.GameRepository;
+import puyopuyo.gameground.playerthread.PlayerThread;
 import puyopuyo.game.GameService;
-import puyopuyo.game.gameframe.GameFrameService;
-import puyopuyo.gamemenu.GameMenuService;
+import puyopuyo.gameframe.GameFrameService;
 
 /**
  * 라운드 스레드
@@ -12,17 +10,12 @@ import puyopuyo.gamemenu.GameMenuService;
  * 한 라운드 전체를 관리하는 스레드이다.
  */
 public class RoundThread extends Thread {
+	private final RoundThreadService roundThreadService = new RoundThreadService();
+	private final GameFrameService gameFrameService;
+	private final GameService gameService;
 
-	RoundThreadService roundThreadService = new RoundThreadService();
-	GameFrameService gameFrameService;
-	GameService gameService;
-
-	PlayerThread playerThread1P;
-	PlayerThread playerThread2P;
-
-	/** playerThread getter */
-	public PlayerThread getPlayerThread1P() {return playerThread1P;}
-	public PlayerThread getPlayerThread2P() {return playerThread2P;}
+	private PlayerThread playerThread1P;
+	private PlayerThread playerThread2P;
 
 	/**
 	 * 게임의 한 라운드를 관리하는 스레드이다.
@@ -40,9 +33,8 @@ public class RoundThread extends Thread {
 
 		roundThreadService.makePuyoLogic();
 
-		playerThread1P = new PlayerThread(gameGround1P, puyoLogic, 1);
-		playerThread2P = new PlayerThread(gameGround2P, puyoLogic, 2);
-		//System.out.println("gamePanel");
+		playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, 1);
+		playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, 2);
 	}
 	
 	@Override
@@ -67,8 +59,8 @@ public class RoundThread extends Thread {
 		}
 
 		roundThreadService.countThreeSecond();
-		playerThread1P = new PlayerThread(gameGround1P, puyoLogic, 1);
-		playerThread2P = new PlayerThread(gameGround2P, puyoLogic, 2);
+		playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, 1);
+		playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, 2);
 		playerThread1P.start();
 		playerThread2P.start();
 		while(true) {
@@ -84,8 +76,8 @@ public class RoundThread extends Thread {
 		
 		if(winCount1P == 1 && winCount2P == 1) {
 			roundThreadService.countThreeSecond();
-			playerThread1P = new PlayerThread(gameGround1P, puyoLogic, 1);
-			playerThread2P = new PlayerThread(gameGround2P, puyoLogic, 2);
+			playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, 1);
+			playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, 2);
 			playerThread1P.start();
 			playerThread2P.start();
 		}
@@ -97,16 +89,14 @@ public class RoundThread extends Thread {
 				//System.out.println("2P Win");
 			}
 		}
-		while(true) {
-			if(roundChangeToggle)
-				break;
-			try {
-				sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+        while (!roundChangeToggle) {
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
 
 		gameService.close();
 		gameFrameService.openGameMenuPanel();

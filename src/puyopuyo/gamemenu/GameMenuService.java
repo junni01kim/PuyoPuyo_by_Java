@@ -1,10 +1,8 @@
 package puyopuyo.gamemenu;
 
-import puyopuyo.GameImageIcon;
-import puyopuyo.game.gameframe.GameFrameService;
+import puyopuyo.gameframe.GameFrameService;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class GameMenuService {
     private final GameMenuRepository gameMenuRepository;

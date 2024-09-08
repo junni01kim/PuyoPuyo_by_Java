@@ -1,10 +1,4 @@
-package puyopuyo.game.gameframe;
-
-import puyopuyo.game.GamePanel;
-import puyopuyo.game.GameService;
-import puyopuyo.gamemenu.GameMenuPanel;
-
-import java.awt.BorderLayout;
+package puyopuyo.gameframe;
 
 import javax.swing.JFrame;
 

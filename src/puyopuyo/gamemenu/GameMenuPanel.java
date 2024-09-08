@@ -1,8 +1,7 @@
 package puyopuyo.gamemenu;
 
-import puyopuyo.game.gameframe.GameFrame;
 import puyopuyo.GameImageIcon;
-import puyopuyo.game.gameframe.GameFrameService;
+import puyopuyo.gameframe.GameFrameService;
 
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -13,6 +12,7 @@ import javax.swing.*;
 public class GameMenuPanel extends JPanel{
 	private final GameMenuRepository gameMenuRepository = new GameMenuRepository(this);
 	private final GameMenuService gameMenuService;
+	private final GameFrameService gameFrameService;
 
 	/**
 	 * 게임 메뉴를 구성하는 화면이다.
@@ -24,6 +24,7 @@ public class GameMenuPanel extends JPanel{
 	 * @param gameFrameService 다른 패널들을 참조하기 위해 gameFrame의 패널 객체를 이용한다.
 	 */
 	public GameMenuPanel(GameFrameService gameFrameService) {
+		this.gameFrameService = gameFrameService;
 		this.gameMenuService  = new GameMenuService(gameMenuRepository, gameFrameService);
 
 		// TODO: Action Listener 때문에 따로 빼두지 못함 대안 생각해볼 것
@@ -54,7 +55,7 @@ public class GameMenuPanel extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			JButton myButton = (JButton)e.getSource();
 			myButton.getParent().setVisible(false);
-			gameMenuService.openGameMenuPanel();
+			gameFrameService.openGameMenuPanel();
 		}
 	}
 }

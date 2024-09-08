@@ -20,17 +20,17 @@ PuyoPuyo_by_C를 객체지향언어(Java Swing)로 수정한 프로그램 입니
 
 ## 프로그램 설명
 - ```puyopuyo.gamemenu.GameMenuPanel```은 처음 메뉴창을 띄우고 버튼을 누를 시 본인을 ```setVisible(false)```로 만든 후 ```puyopuyo.game.GamePanel```을 만든다.
-- 게임은 ```puyopuyo.game.roundthread.RoundThread```에서 3판 2선으로을 기준으로 ```puyopuyo.PlayerThread```를 호출한다.  
-- 각 ```puyopuyo.GameGround```는 ```puyopuyo.ScorePanel```은 ```puyopuyo.game.GamePanel``` 내부에 객체로 존재하며, 각각 1개의 ```puyopuyo.PlayerThread```를 가진다. 두 ```puyopuyo.GameGround```는 독자적으로 플레이 된다. 두 ```puyopuyo.PlayerThread```는 방해뿌요 전달 부분에서 연동되어있다.
-- 키입력은 ```puyopuyo.game.GamePanel```의 ```ControlPuyoKeyListener```에서 작동하며, 키 포커스를 반복적으로 변화시키지 않고 지속적으로 받기 위해 ```puyopuyo.GameGround```가 아닌 ```puyopuyo.game.GamePanel```에서 입력받는다.
-- ```puyopuyo.ScorePanel```은 ```puyopuyo.game.GamePanel``` 내부에 객체로 존재하며, ```puyopuyo.PlayerThread```에서 동적으로 변화시킨다.
+- 게임은 ```puyopuyo.game.roundthread.RoundThread```에서 3판 2선으로을 기준으로 ```puyopuyo.gameground.playerthread.PlayerThread```를 호출한다.  
+- 각 ```puyopuyo.gameground.GameGroundPanel```는 ```puyopuyo.ScorePanel```은 ```puyopuyo.game.GamePanel``` 내부에 객체로 존재하며, 각각 1개의 ```puyopuyo.gameground.playerthread.PlayerThread```를 가진다. 두 ```puyopuyo.gameground.GameGroundPanel```는 독자적으로 플레이 된다. 두 ```puyopuyo.gameground.playerthread.PlayerThread```는 방해뿌요 전달 부분에서 연동되어있다.
+- 키입력은 ```puyopuyo.game.GamePanel```의 ```ControlPuyoKeyListener```에서 작동하며, 키 포커스를 반복적으로 변화시키지 않고 지속적으로 받기 위해 ```puyopuyo.gameground.GameGroundPanel```가 아닌 ```puyopuyo.game.GamePanel```에서 입력받는다.
+- ```puyopuyo.ScorePanel```은 ```puyopuyo.game.GamePanel``` 내부에 객체로 존재하며, ```puyopuyo.gameground.playerthread.PlayerThread```에서 동적으로 변화시킨다.
 
 
 ### 이후
 버그 수정  
     - 각 클래스에 자기자신의 승패를 구분하는 코드들이 별도로 추가되었다.
     - 오류: ```splashPuyo()```와 함께 ```puyoMap[indexX]```의 라인 한줄이 같이 사라지는 현상 발생
-```gameGround```에 있던 ```puyoIcon```이 ```puyopuyo.Puyo```객체에 포함되는게 올바르다 생각하여 ```puyopuyo.Puyo``` 클래스로 이동 후 static으로 객체없이 호출 가능하게 함 or static으로 구현하는게 유리한 함수 함께 수정
+```gameGroundPanel```에 있던 ```puyoIcon```이 ```puyopuyo.Puyo```객체에 포함되는게 올바르다 생각하여 ```puyopuyo.Puyo``` 클래스로 이동 후 static으로 객체없이 호출 가능하게 함 or static으로 구현하는게 유리한 함수 함께 수정
 ```repaint()```를 통해 다 완전하게 그려지지 않거나 그래픽이 반만 그려진 뿌요들을 다시 그려지게 함
     
 ### \- 느낀점 -

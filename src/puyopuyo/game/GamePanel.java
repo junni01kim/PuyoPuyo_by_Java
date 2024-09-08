@@ -1,9 +1,7 @@
 package puyopuyo.game;
 
-import puyopuyo.GameGround;
 import puyopuyo.GameImageIcon;
-import puyopuyo.ScorePanel;
-import puyopuyo.game.gameframe.GameFrameService;
+import puyopuyo.gameframe.GameFrameService;
 import puyopuyo.game.roundthread.RoundThread;
 
 import java.awt.Graphics;
@@ -11,8 +9,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
-	private final GameRepository gameRepository = new GameRepository(this,  new GameGround(this), new GameGround(this), new ScorePanel());
-	private final GameService gameService = new GameService(gameRepository);
+	private final GameService gameService = new GameService(this);
 
 	/** 게임 라운드 진행 스레드 */
 	private RoundThread roundThread;

@@ -26,6 +26,8 @@ public class RoundThreadService {
     /** 2P 승리 횟수 카운트 */
     public void plusWinCount2P() {++winCount2P;}
 
+    public int[] getPuyoLogic() { return puyoLogic; }
+
     /** winCount getter */
     public int getWinCount1P() {return winCount1P;}
     public int getWinCount2P() {return winCount2P;}

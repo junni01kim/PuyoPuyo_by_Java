@@ -1,6 +1,7 @@
 package puyopuyo.game;
 
-import puyopuyo.GameGround;
+import puyopuyo.ScorePanel;
+import puyopuyo.gameground.GameGroundPanel;
 
 public class GameService {
     private final GameRepository gameRepository;
@@ -8,19 +9,15 @@ public class GameService {
     /**
      * MVC 패턴 주입 (???)
      *
-     * @param gameRepository GamePanel에서 생성한 사용하는 엔티티
+     * @param gamePanel TODO: 작성하기
      */
-    public GameService(GameRepository gameRepository) {
-        this.gameRepository = gameRepository;
+    public GameService(GamePanel gamePanel) {
+        gameRepository = new GameRepository(gamePanel,  new GameGroundPanel(this), new GameGroundPanel(this), new ScorePanel());
     }
 
-    public GameGround getGameGround1P() {
-        return gameRepository.getGameGround1P();
-    }
+    public GameGroundPanel getGameGround1P() { return gameRepository.getGameGround1P(); }
 
-    public GameGround getGameGround2P() {
-        return gameRepository.getGameGround2P();
-    }
+    public GameGroundPanel getGameGround2P() { return gameRepository.getGameGround2P(); }
 
     /**
      * gamePanel에 배치할 Ui 설정

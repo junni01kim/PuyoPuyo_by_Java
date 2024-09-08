@@ -1,4 +1,4 @@
-package puyopuyo.game.gameframe;
+package puyopuyo.gameframe;
 
 import puyopuyo.game.GamePanel;
 import puyopuyo.gamemenu.GameMenuPanel;

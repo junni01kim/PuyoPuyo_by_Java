@@ -1,6 +1,6 @@
 package puyopuyo;
 
-import puyopuyo.game.gameframe.GameFrame;
+import puyopuyo.gameframe.GameFrame;
 
 public class PuyoPuyo {
 	public static void main(String[] args) {
