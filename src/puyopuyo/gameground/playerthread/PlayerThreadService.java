@@ -257,8 +257,8 @@ public class PlayerThreadService {
         var leftPuyo = gameGroundService.getLeftPuyo();
         var rightPuyo = gameGroundService.getRightPuyo();
 
-        var playerThread1PService = gameService.getGameGround1P().getThreadService();
-        var playerThread2PService = gameService.getGameGround2P().getThreadService();
+        var playerThread1PService = gameService.getGameGround1P().getService().getPlayerThread().getPlayerThreadService();
+        var playerThread2PService = gameService.getGameGround2P().getService().getPlayerThread().getPlayerThreadService();
 
         Puyo puyo = new Puyo(0, 0, 0);
         boolean check = false;

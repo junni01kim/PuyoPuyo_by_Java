@@ -70,8 +70,8 @@ public class RoundThread extends Thread {
 		}
 
 		roundThreadService.countThreeSecond();
-		playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, scorePanel,1);
-		playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, scorePanel,2);
+		playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), scorePanel,1);
+		playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), scorePanel,2);
 		playerThread1P.start();
 		playerThread2P.start();
 		while(true) {
@@ -87,8 +87,8 @@ public class RoundThread extends Thread {
 		
 		if(winCount1P == 1 && winCount2P == 1) {
 			roundThreadService.countThreeSecond();
-			playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, scorePanel, 1);
-			playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, scorePanel, 2);
+			playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), scorePanel, 1);
+			playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), scorePanel, 2);
 			playerThread1P.start();
 			playerThread2P.start();
 		}

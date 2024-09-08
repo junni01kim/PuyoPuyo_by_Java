@@ -31,8 +31,8 @@ public class RoundThreadService {
             ScorePanel scorePanel
     ) {
         this.roundThread = roundThread;
-        playerThread1P = new PlayerThread(gameService, gameGround1PService, this, scorePanel,1);
-        playerThread2P = new PlayerThread(gameService, gameGround2PService, this, scorePanel, 2);
+        playerThread1P = new PlayerThread(gameService, gameGround1PService, scorePanel,1);
+        playerThread2P = new PlayerThread(gameService, gameGround2PService, scorePanel, 2);
     }
 
     public void start() {

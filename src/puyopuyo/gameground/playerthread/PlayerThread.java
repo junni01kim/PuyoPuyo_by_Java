@@ -26,10 +26,10 @@ public class PlayerThread extends Thread {
 	public PlayerThread(
 			GameService gameService,
 			GameGroundService gameGroundService,
-			RoundThreadService roundThreadService,
 			ScorePanel scorePanel,
 			int iAm
 	) {
+		var roundThreadService = gameService.getRoundThread().getService();
 		playerThreadService = new PlayerThreadService(this, gameGroundService, roundThreadService, gameService, scorePanel, iAm);
 		this.gameGroundService = gameGroundService;
 		this.roundThreadService = roundThreadService;

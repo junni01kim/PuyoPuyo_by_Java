@@ -13,7 +13,7 @@ public class GamePanel extends JPanel {
 	/** 게임 라운드 진행 스레드 TODO: 오류 발생 가능성 높음 */
 	private RoundThreadService roundThreadService;
 
-	private final GameService gameService = new GameService(this, roundThreadService);
+	private final GameService gameService;
 
 	/**
 	 * 게임을 진행하는 화면이다.
@@ -26,13 +26,13 @@ public class GamePanel extends JPanel {
 	 * @param gameFrameService 다른 패널들을 참조하기 위해 gameFrame의 패널 객체를 이용한다.
 	 */
 	public GamePanel(GameFrameService gameFrameService) {
-		var roundThread = new RoundThread(gameService, gameFrameService);
-		roundThreadService = roundThread.getService();
+		gameService = new GameService(this, gameFrameService);
+
+		roundThreadService = gameService.getRoundThread().getService();
 
 		addKeyListener(new ControlPuyoKeyListener(gameService, roundThreadService));
 
 		gameService.setUi();
-
 		roundThreadService.start();
 	}
 

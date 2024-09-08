@@ -1,17 +1,27 @@
 package puyopuyo.gameground;
 
 import puyopuyo.Puyo;
+import puyopuyo.ScorePanel;
 import puyopuyo.game.GameService;
+import puyopuyo.gameground.playerthread.PlayerThread;
+import puyopuyo.gameground.playerthread.PlayerThreadService;
 
 import java.awt.*;
 
 public class GameGroundService {
     private final GameGroundRepository gameGroundRepository;
     private final GameService gameService;
+    private final PlayerThread playerThread;
 
-    public GameGroundService(GameGroundRepository gameGroundRepository, GameService gameService) {
+    public GameGroundService(GameGroundRepository gameGroundRepository, GameService gameService, ScorePanel scorePanel, int iAm) {
         this.gameGroundRepository = gameGroundRepository;
         this.gameService = gameService;
+
+        playerThread = new PlayerThread(gameService, this, scorePanel, iAm);
+    }
+
+    public PlayerThread getPlayerThread() {
+        return playerThread;
     }
 
     public Puyo getLeftPuyo() { return gameGroundRepository.getLeftPuyo(); }

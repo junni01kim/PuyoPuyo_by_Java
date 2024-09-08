@@ -2,17 +2,12 @@ package puyopuyo.gameground;
 
 import puyopuyo.ScorePanel;
 import puyopuyo.game.GameService;
-import puyopuyo.game.roundthread.RoundThreadService;
-import puyopuyo.gameground.playerthread.PlayerThread;
-import puyopuyo.gameground.playerthread.PlayerThreadService;
 
 import javax.swing.JPanel;
 
 public class GameGroundPanel extends JPanel {
 	private final GameGroundRepository gameGroundRepository = new GameGroundRepository(this);
 	private final GameGroundService gameGroundService;
-
-	private PlayerThreadService playerThreadService;
 
 	/**
 	 * 게임 보드를 구성하는 화면이다.
@@ -22,14 +17,11 @@ public class GameGroundPanel extends JPanel {
 	 *
 	 * @param gameService TODO: 작성할 것
 	 */
-    public GameGroundPanel(GameService gameService, RoundThreadService roundThreadService, ScorePanel scorePanel, int iAm) {
-        gameGroundService = new GameGroundService(gameGroundRepository, gameService);
-
-		var playerThread = new PlayerThread(gameService, gameGroundService, roundThreadService, scorePanel, iAm);
+    public GameGroundPanel(GameService gameService, ScorePanel scorePanel, int iAm) {
+        gameGroundService = new GameGroundService(gameGroundRepository, gameService, scorePanel, iAm);
 
 		gameGroundService.setUi();
 	}
 
 	public GameGroundService getService() { return gameGroundService; }
-	public PlayerThreadService getThreadService() { return playerThreadService; }
 }
