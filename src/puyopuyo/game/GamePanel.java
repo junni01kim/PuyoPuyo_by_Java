@@ -1,6 +1,7 @@
 package puyopuyo.game;
 
 import puyopuyo.GameImageIcon;
+import puyopuyo.game.roundthread.RoundThreadService;
 import puyopuyo.gameframe.GameFrameService;
 import puyopuyo.game.roundthread.RoundThread;
 
@@ -9,13 +10,10 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
-	private final GameService gameService = new GameService(this);
+	/** 게임 라운드 진행 스레드 TODO: 오류 발생 가능성 높음 */
+	private RoundThreadService roundThreadService;
 
-	/** 게임 라운드 진행 스레드 */
-	private RoundThread roundThread;
-
-	/** getter */
-	public RoundThread getRoundThread() {return roundThread;}
+	private final GameService gameService = new GameService(this, roundThreadService);
 
 	/**
 	 * 게임을 진행하는 화면이다.
@@ -28,12 +26,18 @@ public class GamePanel extends JPanel {
 	 * @param gameFrameService 다른 패널들을 참조하기 위해 gameFrame의 패널 객체를 이용한다.
 	 */
 	public GamePanel(GameFrameService gameFrameService) {
-		addKeyListener(new ControlPuyoKeyListener(gameService));
+		var roundThread = new RoundThread(gameService, gameFrameService);
+		roundThreadService = roundThread.getService();
+
+		addKeyListener(new ControlPuyoKeyListener(gameService, roundThreadService));
 
 		gameService.setUi();
 
-		roundThread = new RoundThread(gameService, gameFrameService);
-		roundThread.start();
+		roundThreadService.start();
+	}
+
+	public RoundThreadService getRoundThread() {
+		return roundThreadService;
 	}
 
 	/**

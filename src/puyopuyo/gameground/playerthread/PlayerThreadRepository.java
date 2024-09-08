@@ -31,14 +31,14 @@ public class PlayerThreadRepository {
         this.iAm = iAm;
     }
 
-    // setter
+    // setter TODO: 세터도 수정된 값을 다시 반환하도록 만들기
     public void setPuyoIndex(int i) { puyoIndex = i; }
 
     public void setOneWin(boolean oneWin) { this.oneWin = oneWin; }
 
     public void setPuyoMap(Puyo[][] puyoMap) { this.puyoMap = puyoMap; }
 
-    public void setSamePuyoChecker(boolean[][] samePuyoChecker) { this.samePuyoChecker = samePuyoChecker; }
+    public void setSamePuyoChecker(boolean checker, int i, int j) { this.samePuyoChecker[i][j] = checker; }
     public void setNumberOfSamePuyo(int i) { numberOfSamePuyo = i; }
     public void setColorChecker(boolean[] colorChecker) { this.colorChecker = colorChecker; }
 

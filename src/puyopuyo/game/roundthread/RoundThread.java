@@ -1,5 +1,6 @@
 package puyopuyo.game.roundthread;
 
+import puyopuyo.ScorePanel;
 import puyopuyo.gameground.playerthread.PlayerThread;
 import puyopuyo.game.GameService;
 import puyopuyo.gameframe.GameFrameService;
@@ -10,12 +11,10 @@ import puyopuyo.gameframe.GameFrameService;
  * 한 라운드 전체를 관리하는 스레드이다.
  */
 public class RoundThread extends Thread {
-	private final RoundThreadService roundThreadService = new RoundThreadService();
+	private final RoundThreadService roundThreadService;
 	private final GameFrameService gameFrameService;
 	private final GameService gameService;
-
-	private PlayerThread playerThread1P;
-	private PlayerThread playerThread2P;
+	private final ScorePanel scorePanel;
 
 	/**
 	 * 게임의 한 라운드를 관리하는 스레드이다.
@@ -30,23 +29,35 @@ public class RoundThread extends Thread {
 	) {
 		this.gameService = gameService;
 		this.gameFrameService = gameFrameService;
+		this.scorePanel = gameService.getScorePanel();
+
+		var gameGround1PService = gameService.getGameGround1P().getService();
+		var gameGround2PService = gameService.getGameGround2P().getService();
+
+		roundThreadService = new RoundThreadService(this, gameService, gameGround1PService, gameGround2PService, scorePanel);
 
 		roundThreadService.makePuyoLogic();
+	}
 
-		playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, 1);
-		playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, 2);
+	public RoundThreadService getService() {
+		return roundThreadService;
 	}
 	
 	@Override
 	public void run() {
+		var playerThread1P = roundThreadService.getPlayerThread1P();
+		var playerThread2P = roundThreadService.getPlayerThread2P();
+
 		var roundChangeToggle = roundThreadService.getRoundChangeToggle();
 		var winCount1P = roundThreadService.getWinCount1P();
 		var winCount2P = roundThreadService.getWinCount2P();
 
 		roundChangeToggle = false;
 		roundThreadService.changeRoundChangeToggle();
+
 		playerThread1P.start();
 		playerThread2P.start();
+
 		while(true) {
 			if(roundChangeToggle)
 				break;
@@ -59,8 +70,8 @@ public class RoundThread extends Thread {
 		}
 
 		roundThreadService.countThreeSecond();
-		playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, 1);
-		playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, 2);
+		playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, scorePanel,1);
+		playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, scorePanel,2);
 		playerThread1P.start();
 		playerThread2P.start();
 		while(true) {
@@ -76,8 +87,8 @@ public class RoundThread extends Thread {
 		
 		if(winCount1P == 1 && winCount2P == 1) {
 			roundThreadService.countThreeSecond();
-			playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, 1);
-			playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, 2);
+			playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), roundThreadService, scorePanel, 1);
+			playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), roundThreadService, scorePanel, 2);
 			playerThread1P.start();
 			playerThread2P.start();
 		}

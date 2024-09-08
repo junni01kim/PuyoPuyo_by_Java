@@ -1,6 +1,7 @@
 package puyopuyo.gameground.playerthread;
 
 import puyopuyo.Puyo;
+import puyopuyo.ScorePanel;
 import puyopuyo.game.GameService;
 import puyopuyo.game.roundthread.RoundThreadService;
 import puyopuyo.gameground.GameGroundService;
@@ -8,16 +9,40 @@ import puyopuyo.gameground.GameGroundService;
 import static java.lang.Thread.sleep;
 
 public class PlayerThreadService {
-    private final GameService gameService;
+    private final PlayerThread playerThread;
     private final GameGroundService gameGroundService;
     private final RoundThreadService roundThreadService;
+    private final GameService gameService;
+    private final ScorePanel scorePanel; // TODO: 서비스 추가하기
 
     private final PlayerThreadRepository playerThreadRepository;
 
-    public PlayerThreadService(GameService gameService, GameGroundService gameGroundService, RoundThreadService roundThreadService, int iAm) {
-        this.gameService = gameService;
+    public int getIam() {
+        return playerThreadRepository.getIAm();
+    }
+
+    public int getGarbagePuyo() {
+        return playerThreadRepository.getGarbagePuyo();
+    }
+
+    public void start() {
+        playerThread.start();
+    }
+
+    public void setColorChecker(boolean[] colorChecker) {
+        playerThreadRepository.setColorChecker(colorChecker);
+    }
+
+    public void setGarbagePuyo(int numberOfGarbagePuyo) {
+        playerThreadRepository.setGarbagePuyo(numberOfGarbagePuyo);
+    }
+
+    public PlayerThreadService(PlayerThread playerThread, GameGroundService gameGroundService, RoundThreadService roundThreadService, GameService gameService, ScorePanel scorePanel, int iAm) {
+        this.playerThread = playerThread;
         this.gameGroundService = gameGroundService;
         this.roundThreadService = roundThreadService;
+        this.gameService = gameService;
+        this.scorePanel = scorePanel;
         playerThreadRepository = new PlayerThreadRepository(iAm);
     }
 
@@ -29,11 +54,14 @@ public class PlayerThreadService {
     // 다음 뿌요로 전환시켜주는 함수이다.
     void nextPuyo() {
         var puyoLogic = roundThreadService.getPuyoLogic();
+        var puyoIndex = playerThreadRepository.getPuyoIndex();
+
         var leftPuyo = gameGroundService.getLeftPuyo();
         var rightPuyo = gameGroundService.getRightPuyo();
 
         int puyo1Type = (puyoLogic[puyoIndex%puyoLogic.length]) / 10;
         int puyo2Type = (puyoLogic[(puyoIndex++)%puyoLogic.length]) % 10;
+        playerThreadRepository.setPuyoIndex(puyoIndex);
 
         leftPuyo.setType(puyo1Type);
         rightPuyo.setType(puyo2Type);
@@ -49,31 +77,31 @@ public class PlayerThreadService {
         rightPuyo.setVisible(true);
 
         changeNextPuyo();
-
-        //System.out.println("nextPuyo");
     }
 
     void changeNextPuyo() {
         var puyoLogic = roundThreadService.getPuyoLogic();
+        var puyoIndex = playerThreadRepository.getPuyoIndex();
+        var iAm = playerThreadRepository.getIAm();
 
         int nextLeftControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])/10;
         int nextRightControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])%10;
 
         if(iAm == 1) {
-            gameGroundPanel.getGamePanel().getScorePanel().getNextLeftControlPuyo1P().setType(nextLeftControlPuyoType);
-            gameGroundPanel.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setType(nextRightControlPuyoType);
+            scorePanel.getNextLeftControlPuyo1P().setType(nextLeftControlPuyoType);
+            scorePanel.getNextRightControlPuyo1P().setType(nextRightControlPuyoType);
 
             // type에 맞는 아이콘을 사용한다.
-            gameGroundPanel.getGamePanel().getScorePanel().getNextLeftControlPuyo1P().setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
-            gameGroundPanel.getGamePanel().getScorePanel().getNextRightControlPuyo1P().setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
+            scorePanel.getNextLeftControlPuyo1P().setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
+            scorePanel.getNextRightControlPuyo1P().setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
         }
         else {
-            gameGroundPanel.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setType(nextLeftControlPuyoType);
-            gameGroundPanel.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setType(nextRightControlPuyoType);
+            scorePanel.getNextLeftControlPuyo2P().setType(nextLeftControlPuyoType);
+            scorePanel.getNextRightControlPuyo2P().setType(nextRightControlPuyoType);
 
             // type에 맞는 아이콘을 사용한다.
-            gameGroundPanel.getGamePanel().getScorePanel().getNextLeftControlPuyo2P().setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
-            gameGroundPanel.getGamePanel().getScorePanel().getNextRightControlPuyo2P().setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
+            scorePanel.getNextLeftControlPuyo2P().setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
+            scorePanel.getNextRightControlPuyo2P().setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
         }
     }
 
@@ -87,7 +115,7 @@ public class PlayerThreadService {
                 anotherPuyo.setLocation(anotherPuyo.getX(),Puyo.indexXToPixel(indexY));
                 puyoMap[anotherPuyo.PixelXToindex()][indexY] = new Puyo(anotherPuyo.getType(), anotherPuyo.PixelXToindex(), indexY);
                 puyoMap[anotherPuyo.PixelXToindex()][indexY].setVisible(true);
-                gameGroundPanel.add(puyoMap[anotherPuyo.PixelXToindex()][indexY]);
+                gameGroundService.add(puyoMap[anotherPuyo.PixelXToindex()][indexY]);
                 //System.out.println("tempPuyo:"+indexY);
                 break;
             }
@@ -152,7 +180,7 @@ public class PlayerThreadService {
                         if (j - p <= 2) continue;
                         puyoMap[i][j - p] = new Puyo(5, i, j-p);
                         puyoMap[i][j - p].setVisible(true);
-                        gameGroundPanel.add(puyoMap[i][j - p]);
+                        gameGroundService.add(puyoMap[i][j - p]);
                     }
                     break;
                 }
@@ -169,25 +197,27 @@ public class PlayerThreadService {
                     if(j<=2) continue;
                     puyoMap[randomVariable][j] = new Puyo(5, randomVariable, j);
                     puyoMap[randomVariable][j].setVisible(true);
-                    gameGroundPanel.add(puyoMap[randomVariable][j]);
+                    gameGroundService.add(puyoMap[randomVariable][j]);
                     break;
                 }
             }
         }
         playerThreadRepository.setGarbagePuyo(0);
         if(playerThreadRepository.getIAm() == 1)
-            gameGroundPanel.gamePanel.getScorePanel().getNumberOfGarbagePuyoLabel1P().setText("0");
+            scorePanel.getNumberOfGarbagePuyoLabel1P().setText("0");
         else
-            gameGroundPanel.gamePanel.getScorePanel().getNumberOfGarbagePuyoLabel2P().setText("0");
+            scorePanel.getNumberOfGarbagePuyoLabel2P().setText("0");
     }
 
     // CheckNumberOfSamePuyo와 deletePuyos에 필요한 변수들을 초기화 하는 함수
     void initializeCheckNumberOfSamePuyoVariable() {
+        var puyoMap = playerThreadRepository.getPuyoMap();
+
         playerThreadRepository.setNumberOfSamePuyo(0);
 
         for(int i=0; i<puyoMap.length; i++)
             for(int j=0; j<puyoMap[i].length; j++)
-                samePuyoChecker[i][j] = false;
+                playerThreadRepository.setSamePuyoChecker(false, i, j);
     }
 
     void initializeScoreVariable() {
@@ -203,10 +233,13 @@ public class PlayerThreadService {
     }
 
     void printScore() {
+        var iAm = playerThreadRepository.getIAm();
+        var score = playerThreadRepository.getScore();
+
         if(iAm == 1)
-            gameGroundPanel.getGamePanel().getScorePanel().getScoreLabel1P().setText(Integer.toString(score));
+            scorePanel.getScoreLabel1P().setText(Integer.toString(score));
         else
-            gameGroundPanel.getGamePanel().getScorePanel().getScoreLabel2P().setText(Integer.toString(score));
+            scorePanel.getScoreLabel2P().setText(Integer.toString(score));
     }
 
     void scanNumberOfSamePuyo() {
@@ -224,6 +257,9 @@ public class PlayerThreadService {
         var leftPuyo = gameGroundService.getLeftPuyo();
         var rightPuyo = gameGroundService.getRightPuyo();
 
+        var playerThread1PService = gameService.getGameGround1P().getThreadService();
+        var playerThread2PService = gameService.getGameGround2P().getThreadService();
+
         Puyo puyo = new Puyo(0, 0, 0);
         boolean check = false;
 
@@ -231,7 +267,7 @@ public class PlayerThreadService {
         rightPuyo.setVisible(false);
 
         for(int T = 0; T < Puyo.getPuyoIcon().length-1; T++) {
-            // 0�� üũ
+            // 0색 체크
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < 12; j++) {
                     if (!samePuyoChecker[i][j] && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
@@ -239,7 +275,7 @@ public class PlayerThreadService {
                         puyo.setType(T);
                         initializeCheckNumberOfSamePuyoVariable();
                         checkNumberOfSamePuyo(puyo, i, j);
-                        // ���� ����� �� ����Ѵ�.
+                        // 점수 계산할 때 사용한다.
                         if (numberOfSamePuyo >= 4) {
                             if(!colorChecker[T]) {
                                 colorChecker[T]=true;
@@ -260,12 +296,12 @@ public class PlayerThreadService {
                             printScore();
                             deletePuyos(puyo, i, j);
                             if(iAm == 1) {
-                                gameGroundPanel.getGamePanel().getRoundThread().getPlayerThread2P().setGarbagePuyo(plusScore/70);
-                                gameGroundPanel.getGamePanel().getScorePanel().getNumberOfGarbagePuyoLabel2P().setText(Integer.toString(plusScore/70));
+                                playerThread2PService.setGarbagePuyo(plusScore/70);
+                                scorePanel.getNumberOfGarbagePuyoLabel2P().setText(Integer.toString(plusScore/70));
                             }
                             else {
-                                gameGroundPanel.getGamePanel().getRoundThread().getPlayerThread1P().setGarbagePuyo(plusScore/70);
-                                gameGroundPanel.getGamePanel().getScorePanel().getNumberOfGarbagePuyoLabel1P().setText(Integer.toString(plusScore/70));
+                                playerThread1PService.setGarbagePuyo(plusScore/70);
+                                scorePanel.getNumberOfGarbagePuyoLabel1P().setText(Integer.toString(plusScore/70));
                             }
                             check = true;
                         }
@@ -284,16 +320,20 @@ public class PlayerThreadService {
 
     // puyo1과 puyo2가 4개 이상 같은 색으로 연결되었는지 체크
     void checkNumberOfSamePuyo(Puyo puyo, int indexX, int indexY) {
+        var samePuyoChecker = playerThreadRepository.getSamePuyoChecker();
+        var numberOfSamePuyo = playerThreadRepository.getNumberOfSamePuyo();
+        var puyoMap = playerThreadRepository.getPuyoMap();
+
         // 예외처리: 뿌요1과 2가 동시에 속해서 사라지는 경우 anotherPuyo는 존재하지 않음
         if(samePuyoChecker[indexX][indexY])
             return;
 
         numberOfSamePuyo++;
+        playerThreadRepository.setPuyoCombo(numberOfSamePuyo);
+
         samePuyoChecker[indexX][indexY] = true;
 
         if(numberOfSamePuyo>=4)
-            //System.out.println("뿌요개수:"+numberOfSamePuyo);
-
             // 예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
             if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY+1]) {
                 checkNumberOfSamePuyo(puyo, indexX, indexY+1);
@@ -311,8 +351,9 @@ public class PlayerThreadService {
 
     // 예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
     void deletePuyos(Puyo puyo, int indexX, int indexY) {
-        //System.out.println("deletePuyos"+"("+indexX+","+indexY+")");
-        samePuyoChecker[indexX][indexY] = false;
+        var puyoMap = playerThreadRepository.getPuyoMap();
+        playerThreadRepository.setSamePuyoChecker(false, indexX, indexY);
+        var samePuyoChecker = playerThreadRepository.getSamePuyoChecker();
 
         puyoMap[indexX][indexY].setVisible(false);
         puyoMap[indexX][indexY]=null;
@@ -336,6 +377,8 @@ public class PlayerThreadService {
     }
 
     void splashObstructPuyo(int indexX, int indexY) {
+        var puyoMap = playerThreadRepository.getPuyoMap();
+
         if (indexX+1 < 6 && puyoMap[indexX+1][indexY] != null && puyoMap[indexX+1][indexY].getType() == 5) {
             puyoMap[indexX+1][indexY].setVisible(false);
             puyoMap[indexX+1][indexY] = null;
@@ -357,6 +400,9 @@ public class PlayerThreadService {
 
     // deletePuyo() 이후 공중에 떠있는 블록들을 아래로 정렬한다.
     void dropPuyos() {
+        var puyoMap = playerThreadRepository.getPuyoMap();
+
+
         int i, j, q;
 
         for (i = 0; i < 6; i++)
@@ -386,5 +432,9 @@ public class PlayerThreadService {
 
         initializeScoreVariable();
         scanNumberOfSamePuyo();
+    }
+
+    public Puyo[][] getPuyoMap() {
+        return playerThreadRepository.getPuyoMap();
     }
 }

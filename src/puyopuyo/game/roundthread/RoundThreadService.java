@@ -1,11 +1,21 @@
 package puyopuyo.game.roundthread;
 
+import puyopuyo.ScorePanel;
+import puyopuyo.game.GameService;
+import puyopuyo.gameground.GameGroundService;
+import puyopuyo.gameground.playerthread.PlayerThread;
+
 import static java.lang.Thread.sleep;
 
 /**
  * 굳이 Repository까지 만들기에는 메모리 낭비가 심할 것 같아 Service에 엔티티 생성
  */
 public class RoundThreadService {
+    private final RoundThread roundThread;
+
+    private final PlayerThread playerThread1P;
+    private final PlayerThread playerThread2P;
+
     private int winCount1P = 0;
     private int winCount2P = 0;
 
@@ -13,11 +23,35 @@ public class RoundThreadService {
 
     private boolean roundChangeToggle = false;
 
+    public RoundThreadService(
+            RoundThread roundThread,
+            GameService gameService,
+            GameGroundService gameGround1PService,
+            GameGroundService gameGround2PService,
+            ScorePanel scorePanel
+    ) {
+        this.roundThread = roundThread;
+        playerThread1P = new PlayerThread(gameService, gameGround1PService, this, scorePanel,1);
+        playerThread2P = new PlayerThread(gameService, gameGround2PService, this, scorePanel, 2);
+    }
+
+    public void start() {
+        roundThread.start();
+    }
+
     public void changeRoundChangeToggle() {
         if(roundChangeToggle)
             roundChangeToggle = false;
         else
             roundChangeToggle = true;
+    }
+
+    public PlayerThread getPlayerThread1P() {
+        return playerThread1P;
+    }
+
+    public PlayerThread getPlayerThread2P() {
+        return playerThread2P;
     }
 
     /** 1P 승리 횟수 카운트 */
@@ -54,13 +88,11 @@ public class RoundThreadService {
                 }
             }
         }
-        //System.out.println("makePuyoLogic");
     }
 
     public void countThreeSecond() {
         try {
             for(int i=3; i>0; i--) {
-                //System.out.println(i);
                 sleep(1000);
             }
         } catch (InterruptedException e) {

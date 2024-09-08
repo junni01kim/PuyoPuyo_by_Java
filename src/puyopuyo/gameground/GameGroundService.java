@@ -34,4 +34,9 @@ public class GameGroundService {
         var gameGroundPanel = gameGroundRepository.getGameGroundPanel();
         gameGroundPanel.repaint();
     }
+
+    public void add(Puyo puyo) {
+        var gameGroundPanel = gameGroundRepository.getGameGroundPanel();
+        gameGroundPanel.add(puyo);
+    }
 }
