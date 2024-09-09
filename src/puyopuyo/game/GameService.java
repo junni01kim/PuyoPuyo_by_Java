@@ -1,21 +1,21 @@
-package puyopuyo.screen;
+package puyopuyo.game;
 
 import java.awt.*;
 
-public class ScreenService {
-    private final ScreenRepository screenRepository;
+public class GameService {
+    private final GameRepository gameRepository;
 
-    public ScreenService(ScreenPanel screenPanel) {
-        screenRepository = new ScreenRepository(screenPanel);
+    public GameService(GamePanel gamePanel) {
+        gameRepository = new GameRepository(gamePanel);
     }
 
     public void setUi() {
-        var screenPanel = screenRepository.getScreenPanel();
+        var screenPanel = gameRepository.getScreenPanel();
         screenPanel.setLayout(null);
 
-        var scorePanel = screenRepository.getScorePanel();
-        var gameGround1P = screenRepository.getGroundPanel1P();
-        var gameGround2P = screenRepository.getGroundPanel2P();
+        var scorePanel = gameRepository.getScorePanel();
+        var gameGround1P = gameRepository.getGroundPanel1P();
+        var gameGround2P = gameRepository.getGroundPanel2P();
 
 
         scorePanel.setLocation(490,60);
@@ -34,7 +34,7 @@ public class ScreenService {
     }
 
     public void openScreenPanel(Container contentPane) {
-        var screenPanel = screenRepository.getScreenPanel();
+        var screenPanel = gameRepository.getScreenPanel();
         contentPane.add(screenPanel);
         screenPanel.setVisible(true);
     }

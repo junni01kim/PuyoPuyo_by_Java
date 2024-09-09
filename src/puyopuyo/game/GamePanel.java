@@ -1,21 +1,21 @@
-package puyopuyo.screen;
+package puyopuyo.game;
 
 import puyopuyo.puyo.GameImageIcon;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ScreenPanel extends JPanel {
-    private final ScreenService screenService = new ScreenService(this);
+public class GamePanel extends JPanel {
+    private final GameService gameService = new GameService(this);
 
-    public ScreenPanel() {
+    public GamePanel() {
         addKeyListener(null);
 
-        screenService.setUi();
+        gameService.setUi();
         setFocusable(true);
     }
 
-    public ScreenService getScreenService() {return screenService;}
+    public GameService getScreenService() {return gameService;}
 
     @Override
     public void paintComponent(Graphics graphics) {

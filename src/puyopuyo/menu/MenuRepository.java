@@ -1,15 +1,15 @@
 package puyopuyo.menu;
 
-import puyopuyo.screen.ScreenPanel;
+import puyopuyo.game.GamePanel;
 
 public class MenuRepository {
     /** 자기 자신 */
     private final MenuPanel menuPanel;
     /** 화면 이동을 위한 Ui */
-    private final ScreenPanel screenPanel = new ScreenPanel();
+    private final GamePanel gamePanel = new GamePanel();
 
     MenuRepository(MenuPanel menuPanel) {this.menuPanel = menuPanel;}
 
     public MenuPanel getMenuPanel() {return menuPanel;}
-    public ScreenPanel getScreenPanel() {return screenPanel;}
+    public GamePanel getScreenPanel() {return gamePanel;}
 }

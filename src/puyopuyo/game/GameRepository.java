@@ -1,21 +1,21 @@
-package puyopuyo.screen;
+package puyopuyo.game;
 
 import puyopuyo.ground.GroundPanel;
 import puyopuyo.score.ScorePanel;
 
-public class ScreenRepository {
+public class GameRepository {
     /** 자기 자신 */
-    private final ScreenPanel screenPanel;
+    private final GamePanel gamePanel;
     /** 자신의 화면 Ui */
     private final ScorePanel scorePanel = new ScorePanel();
     private final GroundPanel groundPanel1P = new GroundPanel();
     private final GroundPanel groundPanel2P = new GroundPanel();
 
-    public ScreenRepository(ScreenPanel screenPanel) {
-        this.screenPanel = screenPanel;
+    public GameRepository(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
     }
 
-    public ScreenPanel getScreenPanel() {return screenPanel;}
+    public GamePanel getScreenPanel() {return gamePanel;}
 
     public ScorePanel getScorePanel() {return scorePanel;}
 
