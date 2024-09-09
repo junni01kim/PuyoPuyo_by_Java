@@ -33,13 +33,13 @@ public class ScoreService {
         var roundCountLabel = scoreRepository.getRoundCountLabel();
 
         // 라운드 표시 (변동되는 숫자)
-        setLabel(roundCountLabel, scorePanel.getWidth()/2-75, 43, 300, 30, 27);
+        setLabel(roundCountLabel, scorePanel.getWidth()/2-75, 43, 300, 27);
 
         // 라운드 표시 (고정 텍스트)
-        setLabel(new JLabel("R O U N D"), scorePanel.getWidth()/2-50, 43, 300, 30, 27);
+        setLabel(new JLabel("R O U N D"), scorePanel.getWidth()/2-50, 43, 300, 27);
 
         // 점수 표시 (고정 텍스트)
-        setLabel(new JLabel("S C O R E"),scorePanel.getWidth()/2-29, 175, 100, 30, 15);
+        setLabel(new JLabel("S C O R E"),scorePanel.getWidth()/2-29, 175, 100, 15);
 
         var scoreLabel1P = scoreRepository.getScoreLabel1P();
         var scoreLabel2P = scoreRepository.getScoreLabel2P();
@@ -48,7 +48,7 @@ public class ScoreService {
         setLabel(scoreLabel1P, scorePanel.getWidth()/2, 205);
 
         // 점수 표시 2P (변동되는 숫자)
-        setLabel(scoreLabel1P, scorePanel.getWidth()/2, 235);
+        setLabel(scoreLabel2P, scorePanel.getWidth()/2, 235);
 
         // 타이머 표시 (타이틀)
         setLabel(new JLabel("T I M E"), scorePanel.getWidth()/2-20, 360);
@@ -81,12 +81,12 @@ public class ScoreService {
         scorePanel.add(label);
     }
 
-    private void setLabel(JLabel label, int x, int y, int width, int height, int fontSize) {
+    private void setLabel(JLabel label, int x, int y, int width, int fontSize) {
         var scorePanel = scoreRepository.getScorePanel();
 
         label.setFont(new Font("Serif", Font.BOLD, fontSize));
         label.setLocation(x, y);
-        label.setSize(width, height);
+        label.setSize(width, 30);
         scorePanel.add(label);
     }
 
