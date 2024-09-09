@@ -14,11 +14,11 @@ public class ScoreRepository {
 
     public ScorePanel getScorePanel() {return scorePanel;}
 
-    // 필요한 아이템
-    Puyo nextLeftControlPuyo1P = new Puyo(5);
-    Puyo nextRightControlPuyo1P = new Puyo(5);
-    Puyo nextLeftControlPuyo2P = new Puyo(5);
-    Puyo nextRightControlPuyo2P = new Puyo(5);
+    /** 필요한 아이템 */
+    private final Puyo nextLeftControlPuyo1P = new Puyo(5);
+    private final Puyo nextRightControlPuyo1P = new Puyo(5);
+    private final Puyo nextLeftControlPuyo2P = new Puyo(5);
+    private final Puyo nextRightControlPuyo2P = new Puyo(5);
 
     private JLabel roundCountLabel = new JLabel("1");
     private JLabel scoreLabel1P = new JLabel("0");

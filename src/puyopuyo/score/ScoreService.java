@@ -81,6 +81,9 @@ public class ScoreService {
         scorePanel.add(label);
     }
 
+    /**
+     * 모듈화 하다보니 사용하는 곳이 하나 구간 밖에 없어서 축약함
+     */
     private void setLabel(JLabel label, int x, int y, int width, int fontSize) {
         var scorePanel = scoreRepository.getScorePanel();
 

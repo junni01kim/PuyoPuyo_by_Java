@@ -1,7 +1,5 @@
 package puyopuyo.frame;
 
-import puyopuyo.menu.MenuPanel;
-
 import javax.swing.*;
 
 public class FrameService {
