@@ -17,8 +17,9 @@ public class MenuService {
         this.menuRepository = new MenuRepository(menuPanel);
     }
 
-    public void setUi( JButton startGameButton, JButton explainGameButton) {
+    public void setUi(JButton startGameButton, JButton explainGameButton) {
         var gameMenuPanel = menuRepository.getMenuPanel();
+        gameMenuPanel.setLayout(null);
 
         startGameButton.addActionListener(new StartGameButtonActionListener());
 
@@ -30,8 +31,6 @@ public class MenuService {
         explainGameButton.setLocation(550, 620);
         explainGameButton.setSize(150, 60);
         gameMenuPanel.add(explainGameButton);
-
-        gameMenuPanel.setLayout(null);
     }
 
     public void openMenuPanel(Container contentPane) {
@@ -47,7 +46,16 @@ public class MenuService {
         public void actionPerformed(ActionEvent e) {
             JButton myButton = (JButton)e.getSource();
             myButton.getParent().setVisible(false);
-            //gameFrameService.openGameMenuPanel();
+
+            var frame = menuRepository.getMenuPanel().getParent();
+            var menuPanel = menuRepository.getMenuPanel();
+
+            // 이전 화면 삭제
+            frame.remove(menuPanel);
+            
+            // 새로운 화면 생성
+            var screenService = menuRepository.getScreenPanel().getScreenService();
+            screenService.openScreenPanel(frame);
         }
     }
 }
