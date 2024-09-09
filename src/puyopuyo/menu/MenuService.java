@@ -39,6 +39,14 @@ public class MenuService {
         menuPanel.setVisible(true);
     }
 
+    public void closeMenuPanel() {
+        var frame = menuRepository.getMenuPanel().getParent();
+        var menuPanel = menuRepository.getMenuPanel();
+
+        // 이전 화면 삭제
+        frame.remove(menuPanel);
+    }
+
     /**
      * GamePanel로 이동하는 클릭 리스너
      */
@@ -46,16 +54,14 @@ public class MenuService {
         public void actionPerformed(ActionEvent e) {
             JButton myButton = (JButton)e.getSource();
             myButton.getParent().setVisible(false);
-
-            var frame = menuRepository.getMenuPanel().getParent();
-            var menuPanel = menuRepository.getMenuPanel();
-
-            // 이전 화면 삭제
-            frame.remove(menuPanel);
             
             // 새로운 화면 생성
+            var frame = menuRepository.getMenuPanel().getParent();
             var screenService = menuRepository.getScreenPanel().getScreenService();
-            screenService.openScreenPanel(frame);
+            screenService.openGamePanel(frame);
+
+            // 이전 화면 삭제
+            closeMenuPanel();
         }
     }
 }

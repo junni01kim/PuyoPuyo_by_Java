@@ -13,6 +13,7 @@ public class GamePanel extends JPanel {
 
         gameService.setUi();
         setFocusable(true);
+        gameService.start();
     }
 
     public GameService getScreenService() {return gameService;}

@@ -17,7 +17,6 @@ public class GameService {
         var gameGround1P = gameRepository.getGroundPanel1P();
         var gameGround2P = gameRepository.getGroundPanel2P();
 
-
         scorePanel.setLocation(490,60);
         gameGround1P.setLocation(50,60);
         gameGround2P.setLocation(830,60);
@@ -33,9 +32,19 @@ public class GameService {
         screenPanel.setFocusable(true);
     }
 
-    public void openScreenPanel(Container contentPane) {
+    public void start() {gameRepository.getRoundThread().start();}
+
+    public void openGamePanel(Container contentPane) {
         var screenPanel = gameRepository.getScreenPanel();
         contentPane.add(screenPanel);
         screenPanel.setVisible(true);
+    }
+
+    public void closeGamePanel() {
+        var frame = gameRepository.getScreenPanel().getParent();
+        var screenPanel = gameRepository.getScreenPanel();
+
+        // 이전 화면 삭제
+        frame.remove(screenPanel);
     }
 }

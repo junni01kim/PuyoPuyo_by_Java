@@ -15,10 +15,10 @@ public class ScoreRepository {
     public ScorePanel getScorePanel() {return scorePanel;}
 
     /** 필요한 아이템 */
-    private final Puyo nextLeftControlPuyo1P = new Puyo(5);
-    private final Puyo nextRightControlPuyo1P = new Puyo(5);
-    private final Puyo nextLeftControlPuyo2P = new Puyo(5);
-    private final Puyo nextRightControlPuyo2P = new Puyo(5);
+    private final Puyo nextLeftPuyo1P = new Puyo(5);
+    private final Puyo nextRightPuyo1P = new Puyo(5);
+    private final Puyo nextLeftPuyo2P = new Puyo(5);
+    private final Puyo nextRightPuyo2P = new Puyo(5);
 
     private JLabel roundCountLabel = new JLabel("1");
     private JLabel scoreLabel1P = new JLabel("0");
@@ -32,10 +32,10 @@ public class ScoreRepository {
     public void setNumberOfGarbagePuyoLabel1P(int count) {numberOfGarbagePuyoLabel1P.setText(String.valueOf(count));}
     public void setNumberOfGarbagePuyoLabel2P(int count) {numberOfGarbagePuyoLabel2P.setText(String.valueOf(count));}
 
-    public Puyo getNextLeftControlPuyo1P() {return nextLeftControlPuyo1P;}
-    public Puyo getNextRightControlPuyo1P() {return nextRightControlPuyo1P;}
-    public Puyo getNextLeftControlPuyo2P() {return nextLeftControlPuyo2P;}
-    public Puyo getNextRightControlPuyo2P() {return nextRightControlPuyo2P;}
+    public Puyo getNextLeftPuyo1P() {return nextLeftPuyo1P;}
+    public Puyo getNextRightPuyo1P() {return nextRightPuyo1P;}
+    public Puyo getNextLeftPuyo2P() {return nextLeftPuyo2P;}
+    public Puyo getNextRightPuyo2P() {return nextRightPuyo2P;}
 
     public JLabel getRoundCountLabel() {return roundCountLabel;}
 

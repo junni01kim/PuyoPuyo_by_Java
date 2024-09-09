@@ -1,5 +1,7 @@
 package puyopuyo.score;
 
+import puyopuyo.puyo.Puyo;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,18 +19,18 @@ public class ScoreService {
         scorePanel.setSize(300, 750);
         scorePanel.setLayout(null);
 
-        var nextLeftControlPuyo1P = scoreRepository.getNextLeftControlPuyo1P();
-        var nextRightControlPuyo1P = scoreRepository.getNextRightControlPuyo1P();
-        var nextLeftControlPuyo2P = scoreRepository.getNextLeftControlPuyo2P();
-        var nextRightControlPuyo2P = scoreRepository.getNextRightControlPuyo2P();
+        var nextLeftPuyo1P = scoreRepository.getNextLeftPuyo1P();
+        var nextRightPuyo1P = scoreRepository.getNextRightPuyo1P();
+        var nextLeftPuyo2P = scoreRepository.getNextLeftPuyo2P();
+        var nextRightPuyo2P = scoreRepository.getNextRightPuyo2P();
 
         // 다음 뿌요 색상 1P
-        setPosition(nextLeftControlPuyo1P, 12+scorePanel.getWidth()/4-60);
-        setPosition(nextRightControlPuyo1P, 12+scorePanel.getWidth()/4);
+        setPosition(nextLeftPuyo1P, 12+scorePanel.getWidth()/4-60);
+        setPosition(nextRightPuyo1P, 12+scorePanel.getWidth()/4);
 
         // 다음 뿌요 색상 2P
-        setPosition(nextLeftControlPuyo2P, scorePanel.getWidth()/4*3-60-12);
-        setPosition(nextRightControlPuyo2P, scorePanel.getWidth()/4*3-12);
+        setPosition(nextLeftPuyo2P, scorePanel.getWidth()/4*3-60-12);
+        setPosition(nextRightPuyo2P, scorePanel.getWidth()/4*3-12);
 
         var roundCountLabel = scoreRepository.getRoundCountLabel();
 
@@ -79,6 +81,18 @@ public class ScoreService {
         label.setLocation(x, y);
         label.setSize(100, 30);
         scorePanel.add(label);
+    }
+
+    public void changeNextPuyo(Puyo nextLeftPuyo, Puyo nextRightPuyo, int player) {
+        var scorePanel = scoreRepository.getScorePanel();
+
+        if(player == 1) { // 다음 뿌요 색상 1P
+            setPosition(nextLeftPuyo, 12+scorePanel.getWidth()/4-60);
+            setPosition(nextRightPuyo, 12+scorePanel.getWidth()/4);
+        } else { // 다음 뿌요 색상 2P
+            setPosition(nextLeftPuyo, scorePanel.getWidth()/4*3-60-12);
+            setPosition(nextRightPuyo, scorePanel.getWidth()/4*3-12);
+        }
     }
 
     /**
