@@ -11,5 +11,7 @@ public class Frame extends JFrame {
      */
     public Frame() {
         frameService.setUi();
+
+        frameService.openMenuPanel();
     }
 }
