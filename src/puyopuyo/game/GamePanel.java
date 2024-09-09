@@ -9,10 +9,11 @@ public class GamePanel extends JPanel {
     private final GameService gameService = new GameService(this);
 
     public GamePanel() {
-        addKeyListener(null);
-
         gameService.setUi();
+        gameService.setKeyListener();
+
         setFocusable(true);
+
         gameService.start();
     }
 

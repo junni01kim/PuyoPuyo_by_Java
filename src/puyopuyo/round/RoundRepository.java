@@ -1,7 +1,5 @@
 package puyopuyo.round;
 
-import static java.lang.Thread.sleep;
-
 public class RoundRepository {
     private final RoundThread roundThread;
 

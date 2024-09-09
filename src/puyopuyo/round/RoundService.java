@@ -1,5 +1,6 @@
 package puyopuyo.round;
 
+import puyopuyo.game.ControlPuyoKeyListener;
 import puyopuyo.game.GameService;
 
 import static java.lang.Thread.sleep;
@@ -75,7 +76,7 @@ public class RoundService {
 //        playerThread1P.start();
 //        playerThread2P.start();
 
-        // 2 round TODO: true되면 다음 라운드로 진행
+        // 2 round TODO: true되면 다음 라운드로 진행ㅉ
         while(roundRepository.getRoundChangeToggle()) {
             try {
                 sleep(100);

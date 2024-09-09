@@ -1,5 +1,7 @@
 package puyopuyo.game;
 
+import puyopuyo.round.RoundService;
+
 import java.awt.*;
 
 public class GameService {
@@ -30,6 +32,11 @@ public class GameService {
          * 보통은 따로하나, 동시에 1p, 2p의 키보드 값을 받게하기 위함
          */
         screenPanel.setFocusable(true);
+    }
+
+    public void setKeyListener() {
+        var gamePanel = gameRepository.getScreenPanel();
+        gamePanel.addKeyListener(new ControlPuyoKeyListener(this));
     }
 
     public void start() {gameRepository.getRoundThread().start();}
