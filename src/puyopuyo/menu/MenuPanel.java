@@ -1,6 +1,6 @@
 package puyopuyo.menu;
 
-import puyopuyo.GameImageIcon;
+import puyopuyo.puyo.GameImageIcon;
 
 import javax.swing.*;
 import java.awt.*;
