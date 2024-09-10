@@ -8,4 +8,6 @@ public class GroundPanel extends JPanel {
     public GroundPanel() {
         groundService.setUi();
     }
+
+    public GroundService getGroundServices() {return groundService;}
 }

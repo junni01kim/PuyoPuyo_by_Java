@@ -1,23 +1,23 @@
-package puyopuyo.game;
+package puyopuyo.map;
 
 import puyopuyo.puyo.GameImageIcon;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class GamePanel extends JPanel {
-    private final GameService gameService = new GameService(this);
+public class MapPanel extends JPanel {
+    private final MapService mapService = new MapService(this);
 
-    public GamePanel() {
-        gameService.setUi();
-        gameService.setKeyListener();
+    public MapPanel() {
+        mapService.setUi();
+        mapService.setKeyListener();
 
         setFocusable(true);
 
-        gameService.start();
+        mapService.start();
     }
 
-    public GameService getScreenService() {return gameService;}
+    public MapService getScreenService() {return mapService;}
 
     @Override
     public void paintComponent(Graphics graphics) {

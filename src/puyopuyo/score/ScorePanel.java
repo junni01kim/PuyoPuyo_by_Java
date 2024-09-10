@@ -8,4 +8,6 @@ public class ScorePanel extends JPanel {
     public ScorePanel() {
         scoreService.setUi();
     }
+
+    public ScoreService getScoreService() {return scoreService;}
 }

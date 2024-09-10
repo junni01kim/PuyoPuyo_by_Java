@@ -1,6 +1,4 @@
-package puyopuyo.game;
-
-import puyopuyo.round.RoundService;
+package puyopuyo.map;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -8,26 +6,23 @@ import java.awt.event.KeyEvent;
 /** GamePanel의 키 입력 로직 */
 // TODO: 개인적으로 굳이 픽셀 단위로 하는 것 보다 인덱스 단위로 하는게 더 편할거 같긴한데, 나중에 기회되면 바꿔보기
 public class ControlPuyoKeyListener extends KeyAdapter {
-    private final GameService gameService;
+    private final MapService mapService;
 
-    ControlPuyoKeyListener(GameService gameService) {
-        this.gameService = gameService;
+    ControlPuyoKeyListener(MapService mapService) {
+        this.mapService = mapService;
     }
 
     synchronized public void keyPressed(KeyEvent e) {
-        var gameGround1PService = gameService.getGameGround1P().getService();
-        var gameGround2PService = gameService.getGameGround2P().getService();
+        var groundService1P = mapService.getGroundService(1);
+        var groundService2P = mapService.getGroundService(2);
 
-        var playerThread1P = roundService.getPlayerThread1P();
-        var playerThread2P = roundService.getPlayerThread2P();
+        var puyoMap1P = groundService1P.getPuyoMap();
+        var puyoMap2P = groundService2P.getPuyoMap();
 
-        var puyoMap1P = playerThread1P.getPlayerThreadService().getPuyoMap();
-        var puyoMap2P = playerThread2P.getPlayerThreadService().getPuyoMap();
-
-        var leftPuyo1P = gameGround1PService.getLeftPuyo();
-        var rightPuyo1P = gameGround1PService.getRightPuyo();
-        var leftPuyo2P = gameGround2PService.getLeftPuyo();
-        var rightPuyo2P = gameGround2PService.getRightPuyo();
+        var leftPuyo1P = groundService1P.getLeftPuyo();
+        var rightPuyo1P = groundService1P.getRightPuyo();
+        var leftPuyo2P = groundService2P.getLeftPuyo();
+        var rightPuyo2P = groundService2P.getRightPuyo();
 
         switch(e.getKeyCode()) {
             /** Player1에 대한 키입력 */
@@ -83,7 +78,7 @@ public class ControlPuyoKeyListener extends KeyAdapter {
                 }
                 break;
             case KeyEvent.VK_S:
-                playerThread1P.dropPuyo();
+                // TODO: playerThread1P.dropPuyo();
                 break;
             case KeyEvent.VK_A:
                 //예외처리: 왼쪽에 벽이 있는데 좌측키를 누르는 경우
@@ -160,7 +155,7 @@ public class ControlPuyoKeyListener extends KeyAdapter {
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                playerThread2P.dropPuyo();
+                // TODO: playerThread2P.dropPuyo();
                 break;
             case KeyEvent.VK_LEFT:
                 //예외처리: 왼쪽에 블록 혹은 벽이 있는데 좌측키를 누르는 경우

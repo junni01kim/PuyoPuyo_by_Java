@@ -1,30 +1,38 @@
 package puyopuyo.game;
 
-import puyopuyo.ground.GroundPanel;
-import puyopuyo.round.RoundThread;
-import puyopuyo.score.ScorePanel;
-
 public class GameRepository {
-    /** 자기 자신 */
-    private final GamePanel gamePanel;
-    /** 자신의 화면 Ui */
-    private final ScorePanel scorePanel = new ScorePanel();
-    private final GroundPanel groundPanel1P = new GroundPanel();
-    private final GroundPanel groundPanel2P = new GroundPanel();
-    private final RoundThread roundThread;
+    private final GameThread gameThread;
 
-    public GameRepository(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-        roundThread = new RoundThread(gamePanel.getScreenService());
+    public GameRepository(GameThread gameThread) {
+        this.gameThread = gameThread;
     }
 
-    public GamePanel getScreenPanel() {return gamePanel;}
+    public GameThread getRoundThread() {return gameThread;}
 
-    public ScorePanel getScorePanel() {return scorePanel;}
+    private int winCount1P = 0;
+    private int winCount2P = 0;
 
-    public GroundPanel getGroundPanel1P() {return groundPanel1P;}
+    private int[] puyoLogic = new int[25];
 
-    public GroundPanel getGroundPanel2P() {return groundPanel2P;}
+    private boolean roundChangeToggle = false;
 
-    public RoundThread getRoundThread() {return roundThread;}
+    /** 1P 승리 횟수 카운트 */
+    public void plusWinCount1P() {++winCount1P;}
+
+    /** 2P 승리 횟수 카운트 */
+    public void plusWinCount2P() {++winCount2P;}
+
+    public boolean changeRoundChangeToggle() {
+        roundChangeToggle = !roundChangeToggle;
+        return roundChangeToggle;
+    }
+
+    public int[] getPuyoLogic() { return puyoLogic; }
+
+    /** winCount getter */
+    public int getWinCount1P() {return winCount1P;}
+    public int getWinCount2P() {return winCount2P;}
+
+    /** roundChangeToggle getter */
+    public boolean getRoundChangeToggle() {return roundChangeToggle;}
 }
