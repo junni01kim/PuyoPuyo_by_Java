@@ -13,8 +13,8 @@ public class MapService {
     }
 
     public void setUi() {
-        var screenPanel = mapRepository.getScreenPanel();
-        screenPanel.setLayout(null);
+        var mapPanel = mapRepository.getScreenPanel();
+        mapPanel.setLayout(null);
 
         var scorePanel = mapRepository.getScorePanel();
         var gameGround1P = mapRepository.getGroundPanel1P();
@@ -24,15 +24,15 @@ public class MapService {
         gameGround1P.setLocation(50,60);
         gameGround2P.setLocation(830,60);
 
-        screenPanel.add(scorePanel);
-        screenPanel.add(gameGround1P);
-        screenPanel.add(gameGround2P);
+        mapPanel.add(scorePanel);
+        mapPanel.add(gameGround1P);
+        mapPanel.add(gameGround2P);
 
         /*
          * 해당 패널의 키보드 값을 받도록 설정.
          * 보통은 따로하나, 동시에 1p, 2p의 키보드 값을 받게하기 위함
          */
-        screenPanel.setFocusable(true);
+        mapPanel.setFocusable(true);
     }
 
     public void setKeyListener() {

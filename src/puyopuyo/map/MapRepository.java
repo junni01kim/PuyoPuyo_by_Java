@@ -15,7 +15,6 @@ public class MapRepository {
 
     public MapRepository(MapPanel mapPanel) {
         this.mapPanel = mapPanel;
-        //gameThread = new GameThread(mapPanel.getScreenService());
     }
 
     public void addGameThread() {

@@ -54,14 +54,16 @@ public class MenuService {
         public void actionPerformed(ActionEvent e) {
             JButton myButton = (JButton)e.getSource();
             myButton.getParent().setVisible(false);
-            
-            // 새로운 화면 생성
+
             var frame = menuRepository.getMenuPanel().getParent();
-            var screenService = menuRepository.getScreenPanel().getScreenService();
-            screenService.openGamePanel(frame);
 
             // 이전 화면 삭제
             closeMenuPanel();
+
+            // 새로운 화면 생성
+            menuRepository.setMapPanel();
+            var screenService = menuRepository.getScreenPanel().getScreenService();
+            screenService.openGamePanel(frame);
         }
     }
 }

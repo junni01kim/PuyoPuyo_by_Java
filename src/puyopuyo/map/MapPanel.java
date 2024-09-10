@@ -10,8 +10,9 @@ public class MapPanel extends JPanel {
 
     public MapPanel() {
         mapService.setUi();
-        mapService.setKeyListener();
+        //mapService.setKeyListener();
 
+        addKeyListener(new ControlPuyoKeyListener(mapService));
         setFocusable(true);
 
         mapService.start();
