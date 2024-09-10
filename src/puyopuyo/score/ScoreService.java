@@ -83,15 +83,31 @@ public class ScoreService {
         scorePanel.add(label);
     }
 
-    public void changeNextPuyo(Puyo nextLeftPuyo, Puyo nextRightPuyo, int player) {
-        var scorePanel = scoreRepository.getScorePanel();
+    public void changeNextPuyo(int iAm, int[] puyoLogic, int puyoIndex) {
+        int nextLeftControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])/10;
+        int nextRightControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])%10;
 
-        if(player == 1) { // 다음 뿌요 색상 1P
-            setPosition(nextLeftPuyo, 12+scorePanel.getWidth()/4-60);
-            setPosition(nextRightPuyo, 12+scorePanel.getWidth()/4);
-        } else { // 다음 뿌요 색상 2P
-            setPosition(nextLeftPuyo, scorePanel.getWidth()/4*3-60-12);
-            setPosition(nextRightPuyo, scorePanel.getWidth()/4*3-12);
+        if(iAm == 1) {
+            var nextLeftPuyo = scoreRepository.getNextLeftPuyo1P();
+            var nextRightPuyo = scoreRepository.getNextRightPuyo1P();
+
+            nextLeftPuyo.setType(nextLeftControlPuyoType);
+            nextRightPuyo.setType(nextRightControlPuyoType);
+
+            // type에 맞는 아이콘을 사용한다.
+            nextLeftPuyo.setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
+            nextRightPuyo.setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
+        }
+        else {
+            var nextLeftPuyo = scoreRepository.getNextLeftPuyo2P();
+            var nextRightPuyo = scoreRepository.getNextRightPuyo2P();
+
+            nextLeftPuyo.setType(nextLeftControlPuyoType);
+            nextRightPuyo.setType(nextRightControlPuyoType);
+
+            // type에 맞는 아이콘을 사용한다.
+            nextLeftPuyo.setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
+            nextRightPuyo.setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
         }
     }
 

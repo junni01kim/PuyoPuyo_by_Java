@@ -166,6 +166,7 @@ public class RoundService {
     void nextPuyo() {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
+        var scoreService = mapService.getScoreService();
 
         var puyoLogic = gameService.getPuyoLogic();
         var puyoIndex = roundRepository.getPuyoIndex();
@@ -190,37 +191,8 @@ public class RoundService {
         leftPuyo.setVisible(true);
         rightPuyo.setVisible(true);
 
-        //changeNextPuyo();
+        scoreService.changeNextPuyo(iAm, puyoLogic, puyoIndex);
     }
-
-    // TODO: ScorePanel 역할 아님?
-//    void changeNextPuyo() {
-//        var iAm = roundRepository.getIAm();
-//        var scoreService = mapService.getScoreService();
-//
-//        var puyoLogic = gameService.getPuyoLogic();
-//        var puyoIndex = roundRepository.getPuyoIndex();
-//
-//        int nextLeftControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])/10;
-//        int nextRightControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])%10;
-//
-//        if(iAm == 1) {
-//            scorePanel.getNextLeftControlPuyo1P().setType(nextLeftControlPuyoType);
-//            scorePanel.getNextRightControlPuyo1P().setType(nextRightControlPuyoType);
-//
-//            // type에 맞는 아이콘을 사용한다.
-//            scorePanel.getNextLeftControlPuyo1P().setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
-//            scorePanel.getNextRightControlPuyo1P().setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
-//        }
-//        else {
-//            scorePanel.getNextLeftControlPuyo2P().setType(nextLeftControlPuyoType);
-//            scorePanel.getNextRightControlPuyo2P().setType(nextRightControlPuyoType);
-//
-//            // type에 맞는 아이콘을 사용한다.
-//            scorePanel.getNextLeftControlPuyo2P().setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
-//            scorePanel.getNextRightControlPuyo2P().setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
-//        }
-//    }
 
     // 한 뿌요의 위치가 정해지도 다음 뿌요의 위치를 보여주는 함수
     void dropAnotherPuyo(Puyo anotherPuyo) {
