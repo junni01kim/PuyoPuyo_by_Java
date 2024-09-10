@@ -102,7 +102,7 @@ public class RoundService {
             dropAnotherPuyo(rightPuyo);
 
             scanNumberOfSamePuyo();
-            //checkSamePuyo();
+            checkSamePuyo();
 
             // 방해뿌요 드롭
             if(garbagePuyo != 0)
@@ -122,7 +122,7 @@ public class RoundService {
             dropAnotherPuyo(leftPuyo);
 
             scanNumberOfSamePuyo();
-            //checkSamePuyo();
+            checkSamePuyo();
 
             // 방해뿌요 드롭
             if(garbagePuyo != 0)
