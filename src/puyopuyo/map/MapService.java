@@ -12,8 +12,19 @@ public class MapService {
         mapRepository = new MapRepository(mapPanel);
     }
 
+    public void addKeyListener() {
+        var mapPanel = mapRepository.getMapPanel();
+        /*
+         * 해당 패널의 키보드 값을 받도록 설정.
+         * 보통은 따로하나, 동시에 1p, 2p의 키보드 값을 받게하기 위함
+         */
+        mapPanel.addKeyListener(new ControlPuyoKeyListener(this));
+        mapPanel.setFocusable(true);
+        mapPanel.requestFocus();
+    }
+
     public void setUi() {
-        var mapPanel = mapRepository.getScreenPanel();
+        var mapPanel = mapRepository.getMapPanel();
         mapPanel.setLayout(null);
 
         var scorePanel = mapRepository.getScorePanel();
@@ -27,17 +38,6 @@ public class MapService {
         mapPanel.add(scorePanel);
         mapPanel.add(gameGround1P);
         mapPanel.add(gameGround2P);
-
-        /*
-         * 해당 패널의 키보드 값을 받도록 설정.
-         * 보통은 따로하나, 동시에 1p, 2p의 키보드 값을 받게하기 위함
-         */
-        mapPanel.setFocusable(true);
-    }
-
-    public void setKeyListener() {
-        var gamePanel = mapRepository.getScreenPanel();
-        gamePanel.addKeyListener(new ControlPuyoKeyListener(this));
     }
 
     public ScoreService getScoreService() {
@@ -55,14 +55,14 @@ public class MapService {
     }
 
     public void openGamePanel(Container contentPane) {
-        var screenPanel = mapRepository.getScreenPanel();
+        var screenPanel = mapRepository.getMapPanel();
         contentPane.add(screenPanel);
         screenPanel.setVisible(true);
     }
 
     public void closeGamePanel() {
-        var frame = mapRepository.getScreenPanel().getParent();
-        var screenPanel = mapRepository.getScreenPanel();
+        var frame = mapRepository.getMapPanel().getParent();
+        var screenPanel = mapRepository.getMapPanel();
 
         // 이전 화면 삭제
         frame.remove(screenPanel);

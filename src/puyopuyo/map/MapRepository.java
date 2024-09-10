@@ -21,7 +21,7 @@ public class MapRepository {
         gameThread = new GameThread(mapPanel.getScreenService());
     }
 
-    public MapPanel getScreenPanel() {return mapPanel;}
+    public MapPanel getMapPanel() {return mapPanel;}
 
     public ScorePanel getScorePanel() {return scorePanel;}
 
