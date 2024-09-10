@@ -50,7 +50,9 @@ public class MapService {
     }
 
     public void start() {
-        mapRepository.getRoundThread().start();}
+        mapRepository.addGameThread();
+        mapRepository.getGameThread().start();
+    }
 
     public void openGamePanel(Container contentPane) {
         var screenPanel = mapRepository.getScreenPanel();

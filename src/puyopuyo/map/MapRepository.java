@@ -15,11 +15,10 @@ public class MapRepository {
 
     public MapRepository(MapPanel mapPanel) {
         this.mapPanel = mapPanel;
-        gameThread = new GameThread(mapPanel.getScreenService());
+        //gameThread = new GameThread(mapPanel.getScreenService());
     }
 
-    public void setMapRepository(MapPanel mapPanel) {
-        this.mapPanel = mapPanel;
+    public void addGameThread() {
         gameThread = new GameThread(mapPanel.getScreenService());
     }
 
@@ -31,5 +30,5 @@ public class MapRepository {
 
     public GroundPanel getGroundPanel2P() {return groundPanel2P;}
 
-    public GameThread getRoundThread() {return gameThread;}
+    public GameThread getGameThread() {return gameThread;}
 }
