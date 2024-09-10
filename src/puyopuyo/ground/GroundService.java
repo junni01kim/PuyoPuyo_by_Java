@@ -37,4 +37,11 @@ public class GroundService {
 
     public Puyo[][] setPuyo(int indexX, int indexY, Puyo puyo) {return groundRepository.setPuyo(indexX, indexY, puyo);}
     public Puyo[][] setPuyoMap(Puyo[][] puyoMap) {return groundRepository.setPuyoMap(puyoMap);}
+
+    public void repaint() {
+        var groundPanel = groundRepository.getGroundPanel();
+        groundPanel.repaint();
+    }
+
+    public void add(Puyo puyo) {groundRepository.getGroundPanel().add(puyo);}
 }

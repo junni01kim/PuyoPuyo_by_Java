@@ -1,18 +1,33 @@
 package puyopuyo.game;
 
+import puyopuyo.round.RoundThread;
+
 public class GameRepository {
     private final GameThread gameThread;
+    private RoundThread roundThread1P;
+    private RoundThread roundThread2P;
 
     public GameRepository(GameThread gameThread) {
         this.gameThread = gameThread;
     }
 
-    public GameThread getRoundThread() {return gameThread;}
+    public GameThread getGameThread() {return gameThread;}
+    public RoundThread getRoundThread1P() {return roundThread1P;}
+    public RoundThread getRoundThread2P() {return roundThread2P;}
+
+    public RoundThread setRoundThread1P(RoundThread roundThread1P) {
+        this.roundThread1P = roundThread1P;
+        return roundThread1P;
+    }
+    public RoundThread setRoundThread2P(RoundThread roundThread2P) {
+        this.roundThread2P = roundThread2P;
+        return roundThread2P;
+    }
 
     private int winCount1P = 0;
     private int winCount2P = 0;
 
-    private int[] puyoLogic = new int[25];
+    private final int[] puyoLogic = new int[25];
 
     private boolean roundChangeToggle = false;
 

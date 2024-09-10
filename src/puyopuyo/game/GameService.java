@@ -1,6 +1,7 @@
 package puyopuyo.game;
 
 import puyopuyo.map.MapService;
+import puyopuyo.round.RoundThread;
 
 import static java.lang.Thread.sleep;
 
@@ -49,11 +50,8 @@ public class GameService {
     }
 
     public void run() {
-        System.out.println("Running round service");
-//        var playerThread1P = roundThreadService.getPlayerThread1P();
-//        var playerThread2P = roundThreadService.getPlayerThread2P();
-//        playerThread1P.start();
-//        playerThread2P.start();
+        gameRepository.setRoundThread1P(new RoundThread(1, this, mapService)).start();
+        gameRepository.setRoundThread2P(new RoundThread(2, this, mapService)).start();
 
         countThreeSecond(); // 3초 뒤 시작
         changeRoundChangeToggle(); // 게임 진행중에는 true여야 함
@@ -70,10 +68,8 @@ public class GameService {
         countThreeSecond(); // 3초 뒤 시작
         changeRoundChangeToggle(); // 게임 진행중에는 true여야 함
 
-//        playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), scorePanel,1);
-//        playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), scorePanel,2);
-//        playerThread1P.start();
-//        playerThread2P.start();
+        gameRepository.setRoundThread1P(new RoundThread(1, this, mapService)).start();
+        gameRepository.setRoundThread2P(new RoundThread(2, this, mapService)).start();
 
         // 2 round TODO: true되면 다음 라운드로 진행ㅉ
         while(gameRepository.getRoundChangeToggle()) {
@@ -101,10 +97,8 @@ public class GameService {
         countThreeSecond(); // 3초 뒤 시작
         changeRoundChangeToggle(); // 게임 진행중에는 true여야 함
 
-//        playerThread1P = new PlayerThread(gameService, gameService.getGameGround1P().getService(), scorePanel, 1);
-//        playerThread2P = new PlayerThread(gameService, gameService.getGameGround2P().getService(), scorePanel, 2);
-//        playerThread1P.start();
-//        playerThread2P.start();
+        gameRepository.setRoundThread1P(new RoundThread(1, this, mapService)).start();
+        gameRepository.setRoundThread2P(new RoundThread(2, this, mapService)).start();
 
         winCount1P = gameRepository.getWinCount1P();
         winCount2P = gameRepository.getWinCount2P();
@@ -120,5 +114,26 @@ public class GameService {
         }
     }
 
-    private boolean changeRoundChangeToggle() {return gameRepository.changeRoundChangeToggle();}
+    public boolean changeRoundChangeToggle() {return gameRepository.changeRoundChangeToggle();}
+
+    public RoundThread getRoundThread(int player) {
+        if(player==1) return gameRepository.getRoundThread1P();
+        else return gameRepository.getRoundThread2P();
+    }
+    public int[] getPuyoLogic() {return gameRepository.getPuyoLogic();}
+    public void plusWinCount(int player) {
+        if(player==1) gameRepository.plusWinCount1P();
+        else gameRepository.plusWinCount2P();
+    }
+
+    public void tossGarbagePuyo(int player, int plusScore) {
+        if(player==1) {
+            var roundThread = gameRepository.getRoundThread2P();
+            roundThread.setGarbagePuyo(plusScore/70);
+        }
+        else {
+            var roundThread = gameRepository.getRoundThread1P();
+            roundThread.setGarbagePuyo(plusScore/70);
+        }
+    }
 }

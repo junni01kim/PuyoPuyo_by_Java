@@ -95,6 +95,16 @@ public class ScoreService {
         }
     }
 
+    public JLabel getScoreLabel(int player) {
+        if(player == 1) return scoreRepository.getScoreLabel1P();
+        else return scoreRepository.getScoreLabel2P();
+    }
+
+    public JLabel getNumberOfGarbagePuyoLabel(int player) {
+        if(player == 1) return scoreRepository.getNumberOfGarbagePuyoLabel1P();
+        else return scoreRepository.getNumberOfGarbagePuyoLabel2P();
+    }
+
     /**
      * 모듈화 하다보니 사용하는 곳이 하나 구간 밖에 없어서 축약함
      */
