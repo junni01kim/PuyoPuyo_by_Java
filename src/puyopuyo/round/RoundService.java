@@ -495,6 +495,7 @@ public class RoundService {
 
     /**
      * 4개가 중첩되어 없애야 할 뿌요를 삭제한다.
+     * TODO: 재귀말고 SamePuyoChecker가 true인 부분을 삭제하는 것 검토할 것
      *
      * @param puyo
      * @param indexX
