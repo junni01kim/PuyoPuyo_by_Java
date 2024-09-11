@@ -248,7 +248,7 @@ public class RoundService {
         var rightPuyo = groundService.getRightPuyo();
         int numberOfSamePuyo;
 
-        initializeCheckNumberOfSamePuyoVariable(); // 
+        initializeCheckNumberOfSamePuyoVariable();
         checkNumberOfSamePuyo(puyoMap[leftPuyo.PixelXToindex()][leftPuyo.PixelYToindex()], leftPuyo.PixelXToindex(), leftPuyo.PixelYToindex());
 
         numberOfSamePuyo  = roundRepository.getNumberOfSamePuyo();
@@ -261,10 +261,12 @@ public class RoundService {
                 e.printStackTrace();
             }
             dropPuyos();
-            // 모든 뿌요에 대해서 검색
         }
+
         initializeCheckNumberOfSamePuyoVariable();
         checkNumberOfSamePuyo(puyoMap[rightPuyo.PixelXToindex()][rightPuyo.PixelYToindex()], rightPuyo.PixelXToindex(), rightPuyo.PixelYToindex());
+
+        numberOfSamePuyo  = roundRepository.getNumberOfSamePuyo();
         if(numberOfSamePuyo>=4) {
             deletePuyos(puyoMap[rightPuyo.PixelXToindex()][rightPuyo.PixelYToindex()], rightPuyo.PixelXToindex(), rightPuyo.PixelYToindex());
             try {
@@ -458,6 +460,8 @@ public class RoundService {
      * @param indexY
      */
     void checkNumberOfSamePuyo(Puyo puyo, int indexX, int indexY) {
+        if(puyo == null) return;
+
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
         var puyoMap = groundService.getPuyoMap();
