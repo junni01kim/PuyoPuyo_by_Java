@@ -1,6 +1,6 @@
 ---
 name: 'Bug report:: <버그 제목>'
-about: 성능 향상을 위한 오류 제보
+about: 성능 향상을 위한 오류 제보 (제목은 상단으로 통일)
 title: ''
 labels: bug
 assignees: ''
@@ -24,9 +24,9 @@ assignees: ''
 <Ui 상 버그인 경우 화면 촬영>
 
 **테스트 기종(please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+ - OS: <운영체제>
+ - Browser: <실행 클라이언트>
+ - Version: <커밋 이름>
 
-**Additional context**
-Add any other context about the problem here.
+**추가 설명**
+<추가 정보>
