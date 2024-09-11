@@ -21,7 +21,7 @@ public class MapService {
          */
         mapPanel.addKeyListener(new ControlPuyoKeyListener(this));
         mapPanel.setFocusable(true);
-        mapPanel.requestFocus();
+        //mapPanel.requestFocus();
 
         System.out.println("KetListener: "+Arrays.toString(mapPanel.getKeyListeners()));
         System.out.println("Focusable: "+mapPanel.isFocusable());

@@ -232,14 +232,11 @@ public class RoundService {
                 anotherPuyo.setLocation(anotherPuyo.getX(),Puyo.indexXToPixel(indexY));
                 puyoMap[anotherPuyo.PixelXToindex()][indexY] = new Puyo(anotherPuyo.getType(), anotherPuyo.PixelXToindex(), indexY);
                 groundService.add(puyoMap[anotherPuyo.PixelXToindex()][indexY]);
-                //System.out.println("tempPuyo:"+indexY);
                 break;
             }
             indexY--;
-            continue;
         }
         anotherPuyo.setVisible(false);
-        //System.out.println("dropAnotherPuyo");
     }
 
     void checkSamePuyo() {
@@ -289,9 +286,7 @@ public class RoundService {
         var garbagePuyo = roundRepository.getGarbagePuyo();
 
         int seperateGarbagePuyo = garbagePuyo / 6;
-        //System.out.println("seperateGarbagePuyo:"+seperateGarbagePuyo);
         int moduloGarbagePuyo = garbagePuyo % 6;
-        //System.out.println("moduloGarbagePuyo:"+moduloGarbagePuyo);
         int randomVariable;
         //puyopuyo.Puyo.type = 5;
         for (int i = 0; i < 6; i++)
@@ -389,7 +384,6 @@ public class RoundService {
         var colorChecker = roundRepository.getColorChecker();
         var puyoColor = roundRepository.getPuyoColor();
         var puyoConnect = roundRepository.getPuyoConnect();
-        var puyoRemovedSum = roundRepository.getPuyoRemovedSum();
         var puyoCombo = roundRepository.getPuyoCombo();
         var score = roundRepository.getScore();
 
@@ -422,11 +416,12 @@ public class RoundService {
                             }
                             puyoConnect = roundRepository.setPuyoConnect(numberOfSamePuyo);
 
-                            roundRepository.plusPuyoRemovedSum(puyoConnect);
+                            var puyoRemovedSum = roundRepository.plusPuyoRemovedSum(puyoConnect);
 
                             //int plusScore = puyoRemovedSum * (puyoComboBonus[++puyoCombo] + puyoColorBonus[puyoColor] + puyoConnectBonus[puyoConnect]) * 10;
-                            int plusScore = puyoRemovedSum * (++puyoCombo + puyoColor + puyoConnect) * 10;
-                            roundRepository.setPuyoCombo(puyoCombo);
+                            roundRepository.setPuyoCombo(++puyoCombo);
+
+                            int plusScore = puyoRemovedSum * (puyoCombo + puyoColor + puyoConnect) * 10;
 
                             roundRepository.plusScore(score);
 
