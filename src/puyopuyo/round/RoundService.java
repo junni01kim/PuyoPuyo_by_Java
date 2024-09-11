@@ -7,6 +7,7 @@ import puyopuyo.puyo.Puyo;
 import java.util.Arrays;
 
 import static java.lang.Thread.sleep;
+import static puyopuyo.Constants.*;
 
 public class RoundService {
     private final RoundRepository roundRepository;
@@ -420,10 +421,10 @@ public class RoundService {
 
                             var puyoRemovedSum = roundRepository.plusPuyoRemovedSum(puyoConnect);
 
-                            //int plusScore = puyoRemovedSum * (puyoComboBonus[++puyoCombo] + puyoColorBonus[puyoColor] + puyoConnectBonus[puyoConnect]) * 10;
                             roundRepository.setPuyoCombo(++puyoCombo);
 
-                            int plusScore = puyoRemovedSum * (puyoCombo + puyoColor + puyoConnect) * 10;
+                            int plusScore = puyoRemovedSum * (COMBO_BONUS[++puyoCombo] + COLOR_BONUS[puyoColor] + CONNECT_BONUS[puyoConnect]) * 10;
+                            //int plusScore = puyoRemovedSum * (puyoCombo + puyoColor + puyoConnect) * 10;
 
                             roundRepository.plusScore(score);
 
