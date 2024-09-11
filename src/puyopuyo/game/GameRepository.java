@@ -29,6 +29,7 @@ public class GameRepository {
 
     private final int[] puyoLogic = new int[25];
 
+    // TODO: 이름 바꿀 것 start
     private boolean roundChangeToggle = false;
 
     /** 1P 승리 횟수 카운트 */
@@ -37,6 +38,7 @@ public class GameRepository {
     /** 2P 승리 횟수 카운트 */
     public void plusWinCount2P() {++winCount2P;}
 
+    // TODO: 이름 바꿀 것 setStart()
     public boolean changeRoundChangeToggle() {
         roundChangeToggle = !roundChangeToggle;
         return roundChangeToggle;

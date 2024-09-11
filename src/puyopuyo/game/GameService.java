@@ -50,28 +50,26 @@ public class GameService {
     }
 
     public void run() {
+        // 1라운드
+        round();
+
+        // 2라운드
+        round();
+        endCheck();
+
+        // 3라운드
+        round();
+        endCheck();
+    }
+
+    private void round() {
+        countThreeSecond(); // 3초 뒤 시작
+
         gameRepository.setRoundThread1P(new RoundThread(1, this, mapService)).start();
         gameRepository.setRoundThread2P(new RoundThread(2, this, mapService)).start();
-
-        countThreeSecond(); // 3초 뒤 시작
-        changeRoundChangeToggle(); // 게임 진행중에는 true여야 함
 
         // 1 round TODO: true되면 다음 라운드로 진행
-        while(gameRepository.getRoundChangeToggle()) {
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace(); // sleep 실패
-            }
-        }
-
-        countThreeSecond(); // 3초 뒤 시작
         changeRoundChangeToggle(); // 게임 진행중에는 true여야 함
-
-        gameRepository.setRoundThread1P(new RoundThread(1, this, mapService)).start();
-        gameRepository.setRoundThread2P(new RoundThread(2, this, mapService)).start();
-
-        // 2 round TODO: true되면 다음 라운드로 진행ㅉ
         while(gameRepository.getRoundChangeToggle()) {
             try {
                 sleep(100);
@@ -79,29 +77,11 @@ public class GameService {
                 e.printStackTrace(); // sleep 실패
             }
         }
+    }
 
+    private void endCheck() {
         var winCount1P = gameRepository.getWinCount1P();
         var winCount2P = gameRepository.getWinCount2P();
-
-        if(winCount1P == 2) {
-            //System.out.println("1P Win");
-            mapService.closeGamePanel();
-            // TODO: 메뉴 화면으로 복귀
-        }
-        else if(winCount2P == 2) {
-            //System.out.println("2P Win");
-            mapService.closeGamePanel();
-            // TODO: 메뉴 화면으로 복귀
-        }
-
-        countThreeSecond(); // 3초 뒤 시작
-        changeRoundChangeToggle(); // 게임 진행중에는 true여야 함
-
-        gameRepository.setRoundThread1P(new RoundThread(1, this, mapService)).start();
-        gameRepository.setRoundThread2P(new RoundThread(2, this, mapService)).start();
-
-        winCount1P = gameRepository.getWinCount1P();
-        winCount2P = gameRepository.getWinCount2P();
         if(winCount1P == 2) {
             //System.out.println("1P Win");
             mapService.closeGamePanel();

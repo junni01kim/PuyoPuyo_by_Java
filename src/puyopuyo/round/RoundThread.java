@@ -22,8 +22,8 @@ public class RoundThread extends Thread{
     }
 
     // TODO: 위치 조정 필요
-    public void changeEndFlag() {
-        roundService.changeEndFlag();
+    public void setEnd(boolean state) {
+        roundService.setEnd(state);
     }
 
     @Override

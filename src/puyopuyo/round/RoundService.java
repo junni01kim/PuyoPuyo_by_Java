@@ -20,17 +20,26 @@ public class RoundService {
         this.mapService = mapService;
     }
 
+    /**
+     * 새 라운드를 시작하기 위해 초기화 하는 함수
+     * <p>
+     * 자신이 관할하는 roundRepository를 초기화 한다.
+     */
     public void setRound() {
-        var iAm = roundRepository.getIAm();
-        var puyoMap = mapService.getGroundService(iAm).getPuyoMap();
+        var player = roundRepository.getIAm();
+        var puyoMap = mapService.getGroundService(player).getPuyoMap();
 
-        roundRepository.setColorChecker(new boolean[Puyo.getPuyoIcon().length]); // TODO: 여기서만 쓴다면 그냥 초기화 함수로 만들어도 될 듯
+        // TODO: 여기서만 쓴다면 그냥 초기화 함수로 만들어도 될 듯
+        roundRepository.setColorChecker(new boolean[Puyo.getPuyoIcon().length]);
 
         for (Puyo[] puyos : puyoMap) Arrays.fill(puyos, null);
 
         nextPuyo();
     }
 
+    /**
+     * 라운드 종료 후 모든 roundRepository를 정리한다.
+     */
     public void clearRound() {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
@@ -51,6 +60,9 @@ public class RoundService {
         rightPuyo.setVisible(false);
     }
 
+    /**
+     * 뿌요를 한칸 밑으로 내린다.
+     */
     public void dropPuyo() {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
@@ -64,28 +76,35 @@ public class RoundService {
         rightPuyo.setLocation(rightPuyo.getX(), rightPuyo.getY()+60);
     }
 
+    /**
+     * 내 주변에 뿌요가 존재하는지 판단한다.
+     */
     public void checkPuyo() {
+        // TODO: 뿌요 맵을 RoundService로 이동시키고 화면 디자인만 GroundPanel로 옮기는 것도 좋을듯
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
+        
         var puyoMap = groundService.getPuyoMap();
 
         var leftPuyo = groundService.getLeftPuyo();
         var rightPuyo = groundService.getRightPuyo();
+
         var garbagePuyo = roundRepository.getGarbagePuyo();
 
         //게임 종료 조건
-        if(puyoMap[3][1]!=null||puyoMap[4][1]!=null) {
-            roundRepository.changeEnd(); // true로 변경
+        if(puyoMap[2][1]!=null||puyoMap[3][1]!=null) {
+            roundRepository.setEnd(true); // 종료됨을 알린다.
+            
             // 상대 스레드 oneWin
             if(iAm == 1) {
                 gameService.plusWinCount(2);
                 gameService.getRoundThread(2).changeOneWin();
-                gameService.getRoundThread(2).changeEndFlag();
+                gameService.getRoundThread(2).setEnd(true);
             }
             else {
                 gameService.plusWinCount(1);
-                gameService.getRoundThread(2).changeOneWin();
-                gameService.getRoundThread(2).changeEndFlag();
+                gameService.getRoundThread(1).changeOneWin(); // TODO: 삭제해도 무방
+                gameService.getRoundThread(1).setEnd(true);
             }
 
             gameService.changeRoundChangeToggle(); // TODO: 타입 추적 안됨 <- 에러 발생 시 유의
@@ -225,10 +244,12 @@ public class RoundService {
         var puyoMap = groundService.getPuyoMap();
         var leftPuyo = groundService.getLeftPuyo();
         var rightPuyo = groundService.getRightPuyo();
-        var numberOfSamePuyo = roundRepository.getNumberOfSamePuyo();
+        int numberOfSamePuyo;
 
         initializeCheckNumberOfSamePuyoVariable();
         checkNumberOfSamePuyo(puyoMap[leftPuyo.PixelXToindex()][leftPuyo.PixelYToindex()], leftPuyo.PixelXToindex(), leftPuyo.PixelYToindex());
+
+        numberOfSamePuyo  = roundRepository.getNumberOfSamePuyo();
         if(numberOfSamePuyo>=4) {
             deletePuyos(puyoMap[leftPuyo.PixelXToindex()][leftPuyo.PixelYToindex()], leftPuyo.PixelXToindex(), leftPuyo.PixelYToindex());
             try {
@@ -433,7 +454,7 @@ public class RoundService {
         if(samePuyoChecker[indexX][indexY])
             return;
 
-        numberOfSamePuyo++;
+        roundRepository.setNumberOfSamePuyo(++numberOfSamePuyo);
         roundRepository.setPuyoCombo(numberOfSamePuyo);
 
         samePuyoChecker[indexX][indexY] = true;
@@ -550,7 +571,7 @@ public class RoundService {
         roundRepository.changeOneWin();
     }
 
-    public void changeEndFlag() {
-        roundRepository.changeEnd();
+    public void setEnd(boolean state) {
+        roundRepository.setEnd(state);
     }
 }

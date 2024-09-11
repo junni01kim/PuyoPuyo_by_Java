@@ -4,7 +4,6 @@ import puyopuyo.puyo.GameImageIcon;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
 
 public class MapPanel extends JPanel {
     private final MapService mapService = new MapService(this);
@@ -12,16 +11,13 @@ public class MapPanel extends JPanel {
     public MapPanel() {
         mapService.setUi();
 
-        mapService.addKeyListener();
-
-        mapService.start();
-
         /*
          * 해당 패널의 키보드 값을 받도록 설정.
          * 보통은 따로하나, 동시에 1p, 2p의 키보드 값을 받게하기 위함
          */
-//        addKeyListener(new ControlPuyoKeyListener(mapService));
-//        setFocusable(true);
+        mapService.addKeyListener();
+
+        mapService.start();
     }
 
     public MapService getScreenService() {return mapService;}

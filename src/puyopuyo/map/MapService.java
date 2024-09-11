@@ -4,6 +4,7 @@ import puyopuyo.ground.GroundService;
 import puyopuyo.score.ScoreService;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class MapService {
     private final MapRepository mapRepository;
@@ -21,6 +22,9 @@ public class MapService {
         mapPanel.addKeyListener(new ControlPuyoKeyListener(this));
         mapPanel.setFocusable(true);
         mapPanel.requestFocus();
+
+        System.out.println("KetListener: "+Arrays.toString(mapPanel.getKeyListeners()));
+        System.out.println("Focusable: "+mapPanel.isFocusable());
     }
 
     public void setUi() {
@@ -51,6 +55,7 @@ public class MapService {
 
     public void start() {
         mapRepository.addGameThread();
+        
         mapRepository.getGameThread().start();
     }
 

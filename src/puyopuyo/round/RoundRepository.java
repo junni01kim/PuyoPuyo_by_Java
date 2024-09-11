@@ -14,9 +14,9 @@ public class RoundRepository {
 
     private boolean endFlag = false;
     public boolean isEnd() {return endFlag;}
-    public boolean changeEnd() {
-        endFlag = !endFlag;
-        return this.endFlag;
+    public boolean setEnd(boolean state) {
+        endFlag = state;
+        return endFlag;
     }
 
     // nextPuyo()에서 사용한다.
@@ -43,6 +43,7 @@ public class RoundRepository {
     // setter TODO: 세터도 수정된 값을 다시 반환하도록 만들기
     public void setPuyoIndex(int i) { puyoIndex = i; }
 
+    // TODO: 필요없음
     public boolean changeOneWin() {
         oneWin = !oneWin;
         return oneWin;
