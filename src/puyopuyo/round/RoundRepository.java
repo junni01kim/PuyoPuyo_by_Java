@@ -56,12 +56,23 @@ public class RoundRepository {
     public void setScore(int i) { score = i; }
 
     public void setPuyoRemovedSum(int i) { puyoRemovedSum = i; }
-    public void setPuyoConnect(int i) { puyoConnect = i; }
+    public int setPuyoConnect(int i) {
+        puyoConnect = i;
+        return puyoConnect;
+    }
     public void setPuyoCombo(int i) { puyoCombo = i; }
     public void setPuyoColor(int i) { puyoColor = i; }
 
     public void setGarbagePuyo(int i) { garbagePuyo = i; }
 
+    public int plusScore(int i) {
+        score += i;
+        return score;
+    }
+    public int plusPuyoRemovedSum(int i) {
+        puyoRemovedSum += i;
+        return puyoRemovedSum;
+    }
 
     // getter
     public int getPuyoIndex() { return puyoIndex; }

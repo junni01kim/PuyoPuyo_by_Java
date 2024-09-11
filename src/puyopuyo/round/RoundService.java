@@ -107,50 +107,52 @@ public class RoundService {
                 gameService.getRoundThread(1).setEnd(true);
             }
 
-            gameService.changeRoundChangeToggle(); // TODO: 타입 추적 안됨 <- 에러 발생 시 유의
+            gameService.changeRoundChangeToggle();
             return;
         }
 
         // 뿌요1이 가장 아래로 내려운 경우
         if((leftPuyo.getY()-10)/60 >= 11 || puyoMap[(leftPuyo.getX()-20)/60][(leftPuyo.getY()-10)/60+1] != null) {
-            leftPuyo.setVisible(false);
-            puyoMap[(leftPuyo.getX()-20)/60][(leftPuyo.getY()-10)/60] = new Puyo(leftPuyo.getType(),(leftPuyo.getX()-20)/60,(leftPuyo.getY()-10)/60);
-            puyoMap[(leftPuyo.getX()-20)/60][(leftPuyo.getY()-10)/60].setVisible(true);
-            groundService.add(puyoMap[(leftPuyo.getX()-20)/60][(leftPuyo.getY()-10)/60]);
-
-            dropAnotherPuyo(rightPuyo);
-
-            scanNumberOfSamePuyo();
-            checkSamePuyo();
-
-            // 방해뿌요 드롭
-            if(garbagePuyo != 0)
-                dropGarbagePuyo();
-
-            repaint();
-
-            nextPuyo();
+            putPuyo(leftPuyo, rightPuyo);
         }
         // 뿌요2가 가장 아래로 내려운 경우
         else if((rightPuyo.getY()-10)/60 >= 11 || puyoMap[(rightPuyo.getX()-20)/60][(rightPuyo.getY()-10)/60+1] != null) {
-            rightPuyo.setVisible(false);
-            puyoMap[(rightPuyo.getX()-20)/60][(rightPuyo.getY()-10)/60] = new Puyo(rightPuyo.getType(),(rightPuyo.getX()-20)/60,(rightPuyo.getY()-10)/60);
-            puyoMap[(rightPuyo.getX()-20)/60][(rightPuyo.getY()-10)/60].setVisible(true);
-            groundService.add(puyoMap[(rightPuyo.getX()-20)/60][(rightPuyo.getY()-10)/60]);
-
-            dropAnotherPuyo(leftPuyo);
-
-            scanNumberOfSamePuyo();
-            checkSamePuyo();
-
-            // 방해뿌요 드롭
-            if(garbagePuyo != 0)
-                dropGarbagePuyo();
-
-            repaint();
-
-            nextPuyo();
+            putPuyo(rightPuyo, leftPuyo);
         }
+    }
+
+    /**
+     * 뿌요가 최하단까지 도달하였을 시 뿌요 위치를 확정하는 함수
+     * 
+     * @param puyo
+     * @param anotherPuyo
+     */
+    public void putPuyo(Puyo puyo, Puyo anotherPuyo) {
+        var iAm = roundRepository.getIAm();
+        var groundService = mapService.getGroundService(iAm);
+
+        var puyoMap = groundService.getPuyoMap();
+
+        var garbagePuyo = roundRepository.getGarbagePuyo();
+
+        puyo.setVisible(false);
+
+        // puyoMap은 reference이기 때문에 따로 setter를 사용할 필요가 없다.
+        puyoMap[(puyo.getX()-20)/60][(puyo.getY()-10)/60] = new Puyo(puyo.getType(),(puyo.getX()-20)/60,(puyo.getY()-10)/60);
+        groundService.add(puyoMap[(puyo.getX()-20)/60][(puyo.getY()-10)/60]);
+
+        dropAnotherPuyo(anotherPuyo);
+
+        scanNumberOfSamePuyo();
+        checkSamePuyo();
+
+        // 방해뿌요 드롭
+        if(garbagePuyo != 0)
+            dropGarbagePuyo();
+
+        repaint();
+
+        nextPuyo();
     }
 
     public Boolean getEndFlag() {return roundRepository.isEnd();}
@@ -213,7 +215,11 @@ public class RoundService {
         scoreService.changeNextPuyo(iAm, puyoLogic, puyoIndex);
     }
 
-    // 한 뿌요의 위치가 정해지도 다음 뿌요의 위치를 보여주는 함수
+    /**
+     * 한 뿌요의 위치가 정해지고 다음 뿌요의 위치를 보여주는 함수
+     * 
+     * @param anotherPuyo
+     */
     void dropAnotherPuyo(Puyo anotherPuyo) {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
@@ -225,7 +231,6 @@ public class RoundService {
             if(puyoMap[anotherPuyo.PixelXToindex()][indexY]==null) {
                 anotherPuyo.setLocation(anotherPuyo.getX(),Puyo.indexXToPixel(indexY));
                 puyoMap[anotherPuyo.PixelXToindex()][indexY] = new Puyo(anotherPuyo.getType(), anotherPuyo.PixelXToindex(), indexY);
-                puyoMap[anotherPuyo.PixelXToindex()][indexY].setVisible(true);
                 groundService.add(puyoMap[anotherPuyo.PixelXToindex()][indexY]);
                 //System.out.println("tempPuyo:"+indexY);
                 break;
@@ -246,7 +251,7 @@ public class RoundService {
         var rightPuyo = groundService.getRightPuyo();
         int numberOfSamePuyo;
 
-        initializeCheckNumberOfSamePuyoVariable();
+        initializeCheckNumberOfSamePuyoVariable(); // 
         checkNumberOfSamePuyo(puyoMap[leftPuyo.PixelXToindex()][leftPuyo.PixelYToindex()], leftPuyo.PixelXToindex(), leftPuyo.PixelYToindex());
 
         numberOfSamePuyo  = roundRepository.getNumberOfSamePuyo();
@@ -299,7 +304,6 @@ public class RoundService {
                     {
                         if (j - p <= 2) continue;
                         puyoMap[i][j - p] = new Puyo(5, i, j-p);
-                        puyoMap[i][j - p].setVisible(true);
                         groundService.add(puyoMap[i][j - p]);
                     }
                     break;
@@ -316,7 +320,6 @@ public class RoundService {
                 {
                     if(j<=2) continue;
                     puyoMap[randomVariable][j] = new Puyo(5, randomVariable, j);
-                    puyoMap[randomVariable][j].setVisible(true);
                     groundService.add(puyoMap[randomVariable][j]);
                     break;
                 }
@@ -341,6 +344,9 @@ public class RoundService {
                 roundRepository.setSamePuyoChecker(false, i, j);
     }
 
+    /**
+     * 뿌요 폭발 후 가산에 이용했던 점수 변수 초기화
+     */
     void initializeScoreVariable() {
         var colorChecker = roundRepository.getColorChecker();
 
@@ -365,14 +371,21 @@ public class RoundService {
             scoreService.getScoreLabel(2).setText(Integer.toString(score));
     }
 
+    /**
+     * 바닥에 도달한 뿌요 주변에 상호작용이 가능한 뿌요가 있는지 검사하는 함수
+     * <p>
+     * 해당 함수가 발동되는 조건은 다음과 같다.
+     * 1. ControlledPuyo 중 하나가 바닥에 닿았을 경우
+     * 2. 폭발로직이 작동하여 뿌요가 재배치 된 경우
+     */
     void scanNumberOfSamePuyo() {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
         var scoreService = mapService.getScoreService();
 
         var puyoMap = groundService.getPuyoMap();
+
         var samePuyoChecker = roundRepository.getSamePuyoChecker();
-        var numberOfSamePuyo = roundRepository.getNumberOfSamePuyo();
         var colorChecker = roundRepository.getColorChecker();
         var puyoColor = roundRepository.getPuyoColor();
         var puyoConnect = roundRepository.getPuyoConnect();
@@ -396,28 +409,31 @@ public class RoundService {
                     if (!samePuyoChecker[i][j] && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
                         puyo.setLocation(Puyo.indexXToPixel(i),Puyo.indexYToPixel(j));
                         puyo.setType(T);
-                        initializeCheckNumberOfSamePuyoVariable();
-                        checkNumberOfSamePuyo(puyo, i, j);
+                        initializeCheckNumberOfSamePuyoVariable(); // 탐색 전 초기화
+
+                        checkNumberOfSamePuyo(puyo, i, j); // 여기서 numberOfSamePuyo의 값이 확정된다.
+                        var numberOfSamePuyo = roundRepository.getNumberOfSamePuyo();
+
                         // 점수 계산할 때 사용한다.
                         if (numberOfSamePuyo >= 4) {
                             if(!colorChecker[T]) {
                                 colorChecker[T]=true;
                                 roundRepository.setPuyoColor(puyoColor++);
                             }
-                            puyoConnect = numberOfSamePuyo;
-                            roundRepository.setPuyoConnect(puyoConnect);
-                            puyoRemovedSum += puyoConnect;
-                            roundRepository.setPuyoRemovedSum(puyoRemovedSum);
+                            puyoConnect = roundRepository.setPuyoConnect(numberOfSamePuyo);
+
+                            roundRepository.plusPuyoRemovedSum(puyoConnect);
 
                             //int plusScore = puyoRemovedSum * (puyoComboBonus[++puyoCombo] + puyoColorBonus[puyoColor] + puyoConnectBonus[puyoConnect]) * 10;
                             int plusScore = puyoRemovedSum * (++puyoCombo + puyoColor + puyoConnect) * 10;
                             roundRepository.setPuyoCombo(puyoCombo);
 
-                            score += plusScore;
-                            roundRepository.setScore(score);
+                            roundRepository.plusScore(score);
 
                             printScore();
+
                             deletePuyos(puyo, i, j);
+
                             if(iAm == 1) {
                                 gameService.tossGarbagePuyo(1, plusScore);
                                 scoreService.getNumberOfGarbagePuyoLabel(2).setText(Integer.toString(plusScore/70));
@@ -428,20 +444,24 @@ public class RoundService {
                             }
                             check = true;
                         }
-                        puyoRemovedSum = 0;
+                        roundRepository.setPuyoRemovedSum(0);
                     }
                 }
             }
         }
 
-
-        if (check) {
-            dropPuyos();
-            scanNumberOfSamePuyo();
-        }
+        // 폭발되어 값이 수정되었다면 모든 뿌요를 드롭시킨다.
+        if (check) dropPuyos();
     }
 
-    // puyo1과 puyo2가 4개 이상 같은 색으로 연결되었는지 체크
+    /**
+     * puyo1과 puyo2가 4개 이상 같은 색으로 연결되었는지 체크
+     * 탐색에 Region Fill algorithm(재귀)을 사용한다.
+     *
+     * @param puyo
+     * @param indexX
+     * @param indexY
+     */
     void checkNumberOfSamePuyo(Puyo puyo, int indexX, int indexY) {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
@@ -450,24 +470,22 @@ public class RoundService {
         var samePuyoChecker = roundRepository.getSamePuyoChecker();
         var numberOfSamePuyo = roundRepository.getNumberOfSamePuyo();
 
-        // 예외처리: 뿌요1과 2가 동시에 속해서 사라지는 경우 anotherPuyo는 존재하지 않음
-        if(samePuyoChecker[indexX][indexY])
-            return;
+        // 예외처리: 뿌요1과 2가 동시에 속해서 사라지는 경우 anotherPuyo는 존재하지 않음(null)
+        if(samePuyoChecker[indexX][indexY]) return;
 
         roundRepository.setNumberOfSamePuyo(++numberOfSamePuyo);
-        roundRepository.setPuyoCombo(numberOfSamePuyo);
 
         samePuyoChecker[indexX][indexY] = true;
 
         if(numberOfSamePuyo>=4)
             // 예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
-            if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY+1]) {
+            if (indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY + 1] != null && puyoMap[indexX][indexY + 1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY + 1]) {
                 checkNumberOfSamePuyo(puyo, indexX, indexY+1);
             }
-        if (indexX >= 0 && indexX <= 5 && indexY > 0 && indexY < 12 && puyoMap[indexX][indexY-1]!=null && puyoMap[indexX][indexY-1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY-1]) {
+        if (indexX <= 5 && indexY > 0 && indexY < 12 && puyoMap[indexX][indexY - 1] != null && puyoMap[indexX][indexY - 1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY - 1]) {
             checkNumberOfSamePuyo(puyo, indexX, indexY-1);
         }
-        if (indexX >= 0 && indexX <= 4 && indexY < 12 && puyoMap[indexX+1][indexY]!=null && puyoMap[indexX+1][indexY].getType() == puyo.getType() && !samePuyoChecker[indexX+1][indexY]) {
+        if (indexX <= 4 && indexY < 12 && puyoMap[indexX + 1][indexY] != null && puyoMap[indexX + 1][indexY].getType() == puyo.getType() && !samePuyoChecker[indexX + 1][indexY]) {
             checkNumberOfSamePuyo(puyo, indexX+1, indexY);
         }
         if (indexX >= 1 && indexX <= 5 && indexY < 12 && puyoMap[indexX-1][indexY]!=null && puyoMap[indexX-1][indexY].getType() == puyo.getType() && !samePuyoChecker[indexX-1][indexY]) {
@@ -475,7 +493,13 @@ public class RoundService {
         }
     }
 
-    // 예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
+    /**
+     * 4개가 중첩되어 없애야 할 뿌요를 삭제한다.
+     *
+     * @param puyo
+     * @param indexX
+     * @param indexY
+     */
     void deletePuyos(Puyo puyo, int indexX, int indexY) {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
@@ -484,27 +508,35 @@ public class RoundService {
         roundRepository.setSamePuyoChecker(false, indexX, indexY);
         var samePuyoChecker = roundRepository.getSamePuyoChecker();
 
-        puyoMap[indexX][indexY].setVisible(false);
+        puyoMap[indexX][indexY].setVisible(false); // TODO: 삭제는 아니라 중첩 상태임 조금 비효율적
         puyoMap[indexX][indexY]=null;
 
         splashObstructPuyo(indexX, indexY);
 
-        // checkNumberOfSamePuyo()에서 포착된 뿌요들을 제거
-        if (indexX >= 0 && indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY+1]!=null && puyoMap[indexX][indexY+1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY+1]) {
+        /*
+          checkNumberOfSamePuyo()에서 포착된 뿌요들을 제거
+          예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
+         */
+        if (indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY + 1] != null && puyoMap[indexX][indexY + 1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY + 1]) {
             deletePuyos(puyo, indexX, indexY+1);
         }
-        if (indexX >= 0 && indexX <= 5 && indexY > 0 && indexY < 12 && puyoMap[indexX][indexY-1]!=null && puyoMap[indexX][indexY-1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY-1]) {
+        if (indexX <= 5 && indexY > 0 && indexY < 12 && puyoMap[indexX][indexY - 1] != null && puyoMap[indexX][indexY - 1].getType() == puyo.getType() && samePuyoChecker[indexX][indexY - 1]) {
             deletePuyos(puyo, indexX, indexY-1);
         }
-        if (indexX >= 0 && indexX <= 4 && indexY < 12 && puyoMap[indexX+1][indexY]!=null && puyoMap[indexX+1][indexY].getType() == puyo.getType() && samePuyoChecker[indexX+1][indexY]) {
+        if (indexX <= 4 && indexY < 12 && puyoMap[indexX + 1][indexY] != null && puyoMap[indexX + 1][indexY].getType() == puyo.getType() && samePuyoChecker[indexX + 1][indexY]) {
             deletePuyos(puyo, indexX+1, indexY);
         }
         if (indexX >= 1 && indexX <= 5 && indexY < 12 && puyoMap[indexX-1][indexY]!=null && puyoMap[indexX-1][indexY].getType() == puyo.getType() && samePuyoChecker[indexX-1][indexY]) {
             deletePuyos(puyo, indexX-1, indexY);
         }
-
     }
 
+    /**
+     * 주변에 방해뿌요 존재 시 함께 사라진다.
+     *
+     * @param indexX
+     * @param indexY
+     */
     void splashObstructPuyo(int indexX, int indexY) {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
@@ -529,7 +561,9 @@ public class RoundService {
     }
 
 
-    // deletePuyo() 이후 공중에 떠있는 블록들을 아래로 정렬한다.
+    /**
+     * deletePuyo() 이후 공중에 떠있는 블록들을 아래로 정렬한다.
+     */
     void dropPuyos() {
         var iAm = roundRepository.getIAm();
         var groundService = mapService.getGroundService(iAm);
@@ -556,6 +590,9 @@ public class RoundService {
             }
         }
 
+        /*
+         * 뿌요 폭발을 시각적으로 보여주기 위해서이다.
+         */
         try {
             sleep(500);
         } catch (InterruptedException e) {

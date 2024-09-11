@@ -69,5 +69,7 @@ public class Puyo extends JLabel {
         setLocation(indexXToPixel(indexX), indexYToPixel(indexY));
         setSize(60,60);
         setIcon(GameImageIcon.puyoIcon[type]);
+
+        setVisible(true);
     }
 }
