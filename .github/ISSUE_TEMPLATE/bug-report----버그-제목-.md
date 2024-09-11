@@ -1,6 +1,6 @@
 ---
 name: 'Bug report:: <버그 제목>'
-about: 성능 향상을 위한 오류 제보 :: 제목은 상단으로 통일
+about: '성능 향상을 위한 오류 제보 :: 제목은 상단으로 통일'
 title: ''
 labels: bug
 assignees: ''
