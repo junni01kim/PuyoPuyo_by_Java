@@ -7,8 +7,8 @@ import java.awt.*;
 public class GroundService {
     private final GroundRepository groundRepository;
 
-    public GroundService(GroundPanel groundPanel) {
-        groundRepository = new GroundRepository(groundPanel);
+    public GroundService(int iAm, GroundPanel groundPanel) {
+        groundRepository = new GroundRepository(iAm, groundPanel);
     }
 
     public void setUi() {
@@ -26,6 +26,8 @@ public class GroundService {
         groundPanel.add(leftPuyo);
         groundPanel.add(rightPuyo);
     }
+
+    public int getIAm() {return groundRepository.getiAm();}
 
     public Puyo getLeftPuyo() {return groundRepository.getLeftPuyo();}
     public Puyo getRightPuyo() {return groundRepository.getRightPuyo();}
