@@ -11,6 +11,9 @@ public class GameImageIcon {
     /** @property gamePanelIcon <p> GamePanel을 구성하기 위한 백그라운드 디자인 */
     public static final ImageIcon gamePanelIcon = new ImageIcon("res/GamePanel.jpg");
 
+    /** @property GroundPanel을 구성하기 위한 백그라운드 이미지 */
+    public static final ImageIcon GroundPanelIcon = new ImageIcon("res/blackpixelbackground.png");
+
     /** @property startGameButtonImage <p> startGameButton에 들어갈 이미지 */
     public static final ImageIcon startGameButtonImage = new ImageIcon("res/StartGameButton.png");
     /** @property startGameButtonImage <p> expalinGameButton에 들어갈 이미지 */
