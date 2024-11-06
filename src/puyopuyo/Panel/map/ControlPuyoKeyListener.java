@@ -1,5 +1,6 @@
 package puyopuyo.Panel.map;
 
+import puyopuyo.Panel.map.game.GameService;
 import puyopuyo.Panel.map.subpanel.ground.Puyo;
 
 import java.awt.event.KeyAdapter;
@@ -76,7 +77,7 @@ public class ControlPuyoKeyListener extends KeyAdapter {
                 }
                 break;
             case KeyEvent.VK_S:
-                // TODO: playerThread1P.dropPuyo();
+                GameService.getInstance().getRoundThread(1).getRoundService().dropPuyo();
                 break;
             case KeyEvent.VK_A:
                 //예외처리: 왼쪽에 벽이 있는데 좌측키를 누르는 경우
@@ -148,7 +149,7 @@ public class ControlPuyoKeyListener extends KeyAdapter {
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                // TODO: playerThread2P.dropPuyo();
+                GameService.getInstance().getRoundThread(2).getRoundService().dropPuyo();
                 break;
             case KeyEvent.VK_LEFT:
                 //예외처리: 왼쪽에 블록 혹은 벽이 있는데 좌측키를 누르는 경우

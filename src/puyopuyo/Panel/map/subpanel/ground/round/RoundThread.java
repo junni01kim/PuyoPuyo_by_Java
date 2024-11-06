@@ -8,6 +8,10 @@ public class RoundThread extends Thread{
         roundService.nextPuyo();
     }
 
+    public RoundService getRoundService() {
+        return roundService;
+    }
+
     // TODO: 위치 조정 필요
     public void setGarbagePuyo(int plusScore) {
         roundService.setGarbagePuyo(plusScore);
