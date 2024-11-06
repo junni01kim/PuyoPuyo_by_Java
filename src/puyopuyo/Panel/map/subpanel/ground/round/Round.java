@@ -1,16 +1,13 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
-public class RoundRepository {
-    private final int iAm;
-    private final RoundThread roundThread;
+public class Round {
+    private final int player;
 
-    public RoundRepository(int iAm, RoundThread roundThread) {
-        this.iAm = iAm;
-        this.roundThread = roundThread;
+    public Round(int player) {
+        this.player = player;
     }
 
-    public int getIAm() { return iAm; }
-    public RoundThread getRoundThread() {return roundThread;}
+    public int getPlayer() { return player; }
 
     private boolean endFlag = false;
     public boolean isEnd() {return endFlag;}

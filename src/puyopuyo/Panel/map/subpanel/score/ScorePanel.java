@@ -28,6 +28,7 @@ public class ScorePanel extends JPanel {
     private void setUi() {
         setBackground(Color.YELLOW); //TODO: 배경 완성되면 제거할 것
         setSize(300, 750);
+        setLocation(490,60);
         setLayout(null);
 
         var nextLeftPuyo1P = scoreService.getNextLeftPuyo(1);

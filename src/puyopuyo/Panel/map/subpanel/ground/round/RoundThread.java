@@ -1,13 +1,10 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
-import puyopuyo.Panel.map.game.GameService;
-import puyopuyo.Panel.map.MapService;
-
 public class RoundThread extends Thread{
     private final RoundService roundService;
 
-    public RoundThread(int iAm, GameService gameService) {
-        roundService = new RoundService(iAm, this, gameService);
+    public RoundThread(int player) {
+        roundService = new RoundService(player);
         roundService.setRound();
     }
 
@@ -28,6 +25,6 @@ public class RoundThread extends Thread{
 
     @Override
     public void run() {
-        roundService.run();
+        roundService.newRound();
     }
 }

@@ -45,8 +45,10 @@ public class Game {
     public int[] getPuyoLogic() { return puyoLogic; }
 
     /** winCount getter */
-    public int getWinCount1P() {return winCount1P;}
-    public int getWinCount2P() {return winCount2P;}
+    public int getWinCount(int player) {
+        if(player == 1) return winCount1P;
+        else return winCount2P;
+    }
 
     /** roundChangeToggle getter */
     public boolean getRoundChangeToggle() {return roundChangeToggle;}

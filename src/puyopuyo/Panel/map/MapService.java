@@ -36,6 +36,13 @@ public class MapService {
         scorePanel = new ScorePanel();
     }
 
+    public void closeMap() {
+        var map = MapPanel.getInstance();
+        map.remove(groundPanel1P);
+        map.remove(groundPanel2P);
+        map.remove(scorePanel);
+    }
+
     /**
      * getter
      *

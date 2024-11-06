@@ -1,7 +1,7 @@
 package puyopuyo.Panel.map.game;
 
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
-import puyopuyo.Panel.menu.StartPanel;
+import puyopuyo.Panel.start.StartPanel;
 import puyopuyo.frame.Frame;
 
 import static java.lang.Thread.sleep;
@@ -79,14 +79,15 @@ public class GameService {
 
         countThreeSecond(); // 3초 뒤 시작
 
-        game.setRoundThread1P(new RoundThread(1, this)).start();
-        game.setRoundThread2P(new RoundThread(2, this)).start();
+        game.setRoundThread1P(new RoundThread(1)).start();
+        game.setRoundThread2P(new RoundThread(2)).start();
 
-        // 1 round TODO: true되면 다음 라운드로 진행
         changeRoundChangeToggle(); // 게임 진행중에는 true여야 함
+        
         while(game.getRoundChangeToggle()) {
             try {
                 sleep(100);
+                //TODO: 시간 측정
             } catch (InterruptedException e) {
                 e.printStackTrace(); // sleep 실패
             }
@@ -97,8 +98,8 @@ public class GameService {
      * 한 라운드가 종료되었는지 확인하는 함수
      */
     private void endCheck() {
-        var winCount1P = game.getWinCount1P();
-        var winCount2P = game.getWinCount2P();
+        var winCount1P = game.getWinCount(1);
+        var winCount2P = game.getWinCount(2);
 
         if(winCount1P == 2) {
             // TODO: 승리 문구 출력

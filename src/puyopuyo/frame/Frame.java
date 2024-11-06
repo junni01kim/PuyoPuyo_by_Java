@@ -3,6 +3,7 @@ package puyopuyo.frame;
 import puyopuyo.Panel.PanelState;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 화면을 구성하는 틀을 제공하는 클래스
@@ -54,9 +55,11 @@ public class Frame extends JFrame {
      * 기존의 패널은 삭제되며, 다음 패널이 출력된다.
      */
     public void changePanel(PanelState panel) {
-        if(child != null) child.close();
+        if(child != null) {
+            child.close(this);
+        }
 
         child = panel;
-        child.open();
+        child.open(this);
     }
 }

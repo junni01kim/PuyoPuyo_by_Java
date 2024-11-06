@@ -1,4 +1,4 @@
-package puyopuyo.Panel.menu;
+package puyopuyo.Panel.start;
 
 import puyopuyo.frame.Frame;
 import puyopuyo.Panel.PanelState;
@@ -74,21 +74,21 @@ public class StartPanel extends JPanel implements PanelState {
     }
 
     @Override
-    public void open() {
-        var frame = Frame.getInstance();
+    public void open(Frame frame) {
         var me = StartPanel.getInstance();
 
         frame.add(me);
         frame.setVisible(true);
+        frame.repaint();
     }
 
     @Override
-    public void close() {
-        var frame = Frame.getInstance();
+    public void close(Frame frame) {
         var me = getInstance();
 
         // 이전 화면 삭제
         frame.remove(me);
+        frame.repaint();
     }
 
     /**

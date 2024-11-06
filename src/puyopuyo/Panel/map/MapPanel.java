@@ -44,29 +44,16 @@ public class MapPanel extends JPanel implements PanelState {
      * 화면 설정을 하는 함수이다. <br>
      *
      * 1. 플레이어가 진행할 GameGround, ScorePanel을 생성한다. <br>
-     * 2. SubPanel 위치: <br>
-     *   __1) GameGround1P: 50, 60 <br>
-     *   __2) GameGround2P: 830, 60 <br>
-     *   __3) ScorePanel: 490, 60 <br>
-     * 3. 해당 패널에 ControlPuyoKeyListener 연결한다. <br>
+     * 2. 해당 패널에 ControlPuyoKeyListener 연결한다. <br>
      */
     @Override
     public void setUi() {
         this.setLayout(null);
-
         var mapService = MapService.getInstance();
 
         mapService.openMap();
 
-        var scorePanel = mapService.getScorePanel();
-        var gameGround1P = mapService.getGroundPanel(1);
-        var gameGround2P = mapService.getGroundPanel(2);
-
-        scorePanel.setLocation(490,60);
-        gameGround1P.setLocation(50,60);
-        gameGround2P.setLocation(830,60);
-
-        add(scorePanel);
+        add(mapService.getScorePanel());
         add(mapService.getGroundPanel(1));
         add(mapService.getGroundPanel(2));
 
@@ -79,21 +66,21 @@ public class MapPanel extends JPanel implements PanelState {
     }
 
     @Override
-    public void open() {
-        var frame = Frame.getInstance();
-        var me = MapPanel.getInstance();
+    public void open(Frame frame) {
+        var me = getInstance();
 
         frame.add(me);
         frame.setVisible(true);
+        frame.repaint();
     }
 
     @Override
-    public void close() {
-        var frame = Frame.getInstance();
+    public void close(Frame frame) {
         var me = getInstance();
 
         // 이전 화면 삭제
         frame.remove(me);
+        frame.repaint();
     }
 
     /**

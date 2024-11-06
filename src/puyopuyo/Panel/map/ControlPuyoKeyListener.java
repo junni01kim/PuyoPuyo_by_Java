@@ -14,8 +14,8 @@ public class ControlPuyoKeyListener extends KeyAdapter {
     synchronized public void keyPressed(KeyEvent e) {
         var mapService = MapService.getInstance();
 
-        var groundService1P = mapService.getGroundPanel1P().getGroundService();
-        var groundService2P = mapService.getGroundPanel2P().getGroundService();
+        var groundService1P = mapService.getGroundPanel(1).getGroundService();
+        var groundService2P = mapService.getGroundPanel(2).getGroundService();
 
         var puyoMap1P = groundService1P.getPuyoMap();
         var puyoMap2P = groundService2P.getPuyoMap();
