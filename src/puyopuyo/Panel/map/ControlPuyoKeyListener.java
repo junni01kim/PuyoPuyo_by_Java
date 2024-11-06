@@ -1,9 +1,13 @@
-package puyopuyo.map;
+package puyopuyo.Panel.map;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-/** GamePanel의 키 입력 로직 */
+/**
+ * 게임의 전체 조작을 관리하는 KeyListener이다.
+ *
+ * 사용자의 요청 관리 책임을 가지며, MVC 패턴의 Controller의 역할을 한다.
+ */
 // TODO: 개인적으로 굳이 픽셀 단위로 하는 것 보다 인덱스 단위로 하는게 더 편할거 같긴한데, 나중에 기회되면 바꿔보기
 public class ControlPuyoKeyListener extends KeyAdapter {
 

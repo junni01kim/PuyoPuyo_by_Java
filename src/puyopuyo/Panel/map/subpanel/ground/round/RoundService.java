@@ -1,15 +1,15 @@
-package puyopuyo.round;
+package puyopuyo.Panel.map.subpanel.ground.round;
 
-import puyopuyo.game.GameService;
-import puyopuyo.map.MapService;
-import puyopuyo.ground.GroundPanel;
-import puyopuyo.ground.GroundService;
-import puyopuyo.puyo.Puyo;
+import puyopuyo.Panel.map.game.GameService;
+import puyopuyo.Panel.map.MapService;
+import puyopuyo.Panel.map.subpanel.ground.GroundPanel;
+import puyopuyo.Panel.map.subpanel.ground.GroundService;
+import puyopuyo.Panel.map.subpanel.ground.Puyo;
 
 import java.util.Arrays;
 
 import static java.lang.Thread.sleep;
-import static puyopuyo.Constants.*;
+import static puyopuyo.resource.Constants.*;
 
 public class RoundService {
     private final RoundRepository roundRepository;
@@ -218,7 +218,7 @@ public class RoundService {
         if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
         else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
 
-        var scoreService = mapService.getScorePanel();
+        var scoreService = mapService.getScorePanel().getScoreService();
 
         var puyoLogic = gameService.getPuyoLogic();
         var puyoIndex = roundRepository.getPuyoIndex();

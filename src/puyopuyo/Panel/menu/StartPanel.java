@@ -1,33 +1,41 @@
-package puyopuyo.menu;
+package puyopuyo.Panel.menu;
 
 import puyopuyo.frame.Frame;
-import puyopuyo.frame.PanelState;
-import puyopuyo.map.MapPanel;
-import puyopuyo.puyo.GameImageIcon;
+import puyopuyo.Panel.PanelState;
+import puyopuyo.Panel.map.MapPanel;
+import puyopuyo.resource.GameImageIcon;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuPanel extends JPanel implements PanelState {
-    private static MenuPanel instance;
+/**
+ * 시작 화면을 관리하는 패널이다.<br>
+ *
+ * 시각적인 책임을 가지며, MVC 패턴의 View의 역할을 한다.
+ *
+ * 시작 창은 하나만 구현되므로, 싱글톤 패턴을 이용하여 개발했다.
+ *
+ * ※ 따로 관리할 엔티티가 존재하지 않아 Model은 생략하였다.
+ */
+public class StartPanel extends JPanel implements PanelState {
+    private static StartPanel instance;
 
-    public synchronized static MenuPanel getInstance() {
+    public synchronized static StartPanel getInstance() {
         if (instance == null) {
-            instance = new MenuPanel();
+            instance = new StartPanel();
         }
         return instance;
     }
 
-    public MenuPanel() {
+    public StartPanel() {
         setUi();
     }
 
     /**
      * 패널의 백그라운드 이미지를 그리기 위한 함수 <br>
      * 전체 화면 크기로 이미지가 배치 된다.
-     * @param graphics the <code>Graphics</code> object to protect
      */
     @Override
     public void paintComponent(Graphics graphics) {
@@ -35,6 +43,12 @@ public class MenuPanel extends JPanel implements PanelState {
         graphics.drawImage(GameImageIcon.gameMenuPanelIcon.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
     }
 
+    /**
+     * 화면 설정을 하는 함수이다. <br>
+     *
+     * 1. MapPanel로 이동하는 버튼을 생성한다. <br>
+     * 2. ExplainPanel로 이동하는 버튼을 생성한다. <br> //TODO: 제작 필요
+     */
     @Override
     public void setUi() {
         this.setLayout(null);
@@ -62,7 +76,7 @@ public class MenuPanel extends JPanel implements PanelState {
     @Override
     public void open() {
         var frame = Frame.getInstance();
-        var me = MenuPanel.getInstance();
+        var me = StartPanel.getInstance();
 
         frame.add(me);
         frame.setVisible(true);
@@ -78,7 +92,9 @@ public class MenuPanel extends JPanel implements PanelState {
     }
 
     /**
-     * GamePanel로 이동하는 클릭 리스너
+     * 패널 조작 책임을 가지며, MVC 패턴의 Controller의 역할을 한다.
+     *
+     * 코드의 복잡성을 줄이기 위해 합성관계로 구현하였다.
      */
     class StartGameButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {

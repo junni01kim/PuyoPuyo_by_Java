@@ -1,7 +1,7 @@
-package puyopuyo.game;
+package puyopuyo.Panel.map.game;
 
-import puyopuyo.map.MapService;
-import puyopuyo.round.RoundThread;
+import puyopuyo.Panel.map.MapService;
+import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 
 import static java.lang.Thread.sleep;
 

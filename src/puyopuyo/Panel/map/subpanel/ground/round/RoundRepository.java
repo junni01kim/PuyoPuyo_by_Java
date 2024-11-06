@@ -1,4 +1,4 @@
-package puyopuyo.round;
+package puyopuyo.Panel.map.subpanel.ground.round;
 
 public class RoundRepository {
     private final int iAm;

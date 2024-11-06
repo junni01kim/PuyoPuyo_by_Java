@@ -1,7 +1,7 @@
-package puyopuyo.round;
+package puyopuyo.Panel.map.subpanel.ground.round;
 
-import puyopuyo.game.GameService;
-import puyopuyo.map.MapService;
+import puyopuyo.Panel.map.game.GameService;
+import puyopuyo.Panel.map.MapService;
 
 public class RoundThread extends Thread{
     private final RoundService roundService;

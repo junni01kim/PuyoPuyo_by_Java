@@ -1,6 +1,6 @@
-package puyopuyo.game;
+package puyopuyo.Panel.map.game;
 
-import puyopuyo.map.MapService;
+import puyopuyo.Panel.map.MapService;
 
 public class GameThread extends Thread {
     private final GameService gameService;
