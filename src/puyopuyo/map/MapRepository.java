@@ -9,8 +9,8 @@ public class MapRepository {
     private MapPanel mapPanel;
     /** 자신의 화면 Ui */
     private final ScorePanel scorePanel = new ScorePanel();
-    private final GroundPanel groundPanel1P = new GroundPanel();
-    private final GroundPanel groundPanel2P = new GroundPanel();
+    private final GroundPanel groundPanel1P = new GroundPanel(1);
+    private final GroundPanel groundPanel2P = new GroundPanel(2);
     private GameThread gameThread;
 
     public MapRepository(MapPanel mapPanel) {

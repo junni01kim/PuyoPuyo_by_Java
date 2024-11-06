@@ -6,9 +6,14 @@ public class GroundRepository {
     /** 자기 자신 */
     private final GroundPanel groundPanel;
 
-    public GroundRepository(GroundPanel groundPanel) {
+    private final int iAm;
+
+    public GroundRepository(int iAm, GroundPanel groundPanel) {
+        this.iAm = iAm;
         this.groundPanel = groundPanel;
     }
+
+    public int getiAm() {return iAm;}
 
     /** 필요한 아이템 */
     public GroundPanel getGroundPanel() {return groundPanel;}
