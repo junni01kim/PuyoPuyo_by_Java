@@ -11,12 +11,12 @@ import java.awt.*;
  * 시각적인 책임을 가지며, MVC 패턴의 View의 역할을 한다.
  */
 public class GroundPanel extends JPanel {
-    private final int iAm;
+    private final int player;
 
     private final GroundService groundService = new GroundService();
 
-    public GroundPanel(int iAm) {
-        this.iAm = iAm;
+    public GroundPanel(int player) {
+        this.player = player;
         setUi();
     }
 
@@ -32,6 +32,9 @@ public class GroundPanel extends JPanel {
     public void setUi() {
         setLayout(null);
         setSize(400,750);
+
+        if(player == 1) setLocation(50,60);
+        else setLocation(830,60);
 
         Puyo leftPuyo = groundService.getLeftPuyo();
         Puyo rightPuyo = groundService.getRightPuyo();
@@ -51,7 +54,7 @@ public class GroundPanel extends JPanel {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
-        if(iAm == 1) graphics.drawImage(GameImageIcon.player1Ground.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+        if(player == 1) graphics.drawImage(GameImageIcon.player1Ground.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
         else graphics.drawImage(GameImageIcon.player2Ground.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
     }
 

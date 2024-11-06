@@ -18,4 +18,9 @@ public final class Constants {
      * 총 폭발에서 사용된 뿌요 색상 수를 통해 증가하는 보너스 점수이다.
      */
     public static final int[] COLOR_BONUS = {0,3,6,12,24};
+
+    public static final int X_MAX = 5;
+    public static final int X_MIN = 0;
+    public static final int Y_MAX = 11;
+    public static final int MOVE = 1;
 }

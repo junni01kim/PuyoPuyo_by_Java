@@ -1,5 +1,7 @@
 package puyopuyo.Panel;
 
+import puyopuyo.frame.Frame;
+
 /**
  * Frame의 Panel 객체를 관리하기 위한 인터페이스 <br>
  *
@@ -23,12 +25,12 @@ public interface PanelState {
      *
      * 상위 컨테이너인 Frame.changePanel()에 변경 로직이 작성되어있다.
      */
-    void open();
+    void open(Frame frame);
 
     /**
      * 해당 패널의 삭제를 위한 로직을 작성하는 함수이다.<br>
      *
      * 상위 컨테이너인 Frame.changePanel()에 변경 로직이 작성되어있다.
      */
-    void close();
+    void close(Frame frame);
 }

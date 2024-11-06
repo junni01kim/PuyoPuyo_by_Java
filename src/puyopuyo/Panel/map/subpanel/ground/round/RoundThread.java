@@ -1,14 +1,15 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
-import puyopuyo.Panel.map.game.GameService;
-import puyopuyo.Panel.map.MapService;
-
 public class RoundThread extends Thread{
     private final RoundService roundService;
 
-    public RoundThread(int iAm, GameService gameService, MapService mapService) {
-        roundService = new RoundService(iAm, this, gameService, mapService);
-        roundService.setRound();
+    public RoundThread(int player) {
+        roundService = new RoundService(player);
+        roundService.nextPuyo();
+    }
+
+    public RoundService getRoundService() {
+        return roundService;
     }
 
     // TODO: 위치 조정 필요
@@ -28,6 +29,6 @@ public class RoundThread extends Thread{
 
     @Override
     public void run() {
-        roundService.run();
+        roundService.newRound();
     }
 }

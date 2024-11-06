@@ -1,16 +1,15 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
-public class RoundRepository {
-    private final int iAm;
-    private final RoundThread roundThread;
+import puyopuyo.Panel.map.subpanel.ground.Puyo;
 
-    public RoundRepository(int iAm, RoundThread roundThread) {
-        this.iAm = iAm;
-        this.roundThread = roundThread;
+public class Round {
+    private final int player;
+
+    public Round(int player) {
+        this.player = player;
     }
 
-    public int getIAm() { return iAm; }
-    public RoundThread getRoundThread() {return roundThread;}
+    public int getPlayer() { return player; }
 
     private boolean endFlag = false;
     public boolean isEnd() {return endFlag;}
@@ -27,7 +26,7 @@ public class RoundRepository {
     // 폭발 계산 용 변수
     private boolean[][] samePuyoChecker = new boolean[6][12];
     private int numberOfSamePuyo = 0;
-    private boolean[] colorChecker = null;
+    private boolean[] colorChecker = new boolean[Puyo.getPuyoIcon().length];
 
     private int score = 0;
 
