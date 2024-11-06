@@ -1,4 +1,6 @@
-package puyopuyo.puyo;
+package puyopuyo.Panel.map.subpanel.ground;
+
+import puyopuyo.resource.GameImageIcon;
 
 import javax.swing.*;
 

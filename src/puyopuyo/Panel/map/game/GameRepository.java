@@ -1,6 +1,6 @@
-package puyopuyo.game;
+package puyopuyo.Panel.map.game;
 
-import puyopuyo.round.RoundThread;
+import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 
 public class GameRepository {
     private final GameThread gameThread;

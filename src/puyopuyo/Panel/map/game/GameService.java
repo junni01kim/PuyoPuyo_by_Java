@@ -1,7 +1,7 @@
-package puyopuyo.game;
+package puyopuyo.Panel.map.game;
 
-import puyopuyo.map.MapService;
-import puyopuyo.round.RoundThread;
+import puyopuyo.Panel.map.MapService;
+import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 
 import static java.lang.Thread.sleep;
 
@@ -83,13 +83,11 @@ public class GameService {
         var winCount1P = gameRepository.getWinCount1P();
         var winCount2P = gameRepository.getWinCount2P();
         if(winCount1P == 2) {
-            //System.out.println("1P Win");
-            mapService.closeGamePanel();
+            //mapService.closeGamePanel();
             // TODO: 메뉴 화면으로 복귀
         }
         else if(winCount2P == 2) {
-            //System.out.println("2P Win");
-            mapService.closeGamePanel();
+            //mapService.closeGamePanel();
             // TODO: 메뉴 화면으로 복귀
         }
     }

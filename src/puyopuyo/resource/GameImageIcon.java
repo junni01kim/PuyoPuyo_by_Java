@@ -1,4 +1,4 @@
-package puyopuyo.puyo;
+package puyopuyo.resource;
 
 import javax.swing.*;
 
