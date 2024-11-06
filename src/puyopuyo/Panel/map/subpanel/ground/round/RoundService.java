@@ -264,10 +264,10 @@ public class RoundService {
 
         int indexY = 11;
         while(true) {
-            if(puyoMap[anotherPuyo.PixelXToindex()][indexY]==null) {
+            if(puyoMap[anotherPuyo.x()][indexY]==null) {
                 anotherPuyo.setLocation(anotherPuyo.getX(),Puyo.indexXToPixel(indexY));
-                puyoMap[anotherPuyo.PixelXToindex()][indexY] = new Puyo(anotherPuyo.getType(), anotherPuyo.PixelXToindex(), indexY);
-                groundPanel.add(puyoMap[anotherPuyo.PixelXToindex()][indexY]);
+                puyoMap[anotherPuyo.x()][indexY] = new Puyo(anotherPuyo.getType(), anotherPuyo.x(), indexY);
+                groundPanel.add(puyoMap[anotherPuyo.x()][indexY]);
                 break;
             }
             indexY--;
@@ -287,11 +287,11 @@ public class RoundService {
         int numberOfSamePuyo;
 
         initializeCheckNumberOfSamePuyoVariable();
-        checkNumberOfSamePuyo(puyoMap[leftPuyo.PixelXToindex()][leftPuyo.PixelYToindex()], leftPuyo.PixelXToindex(), leftPuyo.PixelYToindex());
+        checkNumberOfSamePuyo(puyoMap[leftPuyo.x()][leftPuyo.y()], leftPuyo.x(), leftPuyo.y());
 
         numberOfSamePuyo  = round.getNumberOfSamePuyo();
         if(numberOfSamePuyo>=4) {
-            deletePuyos(puyoMap[leftPuyo.PixelXToindex()][leftPuyo.PixelYToindex()], leftPuyo.PixelXToindex(), leftPuyo.PixelYToindex());
+            deletePuyos(puyoMap[leftPuyo.x()][leftPuyo.y()], leftPuyo.x(), leftPuyo.y());
             try {
                 sleep(100);
             } catch (InterruptedException e) {
@@ -302,11 +302,11 @@ public class RoundService {
         }
 
         initializeCheckNumberOfSamePuyoVariable();
-        checkNumberOfSamePuyo(puyoMap[rightPuyo.PixelXToindex()][rightPuyo.PixelYToindex()], rightPuyo.PixelXToindex(), rightPuyo.PixelYToindex());
+        checkNumberOfSamePuyo(puyoMap[rightPuyo.x()][rightPuyo.y()], rightPuyo.x(), rightPuyo.y());
 
         numberOfSamePuyo  = round.getNumberOfSamePuyo();
         if(numberOfSamePuyo>=4) {
-            deletePuyos(puyoMap[rightPuyo.PixelXToindex()][rightPuyo.PixelYToindex()], rightPuyo.PixelXToindex(), rightPuyo.PixelYToindex());
+            deletePuyos(puyoMap[rightPuyo.x()][rightPuyo.y()], rightPuyo.x(), rightPuyo.y());
             try {
                 sleep(100);
             } catch (InterruptedException e) {

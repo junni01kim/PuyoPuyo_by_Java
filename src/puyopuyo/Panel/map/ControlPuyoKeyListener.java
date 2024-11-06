@@ -1,5 +1,7 @@
 package puyopuyo.Panel.map;
 
+import puyopuyo.Panel.map.subpanel.ground.Puyo;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -10,10 +12,14 @@ import java.awt.event.KeyEvent;
  */
 // TODO: 개인적으로 굳이 픽셀 단위로 하는 것 보다 인덱스 단위로 하는게 더 편할거 같긴한데, 나중에 기회되면 바꿔보기
 public class ControlPuyoKeyListener extends KeyAdapter {
+    private MapService mapService = MapService.getInstance();
+
+    private static final int X_MAX = 5;
+    private static final int X_MIN = 0;
+    private static final int Y_MAX = 11;
+    private static final int MOVE = 1;
 
     synchronized public void keyPressed(KeyEvent e) {
-        var mapService = MapService.getInstance();
-
         var groundService1P = mapService.getGroundPanel(1).getGroundService();
         var groundService2P = mapService.getGroundPanel(2).getGroundService();
 
@@ -29,53 +35,47 @@ public class ControlPuyoKeyListener extends KeyAdapter {
             /** Player1에 대한 키입력 */
             case KeyEvent.VK_W:
                 //두 뿌요의 위치에 따라서 뿌요를 회전시킨다.
-                // 경우1. 좌우 배치 - (뿌요1)(뿌요2)
-                if(leftPuyo1P.getX()<=rightPuyo1P.getX()&&leftPuyo1P.getY()==rightPuyo1P.getY()) {
-                    // 예외처리: 뿌요가 바닥에서 회전하여 맵을 뚫고 나가는 경우
-                    if(leftPuyo1P.PixelYToindex()==11
-                            // 예외처리: 뿌요가 다른 뿌요 위에서 회전하여 다른 뿌요와 겹치는 경우
-                            ||(leftPuyo1P.PixelYToindex()<11&&puyoMap1P[leftPuyo1P.PixelXToindex()][leftPuyo1P.PixelYToindex()+1]!=null)) {
-                        leftPuyo1P.setLocation(leftPuyo1P.getX(), leftPuyo1P.getY()-60);
-                        rightPuyo1P.setLocation(leftPuyo1P.getX(), leftPuyo1P.getY()+60);
+                switch(Rotate.calcRotate(leftPuyo1P, rightPuyo1P)) {
+                    case RIGHT -> {
+                        // 예외처리: 뿌요가 바닥에서 회전하여 맵을 뚫고 나가는 경우
+                        if(leftPuyo1P.y()== Y_MAX
+                                // 예외처리: 뿌요가 다른 뿌요 위에서 회전하여 다른 뿌요와 겹치는 경우
+                                ||(leftPuyo1P.y()< Y_MAX &&puyoMap1P[leftPuyo1P.x()][leftPuyo1P.y()+MOVE]!=null)) {
+                            leftPuyo1P.pos(leftPuyo1P.x(), leftPuyo1P.y()-MOVE);
+                            rightPuyo1P.pos(leftPuyo1P.x(), leftPuyo1P.y()+MOVE);
+                        }
+                        rightPuyo1P.pos(leftPuyo1P.x(), leftPuyo1P.y()+1);
                     }
-                    rightPuyo1P.setLocation(leftPuyo1P.getX(), leftPuyo1P.getY()+60);
-                    break;
-                }
-                // 경우2. 좌우 배치 - (뿌요2)(뿌요1)
-                if(leftPuyo1P.getX()>rightPuyo1P.getX()&&leftPuyo1P.getY()==rightPuyo1P.getY()) {
-                    rightPuyo1P.setLocation(leftPuyo1P.getX(), leftPuyo1P.getY()-60);
-                    break;
-                }
-                // 경우3. 상하 배치 - (뿌요1)(뿌요2)
-                if(leftPuyo1P.getX()==rightPuyo1P.getX()&&leftPuyo1P.getY()<=rightPuyo1P.getY()) {
-                    // 예외처리: 뿌요가 벽에서 붙은 채 회전하여 맵을 뚫고 나가는 경우
-                    if(leftPuyo1P.PixelXToindex()==0
-                            // 예외처리: 뿌요가 다른 뿌요 옆에서 회전하여 다른 뿌요와 겹치는 경우
-                            ||(leftPuyo1P.PixelXToindex()>0&&puyoMap1P[leftPuyo1P.PixelXToindex()-1][leftPuyo1P.PixelYToindex()]!=null)) {
-                        // 예외처리: 회전하려는 장소에 이미 뿌요가 막혀 있는 경우
-                        if(puyoMap1P[leftPuyo1P.PixelXToindex()+1][leftPuyo1P.PixelYToindex()]!=null)
-                            break;
-                        leftPuyo1P.setLocation(leftPuyo1P.getX()+60, leftPuyo1P.getY());
-                        rightPuyo1P.setLocation(leftPuyo1P.getX()-60, leftPuyo1P.getY());
+                    case LEFT -> {
+                        rightPuyo1P.pos(leftPuyo1P.x(), leftPuyo1P.y()-1);
                     }
-                    rightPuyo1P.setLocation(leftPuyo1P.getX()-60, leftPuyo1P.getY());
-                    break;
-                }
-                // 경우4. 상하 배치 - (뿌요2)(뿌요1)
-                if(leftPuyo1P.getX()==rightPuyo1P.getX()&&leftPuyo1P.getY()>rightPuyo1P.getY()) {
-                    // 예외처리: 뿌요가 벽에서 붙은 채 회전하여 맵을 뚫고 나가는 경우
-                    if(leftPuyo1P.PixelXToindex()==5
-                            // 예외처리: 뿌요가 다른 뿌요 옆에서 회전하여 다른 뿌요와 겹치는 경우
-                            ||(leftPuyo1P.PixelXToindex()<5&&puyoMap1P[leftPuyo1P.PixelXToindex()+1][leftPuyo1P.PixelYToindex()]!=null)) {
-                        // 예외처리: 회전하려는 장소에 이미 뿌요가 막혀 있는 경우
-                        if(puyoMap1P[leftPuyo1P.PixelXToindex()-1][leftPuyo1P.PixelYToindex()]!=null)
-                            break;
+                    case UP -> {
+                        // 예외처리: 뿌요가 벽에서 붙은 채 회전하여 맵을 뚫고 나가는 경우
+                        if(leftPuyo1P.x()== X_MIN
+                                // 예외처리: 뿌요가 다른 뿌요 옆에서 회전하여 다른 뿌요와 겹치는 경우
+                                ||(leftPuyo1P.x()> X_MIN &&puyoMap1P[leftPuyo1P.x()-MOVE][leftPuyo1P.y()]!=null)) {
+                            // 예외처리: 회전하려는 장소에 이미 뿌요가 막혀 있는 경우
+                            if(puyoMap1P[leftPuyo1P.x()+MOVE][leftPuyo1P.y()]!=null)
+                                break;
+                            leftPuyo1P.pos(leftPuyo1P.x()+MOVE, leftPuyo1P.y());
+                            rightPuyo1P.pos(leftPuyo1P.x()-MOVE, leftPuyo1P.y());
+                        }
+                        rightPuyo1P.pos(leftPuyo1P.x()-MOVE, leftPuyo1P.y());
+                    }
+                    case DOWN -> {
+                        // 예외처리: 뿌요가 벽에서 붙은 채 회전하여 맵을 뚫고 나가는 경우
+                        if(leftPuyo1P.x()== X_MAX
+                                // 예외처리: 뿌요가 다른 뿌요 옆에서 회전하여 다른 뿌요와 겹치는 경우
+                                ||(leftPuyo1P.x()< X_MAX &&puyoMap1P[leftPuyo1P.x()+MOVE][leftPuyo1P.y()]!=null)) {
+                            // 예외처리: 회전하려는 장소에 이미 뿌요가 막혀 있는 경우
+                            if(puyoMap1P[leftPuyo1P.x()-MOVE][leftPuyo1P.y()]!=null)
+                                break;
 
-                        leftPuyo1P.setLocation(leftPuyo1P.getX()-60, leftPuyo1P.getY());
-                        rightPuyo1P.setLocation(leftPuyo1P.getX()+60, leftPuyo1P.getY());
+                            leftPuyo1P.pos(leftPuyo1P.x()-MOVE, leftPuyo1P.y());
+                            rightPuyo1P.pos(leftPuyo1P.x()+MOVE, leftPuyo1P.y());
+                        }
+                        rightPuyo1P.pos(leftPuyo1P.x()+MOVE, leftPuyo1P.y());
                     }
-                    rightPuyo1P.setLocation(leftPuyo1P.getX()+60, leftPuyo1P.getY());
-                    break;
                 }
                 break;
             case KeyEvent.VK_S:
@@ -83,76 +83,71 @@ public class ControlPuyoKeyListener extends KeyAdapter {
                 break;
             case KeyEvent.VK_A:
                 //예외처리: 왼쪽에 벽이 있는데 좌측키를 누르는 경우
-                if(leftPuyo1P.PixelXToindex()<=0||rightPuyo1P.PixelXToindex()<=0)
+                if(leftPuyo1P.x()<= X_MIN ||rightPuyo1P.x()<= X_MIN)
                     break;
                 //예외처리: 왼쪽에 블록이 있는데 좌측키를 누르는 경우
-                if(puyoMap1P[leftPuyo1P.PixelXToindex()-1][leftPuyo1P.PixelYToindex()]!=null
-                        ||puyoMap1P[rightPuyo1P.PixelXToindex()-1][rightPuyo1P.PixelYToindex()]!=null)
+                if(puyoMap1P[leftPuyo1P.x()-MOVE][leftPuyo1P.y()]!=null
+                        ||puyoMap1P[rightPuyo1P.x()-MOVE][rightPuyo1P.y()]!=null)
                     break;
 
-                leftPuyo1P.setLocation(leftPuyo1P.getX()-60,leftPuyo1P.getY());
-                rightPuyo1P.setLocation(rightPuyo1P.getX()-60,rightPuyo1P.getY());
+                leftPuyo1P.pos(leftPuyo1P.x()-MOVE,leftPuyo1P.y());
+                rightPuyo1P.pos(rightPuyo1P.x()-MOVE,rightPuyo1P.y());
                 break;
             case KeyEvent.VK_D:
                 //예외처리: 오른쪽에 블록 혹은 벽이 있는데 우측키를 누르는 경우
-                if(leftPuyo1P.PixelXToindex()>=5||rightPuyo1P.PixelXToindex()>=5)
+                if(leftPuyo1P.x()>= X_MAX ||rightPuyo1P.x()>= X_MAX)
                     break;
                 //예외처리: 오른쪽에 블록이 있는데 우측키를 누르는 경우
-                if(puyoMap1P[leftPuyo1P.PixelXToindex()+1][leftPuyo1P.PixelYToindex()]!=null
-                        ||puyoMap1P[rightPuyo1P.PixelXToindex()+1][rightPuyo1P.PixelYToindex()]!=null)
+                if(puyoMap1P[leftPuyo1P.x()+MOVE][leftPuyo1P.y()]!=null
+                        ||puyoMap1P[rightPuyo1P.x()+MOVE][rightPuyo1P.y()]!=null)
                     break;
-                leftPuyo1P.setLocation(leftPuyo1P.getX()+60,leftPuyo1P.getY());
-                rightPuyo1P.setLocation(rightPuyo1P.getX()+60,rightPuyo1P.getY());
+                leftPuyo1P.pos(leftPuyo1P.x()+MOVE,leftPuyo1P.y());
+                rightPuyo1P.pos(rightPuyo1P.x()+MOVE,rightPuyo1P.y());
                 break;
             /** Player2에 대한 키입력 */
             case KeyEvent.VK_UP:
                 //두 뿌요의 위치에 따라서 뿌요를 회전시킨다.
                 // 경우1. 좌우 배치 - (뿌요1)(뿌요2)
-                if(leftPuyo2P.getX()<=rightPuyo2P.getX()&&leftPuyo2P.getY()==rightPuyo2P.getY()) {
-                    // 예외처리: 뿌요가 바닥에서 회전하여 맵을 뚫고 나가는 경우
-                    if(leftPuyo2P.PixelYToindex()==11
-                            // 예외처리: 뿌요가 다른 뿌요 위에서 회전하여 다른 뿌요와 겹치는 경우
-                            ||(leftPuyo2P.PixelYToindex()<11&&puyoMap2P[leftPuyo2P.PixelXToindex()][leftPuyo2P.PixelYToindex()+1]!=null)) {
-                        leftPuyo2P.setLocation(leftPuyo2P.getX(), leftPuyo2P.getY()-60);
-                        rightPuyo2P.setLocation(leftPuyo2P.getX(), leftPuyo2P.getY()+60);
+                switch(Rotate.calcRotate(leftPuyo2P, rightPuyo2P)) {
+                    case RIGHT -> {
+                        // 예외처리: 뿌요가 바닥에서 회전하여 맵을 뚫고 나가는 경우
+                        if(leftPuyo2P.y()== Y_MAX
+                                // 예외처리: 뿌요가 다른 뿌요 위에서 회전하여 다른 뿌요와 겹치는 경우
+                                ||(leftPuyo2P.y()< Y_MAX &&puyoMap2P[leftPuyo2P.x()][leftPuyo2P.y()+MOVE]!=null)) {
+                            leftPuyo2P.pos(leftPuyo2P.x(), leftPuyo2P.y()-MOVE);
+                            rightPuyo2P.pos(leftPuyo2P.x(), leftPuyo2P.y()+MOVE);
+                        }
+                        rightPuyo2P.pos(leftPuyo2P.x(), leftPuyo2P.y()+MOVE);
                     }
-                    rightPuyo2P.setLocation(leftPuyo2P.getX(), leftPuyo2P.getY()+60);
-                    break;
-                }
-                // 경우2. 좌우 배치 - (뿌요2)(뿌요1)
-                if(leftPuyo2P.getX()>rightPuyo2P.getX()&&leftPuyo2P.getY()==rightPuyo2P.getY()) {
-                    rightPuyo2P.setLocation(leftPuyo2P.getX(), leftPuyo2P.getY()-60);
-                    break;
-                }
-                // 경우3. 상하 배치 - (뿌요1)(뿌요2)
-                if(leftPuyo2P.getX()==rightPuyo2P.getX()&&leftPuyo2P.getY()<=rightPuyo2P.getY()) {
-                    // 예외처리: 뿌요가 벽에서 붙은 채 회전하여 맵을 뚫고 나가는 경우
-                    if(leftPuyo2P.PixelXToindex()==0
-                            // 예외처리: 뿌요가 다른 뿌요 옆에서 회전하여 다른 뿌요와 겹치는 경우
-                            ||(leftPuyo2P.PixelXToindex()>0&&puyoMap2P[leftPuyo2P.PixelXToindex()-1][leftPuyo2P.PixelYToindex()]!=null)) {
-                        // 예외처리: 회전하려는 장소에 이미 뿌요가 막혀 있는 경우
-                        if(puyoMap2P[leftPuyo2P.PixelXToindex()+1][leftPuyo2P.PixelYToindex()]!=null)
-                            break;
-                        leftPuyo2P.setLocation(leftPuyo2P.getX()+60, leftPuyo2P.getY());
-                        rightPuyo2P.setLocation(leftPuyo2P.getX()-60, leftPuyo2P.getY());
+                    case LEFT -> {
+                        rightPuyo2P.pos(leftPuyo2P.x(), leftPuyo2P.y()-MOVE);
                     }
-                    rightPuyo2P.setLocation(leftPuyo2P.getX()-60, leftPuyo2P.getY());
-                    break;
-                }
-                // 경우4. 상하 배치 - (뿌요2)(뿌요1)
-                if(leftPuyo2P.getX()==rightPuyo2P.getX()&&leftPuyo2P.getY()>rightPuyo2P.getY()) {
-                    // 예외처리: 뿌요가 벽에서 붙은 채 회전하여 맵을 뚫고 나가는 경우
-                    if(leftPuyo2P.PixelXToindex()==5
-                            // 예외처리: 뿌요가 다른 뿌요 옆에서 회전하여 다른 뿌요와 겹치는 경우
-                            ||(leftPuyo2P.PixelXToindex()<5&&puyoMap2P[leftPuyo2P.PixelXToindex()+1][leftPuyo2P.PixelYToindex()]!=null)) {
-                        // 예외처리: 회전하려는 장소에 이미 뿌요가 막혀 있는 경우
-                        if(puyoMap2P[leftPuyo2P.PixelXToindex()-1][leftPuyo2P.PixelYToindex()]!=null)
-                            break;
-                        leftPuyo2P.setLocation(leftPuyo2P.getX()-60, leftPuyo2P.getY());
-                        rightPuyo2P.setLocation(leftPuyo2P.getX()+60, leftPuyo2P.getY());
+                    case UP -> {
+                        // 예외처리: 뿌요가 벽에서 붙은 채 회전하여 맵을 뚫고 나가는 경우
+                        if(leftPuyo2P.x()== X_MIN
+                                // 예외처리: 뿌요가 다른 뿌요 옆에서 회전하여 다른 뿌요와 겹치는 경우
+                                ||(leftPuyo2P.x()> X_MIN &&puyoMap2P[leftPuyo2P.x()-MOVE][leftPuyo2P.y()]!=null)) {
+                            // 예외처리: 회전하려는 장소에 이미 뿌요가 막혀 있는 경우
+                            if(puyoMap2P[leftPuyo2P.x()+MOVE][leftPuyo2P.x()]!=null)
+                                break;
+                            leftPuyo2P.pos(leftPuyo2P.x()+MOVE, leftPuyo2P.y());
+                            rightPuyo2P.pos(leftPuyo2P.x()-MOVE, leftPuyo2P.y());
+                        }
+                        rightPuyo2P.pos(leftPuyo2P.x()-MOVE, leftPuyo2P.y());
                     }
-                    rightPuyo2P.setLocation(leftPuyo2P.getX()+60, leftPuyo2P.getY());
-                    break;
+                    case DOWN -> {
+                        // 예외처리: 뿌요가 벽에서 붙은 채 회전하여 맵을 뚫고 나가는 경우
+                        if(leftPuyo2P.x()== X_MAX
+                                // 예외처리: 뿌요가 다른 뿌요 옆에서 회전하여 다른 뿌요와 겹치는 경우
+                                ||(leftPuyo2P.x()< X_MAX &&puyoMap2P[leftPuyo2P.x()+MOVE][leftPuyo2P.y()]!=null)) {
+                            // 예외처리: 회전하려는 장소에 이미 뿌요가 막혀 있는 경우
+                            if(puyoMap2P[leftPuyo2P.x()-MOVE][leftPuyo2P.y()]!=null)
+                                break;
+                            leftPuyo2P.pos(leftPuyo2P.x()-MOVE, leftPuyo2P.y());
+                            rightPuyo2P.pos(leftPuyo2P.x()+MOVE, leftPuyo2P.y());
+                        }
+                        rightPuyo2P.pos(leftPuyo2P.x()+MOVE, leftPuyo2P.y());
+                    }
                 }
                 break;
             case KeyEvent.VK_DOWN:
@@ -160,28 +155,56 @@ public class ControlPuyoKeyListener extends KeyAdapter {
                 break;
             case KeyEvent.VK_LEFT:
                 //예외처리: 왼쪽에 블록 혹은 벽이 있는데 좌측키를 누르는 경우
-                if(leftPuyo2P.PixelXToindex()<=0||rightPuyo2P.PixelXToindex()<=0)
+                if(leftPuyo2P.x()<= X_MIN ||rightPuyo2P.x()<= X_MIN)
                     break;
                 //예외처리: 왼쪽에 블록이 있는데 좌측키를 누르는 경우
-                if(puyoMap2P[leftPuyo2P.PixelXToindex()-1][leftPuyo2P.PixelYToindex()]!=null
-                        ||puyoMap2P[rightPuyo2P.PixelXToindex()-1][rightPuyo2P.PixelYToindex()]!=null)
+                if(puyoMap2P[leftPuyo2P.x()-MOVE][leftPuyo2P.y()]!=null
+                        ||puyoMap2P[rightPuyo2P.x()-MOVE][rightPuyo2P.y()]!=null)
                     break;
 
-                leftPuyo2P.setLocation(leftPuyo2P.getX()-60,leftPuyo2P.getY());
-                rightPuyo2P.setLocation(rightPuyo2P.getX()-60,rightPuyo2P.getY());
+                leftPuyo2P.pos(leftPuyo2P.x()-MOVE,leftPuyo2P.y());
+                rightPuyo2P.pos(rightPuyo2P.x()-MOVE,rightPuyo2P.y());
                 break;
             case KeyEvent.VK_RIGHT:
                 //예외처리: 오른쪽에 블록 혹은 벽이 있는데 우측키를 누르는 경우
-                if(leftPuyo2P.PixelXToindex()>=5||rightPuyo2P.PixelXToindex()>=5)
+                if(leftPuyo2P.x()>= X_MAX ||rightPuyo2P.x()>= X_MAX)
                     break;
                 //예외처리: 오른쪽에 블록이 있는데 우측키를 누르는 경우
-                if(puyoMap2P[leftPuyo2P.PixelXToindex()+1][leftPuyo2P.PixelYToindex()]!=null
-                        ||puyoMap2P[rightPuyo2P.PixelXToindex()+1][rightPuyo2P.PixelYToindex()]!=null)
+                if(puyoMap2P[leftPuyo2P.x()+MOVE][leftPuyo2P.y()]!=null
+                        ||puyoMap2P[rightPuyo2P.x()+MOVE][rightPuyo2P.y()]!=null)
                     break;
 
-                leftPuyo2P.setLocation(leftPuyo2P.getX()+60,leftPuyo2P.getY());
-                rightPuyo2P.setLocation(rightPuyo2P.getX()+60,rightPuyo2P.getY());
+                leftPuyo2P.pos(leftPuyo2P.x()+MOVE,leftPuyo2P.y());
+                rightPuyo2P.pos(rightPuyo2P.x()+MOVE,rightPuyo2P.y());
                 break;
         }
+    }
+
+    /**
+     * 조작하는 뿌요의 회전 상태를 열거형으로 표현하기 위한 클래스
+     */
+    private enum Rotate {
+        RIGHT,
+        LEFT,
+        UP,
+        DOWN,
+        ERROR;
+
+        /**
+         * l의 기준으로 r이 있는 방향
+         */
+        public static Rotate calcRotate(Puyo l, Puyo r) {
+            // 경우1. 좌우 배치 - (뿌요1)(뿌요2)
+            if(l.x()<=r.x()&&l.y()==r.y()) return RIGHT;
+            // 경우2. 좌우 배치 - (뿌요2)(뿌요1)
+            else if(l.x()>r.x()&&l.y()==r.y()) return LEFT;
+            // 경우3. 상하 배치 - (뿌요1)(뿌요2)
+            else if(l.x()==r.x()&&l.y()<=r.y()) return UP;
+            // 경우4. 상하 배치 - (뿌요2)(뿌요1)
+            else if(l.x()==r.x()&&l.y()>r.y()) return DOWN;
+
+            return ERROR;
+        }
+
     }
 }

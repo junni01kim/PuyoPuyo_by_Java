@@ -8,6 +8,17 @@ public class Puyo extends JLabel {
     /** 뿌요는 0.초록 1.빨강 2.노랑 3.파랑 4.보라 5.방해이다. */
     private int type;
 
+    public int x() {
+        return (getX()-20)/60;
+    }
+
+    public int y() {
+        return (getY()-10)/60;
+    }
+
+    public void pos(int x, int y) {
+        setLocation(20+x*60, 10+y*60);
+    }
 
     /**
      * 뿌요의 맵 인덱스를 좌표로 바꿔준다.
@@ -24,20 +35,6 @@ public class Puyo extends JLabel {
      * @return ImageIcon이 배치될 좌표 값
      */
     static public int indexYToPixel(int indexY) { return 10+indexY*60; }
-
-    /**
-     * 뿌요의 좌표를 맵 인덱스로 바꿔준다.
-     *
-     * @return ImageIcon이 배치될 맵 인덱스 값
-     */
-    public int PixelXToindex() {return (getX()-20)/60;}
-
-    /**
-     * 뿌요의 좌표를 맵 인덱스로 바꿔준다.
-     *
-     * @return ImageIcon이 배치될 맵 인덱스 값
-     */
-    public int PixelYToindex() {return (getY()-10)/60;}
 
     public void setType(int type) {this.type = type;}
     public int getType() {return type;}
