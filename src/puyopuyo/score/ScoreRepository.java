@@ -5,15 +5,6 @@ import puyopuyo.puyo.Puyo;
 import javax.swing.*;
 
 public class ScoreRepository {
-    /** 자기 자신 */
-    private final ScorePanel scorePanel;
-
-    public ScoreRepository(ScorePanel scorePanel) {
-        this.scorePanel = scorePanel;
-    }
-
-    public ScorePanel getScorePanel() {return scorePanel;}
-
     /** 필요한 아이템 */
     private final Puyo nextLeftPuyo1P = new Puyo(5);
     private final Puyo nextRightPuyo1P = new Puyo(5);

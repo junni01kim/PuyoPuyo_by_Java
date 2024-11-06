@@ -2,48 +2,34 @@ package puyopuyo.ground;
 
 import puyopuyo.puyo.Puyo;
 
-import java.awt.*;
-
 public class GroundService {
-    private final GroundRepository groundRepository;
+    private final GroundRepository groundRepository = new GroundRepository();
 
-    public GroundService(int iAm, GroundPanel groundPanel) {
-        groundRepository = new GroundRepository(iAm, groundPanel);
+    public Puyo getLeftPuyo() {
+        return groundRepository.getLeftPuyo();
     }
 
-    public void setUi() {
-        var groundPanel = groundRepository.getGroundPanel();
-        var leftPuyo = groundRepository.getLeftPuyo();
-        var rightPuyo = groundRepository.getRightPuyo();
-
-        groundPanel.setBackground(Color.CYAN);
-        groundPanel.setLayout(null);
-        groundPanel.setSize(400,750);
-
-        leftPuyo.setLocation(140,10);
-        rightPuyo.setLocation(200,10);
-
-        groundPanel.add(leftPuyo);
-        groundPanel.add(rightPuyo);
+    public Puyo getRightPuyo() {
+        return groundRepository.getRightPuyo();
     }
 
-    public int getIAm() {return groundRepository.getiAm();}
-
-    public Puyo getLeftPuyo() {return groundRepository.getLeftPuyo();}
-    public Puyo getRightPuyo() {return groundRepository.getRightPuyo();}
-
-    public Puyo[][] getPuyoMap() {return groundRepository.getPuyoMap();}
-
-    public Puyo setLeftPuyoLocation(int x, int y) {return groundRepository.setLeftPuyo(x,y);}
-    public Puyo setRightPuyoLocation(int x, int y) {return groundRepository.setRightPuyo(x,y);}
-
-    public Puyo[][] setPuyo(int indexX, int indexY, Puyo puyo) {return groundRepository.setPuyo(indexX, indexY, puyo);}
-    public Puyo[][] setPuyoMap(Puyo[][] puyoMap) {return groundRepository.setPuyoMap(puyoMap);}
-
-    public void repaint() {
-        var groundPanel = groundRepository.getGroundPanel();
-        groundPanel.repaint();
+    public Puyo[][] getPuyoMap() {
+        return groundRepository.getPuyoMap();
     }
 
-    public void add(Puyo puyo) {groundRepository.getGroundPanel().add(puyo);}
+    public Puyo setLeftPuyoLocation(int x, int y) {
+        return groundRepository.setLeftPuyo(x,y);
+    }
+
+    public Puyo setRightPuyoLocation(int x, int y) {
+        return groundRepository.setRightPuyo(x, y);
+    }
+
+    public Puyo[][] setPuyo(int indexX, int indexY, Puyo puyo) {
+        return groundRepository.setPuyo(indexX, indexY, puyo);
+    }
+
+    public Puyo[][] setPuyoMap(Puyo[][] puyoMap) {
+        return groundRepository.setPuyoMap(puyoMap);
+    }
 }
