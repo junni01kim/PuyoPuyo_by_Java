@@ -112,14 +112,16 @@ public class GameService {
     }
 
     /**
-     * RoundThread에서 Game.win 속성에 접근 가능하도록 지원하는 함수
+     * RoundThread에서 상대방의 Game.win 속성에 접근 가능하도록 지원하는 함수
+     * ※ 전달하는 주체의 player 번호를 주입할 것
      */
     public void playerWin(int player) {
         game.plusWinCount(player);
     }
 
     /**
-     * RoundThread에서 Game.garbagePuyo 속성에 접근 가능하도록 지원하는 함수
+     * RoundThread에서 상대방의 Game.garbagePuyo 속성에 접근 가능하도록 지원하는 함수
+     * ※ 전달하는 주체의 player 번호를 주입할 것
      */
     public void tossGarbagePuyo(int player, int plusScore) {
         game.getRoundThread(Game.otherPlayer(player)).setGarbagePuyo(plusScore/70);

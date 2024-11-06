@@ -13,7 +13,6 @@ import static puyopuyo.resource.Constants.*;
  *
  * 사용자의 요청 관리 책임을 가지며, MVC 패턴의 Controller의 역할을 한다.
  */
-// TODO: 개인적으로 굳이 픽셀 단위로 하는 것 보다 인덱스 단위로 하는게 더 편할거 같긴한데, 나중에 기회되면 바꿔보기
 public class ControlPuyoKeyListener extends KeyAdapter {
     private MapService mapService = MapService.getInstance();
 
