@@ -1,5 +1,7 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
+import puyopuyo.Panel.map.subpanel.ground.Puyo;
+
 public class Round {
     private final int player;
 
@@ -24,7 +26,7 @@ public class Round {
     // 폭발 계산 용 변수
     private boolean[][] samePuyoChecker = new boolean[6][12];
     private int numberOfSamePuyo = 0;
-    private boolean[] colorChecker = null;
+    private boolean[] colorChecker = new boolean[Puyo.getPuyoIcon().length];
 
     private int score = 0;
 

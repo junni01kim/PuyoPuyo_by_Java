@@ -20,22 +20,6 @@ public class Puyo extends JLabel {
         setLocation(20+x*60, 10+y*60);
     }
 
-    /**
-     * 뿌요의 맵 인덱스를 좌표로 바꿔준다.
-     *
-     * @param indexX 인덱스 x
-     * @return ImageIcon이 배치될 좌표 값
-     */
-    static public int indexXToPixel(int indexX) { return 20+indexX*60; }
-
-    /**
-     * 뿌요의 맵 인덱스를 좌표로 바꿔준다.
-     *
-     * @param indexY 인덱스 y
-     * @return ImageIcon이 배치될 좌표 값
-     */
-    static public int indexYToPixel(int indexY) { return 10+indexY*60; }
-
     public void setType(int type) {this.type = type;}
     public int getType() {return type;}
     public static ImageIcon[] getPuyoIcon() {return GameImageIcon.puyoIcon;}
@@ -65,7 +49,7 @@ public class Puyo extends JLabel {
         super();
 
         this.type = type;
-        setLocation(indexXToPixel(indexX), indexYToPixel(indexY));
+        pos(indexX, indexY);
         setSize(60,60);
         setIcon(GameImageIcon.puyoIcon[type]);
 

@@ -5,6 +5,8 @@ import puyopuyo.Panel.map.subpanel.ground.Puyo;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import static puyopuyo.resource.Constants.*;
+
 /**
  * 게임의 전체 조작을 관리하는 KeyListener이다.
  *
@@ -13,11 +15,6 @@ import java.awt.event.KeyEvent;
 // TODO: 개인적으로 굳이 픽셀 단위로 하는 것 보다 인덱스 단위로 하는게 더 편할거 같긴한데, 나중에 기회되면 바꿔보기
 public class ControlPuyoKeyListener extends KeyAdapter {
     private MapService mapService = MapService.getInstance();
-
-    private static final int X_MAX = 5;
-    private static final int X_MIN = 0;
-    private static final int Y_MAX = 11;
-    private static final int MOVE = 1;
 
     synchronized public void keyPressed(KeyEvent e) {
         var groundService1P = mapService.getGroundPanel(1).getGroundService();

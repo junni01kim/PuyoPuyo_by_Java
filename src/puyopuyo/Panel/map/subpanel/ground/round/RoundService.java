@@ -6,8 +6,6 @@ import puyopuyo.Panel.map.subpanel.ground.GroundPanel;
 import puyopuyo.Panel.map.subpanel.ground.GroundService;
 import puyopuyo.Panel.map.subpanel.ground.Puyo;
 
-import java.util.Arrays;
-
 import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;
 
@@ -16,25 +14,6 @@ public class RoundService {
 
     public RoundService(int player) {
         round = new Round(player);
-    }
-
-    /**
-     * 새 라운드를 시작하기 위해 초기화 하는 함수
-     * <p>
-     * 자신이 관할하는 roundRepository를 초기화 한다.
-     */
-    public void setRound() {
-        var player = round.getPlayer();
-        var mapService = MapService.getInstance();
-
-        Puyo[][] puyoMap = mapService.getGroundPanel(player).getGroundService().getPuyoMap();
-
-        // TODO: 여기서만 쓴다면 그냥 초기화 함수로 만들어도 될 듯
-        round.setColorChecker(new boolean[Puyo.getPuyoIcon().length]);
-
-        for (Puyo[] puyos : puyoMap) Arrays.fill(puyos, null);
-
-        nextPuyo();
     }
 
     /**
@@ -77,9 +56,10 @@ public class RoundService {
         var rightPuyo = groundService.getRightPuyo();
 
         checkPuyo();
+
         // JLabel을 +60 픽셀만큼 내린다.
-        leftPuyo.setLocation(leftPuyo.getX(), leftPuyo.getY()+60);
-        rightPuyo.setLocation(rightPuyo.getX(), rightPuyo.getY()+60);
+        leftPuyo.pos(leftPuyo.x(), leftPuyo.y()+MOVE);
+        rightPuyo.pos(rightPuyo.x(), rightPuyo.y()+MOVE);
     }
 
     /**
@@ -117,11 +97,11 @@ public class RoundService {
         }
 
         // 뿌요1이 가장 아래로 내려운 경우
-        if((leftPuyo.getY()-10)/60 >= 11 || puyoMap[(leftPuyo.getX()-20)/60][(leftPuyo.getY()-10)/60+1] != null) {
+        if(leftPuyo.y() >= Y_MAX || puyoMap[leftPuyo.x()][leftPuyo.y()+MOVE] != null) {
             putPuyo(leftPuyo, rightPuyo);
         }
         // 뿌요2가 가장 아래로 내려운 경우
-        else if((rightPuyo.getY()-10)/60 >= 11 || puyoMap[(rightPuyo.getX()-20)/60][(rightPuyo.getY()-10)/60+1] != null) {
+        else if(rightPuyo.y() >= Y_MAX || puyoMap[rightPuyo.x()][rightPuyo.y()+MOVE] != null) {
             putPuyo(rightPuyo, leftPuyo);
         }
     }
@@ -146,8 +126,8 @@ public class RoundService {
         puyo.setVisible(false);
 
         // puyoMap은 reference이기 때문에 따로 setter를 사용할 필요가 없다.
-        puyoMap[(puyo.getX()-20)/60][(puyo.getY()-10)/60] = new Puyo(puyo.getType(),(puyo.getX()-20)/60,(puyo.getY()-10)/60);
-        groundPanel.add(puyoMap[(puyo.getX()-20)/60][(puyo.getY()-10)/60]);
+        puyoMap[(puyo.x())][(puyo.y())] = new Puyo(puyo.getType(),puyo.x(),puyo.y());
+        groundPanel.add(puyoMap[puyo.x()][puyo.y()]);
 
         dropAnotherPuyo(anotherPuyo);
 
@@ -239,8 +219,8 @@ public class RoundService {
         leftPuyo.setIcon(Puyo.getPuyoIcon()[puyo1Type]);
         rightPuyo.setIcon(Puyo.getPuyoIcon()[puyo2Type]);
 
-        leftPuyo.setLocation(140,10);
-        rightPuyo.setLocation(200,10);
+        leftPuyo.pos(2,0);
+        rightPuyo.pos(3,0);
 
         leftPuyo.setVisible(true);
         rightPuyo.setVisible(true);
@@ -262,10 +242,10 @@ public class RoundService {
 
         var puyoMap = groundService.getPuyoMap();
 
-        int indexY = 11;
+        int indexY = Y_MAX;
         while(true) {
             if(puyoMap[anotherPuyo.x()][indexY]==null) {
-                anotherPuyo.setLocation(anotherPuyo.getX(),Puyo.indexXToPixel(indexY));
+                anotherPuyo.pos(anotherPuyo.x(),indexY);
                 puyoMap[anotherPuyo.x()][indexY] = new Puyo(anotherPuyo.getType(), anotherPuyo.x(), indexY);
                 groundPanel.add(puyoMap[anotherPuyo.x()][indexY]);
                 break;
@@ -332,11 +312,11 @@ public class RoundService {
         int seperateGarbagePuyo = garbagePuyo / 6;
         int moduloGarbagePuyo = garbagePuyo % 6;
         int randomVariable;
+
         //puyopuyo.Puyo.type = 5;
+
         for (int i = 0; i < 6; i++)
-        {
             for (int j = 11; j >= 0; j--)
-            {
                 if (puyoMap[i][j] == null)
                 {
                     for (int p = 0; p < seperateGarbagePuyo; p++)
@@ -347,14 +327,11 @@ public class RoundService {
                     }
                     break;
                 }
-            }
-        }
 
         while (moduloGarbagePuyo-- > 0)
         {
             randomVariable = (int)(Math.random()*6);
             for (int j = 11; j >= 0; j--)
-            {
                 if (puyoMap[randomVariable][j] == null)
                 {
                     if(j<=2) continue;
@@ -362,7 +339,6 @@ public class RoundService {
                     groundPanel.add(puyoMap[randomVariable][j]);
                     break;
                 }
-            }
         }
         round.setGarbagePuyo(0);
 
@@ -451,10 +427,10 @@ public class RoundService {
 
         for(int T = 0; T < Puyo.getPuyoIcon().length-1; T++) {
             // 0색 체크
-            for (int i = 0; i < 6; i++) {
-                for (int j = 0; j < 12; j++) {
+            for (int i = 0; i < 6; i++)
+                for (int j = 0; j < 12; j++)
                     if (!samePuyoChecker[i][j] && puyoMap[i][j] != null && puyoMap[i][j].getType() == T) {
-                        puyo.setLocation(Puyo.indexXToPixel(i),Puyo.indexYToPixel(j));
+                        puyo.pos(i, j);
                         puyo.setType(T);
                         initializeCheckNumberOfSamePuyoVariable(); // 탐색 전 초기화
 
@@ -495,8 +471,6 @@ public class RoundService {
                         round.setPuyoRemovedSum(0);
                     }
                 }
-            }
-        }
 
         // 폭발되어 값이 수정되었다면 모든 뿌요를 드롭시킨다.
         if (check) dropPuyos();
@@ -530,19 +504,20 @@ public class RoundService {
 
         samePuyoChecker[indexX][indexY] = true;
 
-        if(numberOfSamePuyo>=4)
+        if(numberOfSamePuyo>=4) {
             // 예외처리: puyoMap[][] 범위밖에서 Puyo를 호출한다.
             if (indexX <= 5 && indexY < 11 && puyoMap[indexX][indexY + 1] != null && puyoMap[indexX][indexY + 1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY + 1]) {
-                checkNumberOfSamePuyo(puyo, indexX, indexY+1);
+                checkNumberOfSamePuyo(puyo, indexX, indexY + 1);
             }
-        if (indexX <= 5 && indexY > 0 && indexY < 12 && puyoMap[indexX][indexY - 1] != null && puyoMap[indexX][indexY - 1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY - 1]) {
-            checkNumberOfSamePuyo(puyo, indexX, indexY-1);
-        }
-        if (indexX <= 4 && indexY < 12 && puyoMap[indexX + 1][indexY] != null && puyoMap[indexX + 1][indexY].getType() == puyo.getType() && !samePuyoChecker[indexX + 1][indexY]) {
-            checkNumberOfSamePuyo(puyo, indexX+1, indexY);
-        }
-        if (indexX >= 1 && indexX <= 5 && indexY < 12 && puyoMap[indexX-1][indexY]!=null && puyoMap[indexX-1][indexY].getType() == puyo.getType() && !samePuyoChecker[indexX-1][indexY]) {
-            checkNumberOfSamePuyo(puyo, indexX-1, indexY);
+            if (indexX <= 5 && indexY > 0 && indexY < 12 && puyoMap[indexX][indexY - 1] != null && puyoMap[indexX][indexY - 1].getType() == puyo.getType() && !samePuyoChecker[indexX][indexY - 1]) {
+                checkNumberOfSamePuyo(puyo, indexX, indexY - 1);
+            }
+            if (indexX <= 4 && indexY < 12 && puyoMap[indexX + 1][indexY] != null && puyoMap[indexX + 1][indexY].getType() == puyo.getType() && !samePuyoChecker[indexX + 1][indexY]) {
+                checkNumberOfSamePuyo(puyo, indexX + 1, indexY);
+            }
+            if (indexX >= 1 && indexX <= 5 && indexY < 12 && puyoMap[indexX - 1][indexY] != null && puyoMap[indexX - 1][indexY].getType() == puyo.getType() && !samePuyoChecker[indexX - 1][indexY]) {
+                checkNumberOfSamePuyo(puyo, indexX - 1, indexY);
+            }
         }
     }
 
@@ -645,7 +620,7 @@ public class RoundService {
                         if (puyoMap[i][q] != null) {// ���࿡ ����� ���� �ִٸ�,
                             puyoMap[i][j] = puyoMap[i][q];
                             puyoMap[i][q] = null;
-                            puyoMap[i][j].setLocation(Puyo.indexXToPixel(i),Puyo.indexYToPixel(j));
+                            puyoMap[i][j].pos(i,j);
                             break;
                         }
                     }

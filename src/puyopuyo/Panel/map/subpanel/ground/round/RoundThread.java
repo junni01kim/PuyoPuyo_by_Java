@@ -5,7 +5,7 @@ public class RoundThread extends Thread{
 
     public RoundThread(int player) {
         roundService = new RoundService(player);
-        roundService.setRound();
+        roundService.nextPuyo();
     }
 
     // TODO: 위치 조정 필요
