@@ -59,23 +59,23 @@ public class MapPanel extends JPanel implements PanelState {
         mapService.openMap();
 
         var scorePanel = mapService.getScorePanel();
-        var gameGround1P = mapService.getGroundPanel1P();
-        var gameGround2P = mapService.getGroundPanel2P();
+        var gameGround1P = mapService.getGroundPanel(1);
+        var gameGround2P = mapService.getGroundPanel(2);
 
         scorePanel.setLocation(490,60);
         gameGround1P.setLocation(50,60);
         gameGround2P.setLocation(830,60);
 
         add(scorePanel);
-        add(mapService.getGroundPanel1P());
-        add(mapService.getGroundPanel2P());
+        add(mapService.getGroundPanel(1));
+        add(mapService.getGroundPanel(2));
 
         addKeyListener();
     }
 
     @Override
     public void process() {
-        new GameThread(MapService.getInstance()).start();
+        new GameThread().start();
     }
 
     @Override

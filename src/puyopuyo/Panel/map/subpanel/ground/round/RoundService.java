@@ -15,12 +15,10 @@ public class RoundService {
     private final RoundRepository roundRepository;
 
     private final GameService gameService;
-    private final MapService mapService;
 
-    public RoundService(int iAm, RoundThread roundThread, GameService gameService, MapService mapService) {
+    public RoundService(int iAm, RoundThread roundThread, GameService gameService) {
         roundRepository = new RoundRepository(iAm, roundThread);
         this.gameService = gameService;
-        this.mapService = mapService;
     }
 
     /**
@@ -30,11 +28,9 @@ public class RoundService {
      */
     public void setRound() {
         var player = roundRepository.getIAm();
-        //var puyoMap = mapService.getGroundService(player).getPuyoMap();
+        var mapService = MapService.getInstance();
 
-        Puyo[][] puyoMap = null;
-        if(player == 1) puyoMap = mapService.getGroundPanel1P().getGroundService().getPuyoMap();
-        else if(player == 2) puyoMap = mapService.getGroundPanel2P().getGroundService().getPuyoMap();
+        Puyo[][] puyoMap = mapService.getGroundPanel(player).getGroundService().getPuyoMap();
 
         // TODO: 여기서만 쓴다면 그냥 초기화 함수로 만들어도 될 듯
         roundRepository.setColorChecker(new boolean[Puyo.getPuyoIcon().length]);
@@ -48,10 +44,10 @@ public class RoundService {
      * 라운드 종료 후 모든 roundRepository를 정리한다.
      */
     public void clearRound() {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
 
@@ -74,10 +70,10 @@ public class RoundService {
      * 뿌요를 한칸 밑으로 내린다.
      */
     public void dropPuyo() {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var leftPuyo = groundService.getLeftPuyo();
         var rightPuyo = groundService.getRightPuyo();
@@ -93,10 +89,10 @@ public class RoundService {
      */
     public void checkPuyo() {
         // TODO: 뿌요 맵을 RoundService로 이동시키고 화면 디자인만 GroundPanel로 옮기는 것도 좋을듯
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
         
         var puyoMap = groundService.getPuyoMap();
 
@@ -110,16 +106,12 @@ public class RoundService {
             roundRepository.setEnd(true); // 종료됨을 알린다.
             
             // 상대 스레드 oneWin
-            if(iAm == 1) {
-                gameService.plusWinCount(2);
-                gameService.getRoundThread(2).changeOneWin();
-                gameService.getRoundThread(2).setEnd(true);
-            }
-            else {
-                gameService.plusWinCount(1);
-                gameService.getRoundThread(1).changeOneWin(); // TODO: 삭제해도 무방
-                gameService.getRoundThread(1).setEnd(true);
-            }
+            if(player == 1) player = 2;
+            else player = 1;
+
+            gameService.playerWin(player);
+            gameService.getRoundThread(player).changeOneWin();
+            gameService.getRoundThread(player).setEnd(true);
 
             gameService.changeRoundChangeToggle();
             return;
@@ -142,18 +134,11 @@ public class RoundService {
      * @param anotherPuyo
      */
     public void putPuyo(Puyo puyo, Puyo anotherPuyo) {
-        var iAm = roundRepository.getIAm();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
 
-        GroundPanel groundPanel = null;
-        GroundService groundService = null;
-        if(iAm == 1) {
-            groundPanel = mapService.getGroundPanel1P();
-            groundService = groundPanel.getGroundService();
-        }
-        else if(iAm == 2) {
-            groundPanel = mapService.getGroundPanel2P();
-            groundService = groundPanel.getGroundService();
-        }
+        GroundPanel groundPanel = mapService.getGroundPanel(player);
+        GroundService groundService = groundPanel.getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
 
@@ -182,10 +167,10 @@ public class RoundService {
     public Boolean getEndFlag() {return roundRepository.isEnd();}
 
     public void repaint() {
-        var iAm = roundRepository.getIAm();
-        GroundPanel groundPanel = null;
-        if(iAm == 1) groundPanel = mapService.getGroundPanel1P();
-        else if(iAm == 2) groundPanel = mapService.getGroundPanel2P();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundPanel groundPanel = mapService.getGroundPanel(player);
 
         groundPanel.repaint();
     }
@@ -213,10 +198,10 @@ public class RoundService {
 
     // 다음 뿌요로 전환시켜주는 함수이다.
     void nextPuyo() {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var scoreService = mapService.getScorePanel().getScoreService();
 
@@ -243,7 +228,7 @@ public class RoundService {
         leftPuyo.setVisible(true);
         rightPuyo.setVisible(true);
 
-        scoreService.changeNextPuyo(iAm, puyoLogic, puyoIndex);
+        scoreService.changeNextPuyo(player, puyoLogic, puyoIndex);
     }
 
     /**
@@ -252,18 +237,11 @@ public class RoundService {
      * @param anotherPuyo
      */
     void dropAnotherPuyo(Puyo anotherPuyo) {
-        var iAm = roundRepository.getIAm();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
 
-        GroundPanel groundPanel = null;
-        GroundService groundService = null;
-        if(iAm == 1) {
-            groundPanel = mapService.getGroundPanel1P();
-            groundService = groundPanel.getGroundService();
-        }
-        else if(iAm == 2) {
-            groundPanel = mapService.getGroundPanel2P();
-            groundService = groundPanel.getGroundService();
-        }
+        GroundPanel groundPanel = mapService.getGroundPanel(player);
+        GroundService groundService = groundPanel.getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
 
@@ -281,10 +259,10 @@ public class RoundService {
     }
 
     void checkSamePuyo() {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
         var leftPuyo = groundService.getLeftPuyo();
@@ -323,18 +301,11 @@ public class RoundService {
     }
 
     void dropGarbagePuyo() {
-        var iAm = roundRepository.getIAm();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
 
-        GroundPanel groundPanel = null;
-        GroundService groundService = null;
-        if(iAm == 1) {
-            groundPanel = mapService.getGroundPanel1P();
-            groundService = groundPanel.getGroundService();
-        }
-        else if(iAm == 2) {
-            groundPanel = mapService.getGroundPanel2P();
-            groundService = groundPanel.getGroundService();
-        }
+        GroundPanel groundPanel = mapService.getGroundPanel(player);
+        GroundService groundService = groundPanel.getGroundService();
 
         var scorePanel = mapService.getScorePanel();
 
@@ -384,10 +355,10 @@ public class RoundService {
 
     // CheckNumberOfSamePuyo와 deletePuyos에 필요한 변수들을 초기화 하는 함수
     void initializeCheckNumberOfSamePuyoVariable() {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
 
@@ -415,6 +386,8 @@ public class RoundService {
 
     void printScore() {
         var iAm = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
         var scoreService = mapService.getScorePanel().getScoreService();
 
         var score = roundRepository.getScore();
@@ -433,10 +406,10 @@ public class RoundService {
      * 2. 폭발로직이 작동하여 뿌요가 재배치 된 경우
      */
     void scanNumberOfSamePuyo() {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var scoreService = mapService.getScorePanel().getScoreService();
 
@@ -491,7 +464,7 @@ public class RoundService {
 
                             deletePuyos(puyo, i, j);
 
-                            if(iAm == 1) {
+                            if(player == 1) {
                                 gameService.tossGarbagePuyo(1, plusScore);
                                 scoreService.getNumberOfGarbagePuyoLabel(2).setText(Integer.toString(plusScore/70));
                             }
@@ -522,10 +495,10 @@ public class RoundService {
     void checkNumberOfSamePuyo(Puyo puyo, int indexX, int indexY) {
         if(puyo == null) return;
 
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
 
@@ -564,10 +537,10 @@ public class RoundService {
      * @param indexY
      */
     void deletePuyos(Puyo puyo, int indexX, int indexY) {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
 
@@ -604,10 +577,10 @@ public class RoundService {
      * @param indexY
      */
     void splashObstructPuyo(int indexX, int indexY) {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
 
@@ -634,10 +607,10 @@ public class RoundService {
      * deletePuyo() 이후 공중에 떠있는 블록들을 아래로 정렬한다.
      */
     void dropPuyos() {
-        var iAm = roundRepository.getIAm();
-        GroundService groundService = null;
-        if(iAm == 1) groundService = mapService.getGroundPanel1P().getGroundService();
-        else if(iAm == 2) groundService = mapService.getGroundPanel2P().getGroundService();
+        var player = roundRepository.getIAm();
+        var mapService = MapService.getInstance();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
 
         var puyoMap = groundService.getPuyoMap();
 

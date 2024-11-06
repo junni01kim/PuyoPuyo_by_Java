@@ -2,18 +2,14 @@ package puyopuyo.Panel.map.game;
 
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 
-public class GameRepository {
-    private final GameThread gameThread;
+public class Game {
     private RoundThread roundThread1P;
     private RoundThread roundThread2P;
 
-    public GameRepository(GameThread gameThread) {
-        this.gameThread = gameThread;
+    public RoundThread getRoundThread(int player) {
+        if(player == 1) return roundThread1P;
+        else return roundThread2P;
     }
-
-    public GameThread getGameThread() {return gameThread;}
-    public RoundThread getRoundThread1P() {return roundThread1P;}
-    public RoundThread getRoundThread2P() {return roundThread2P;}
 
     public RoundThread setRoundThread1P(RoundThread roundThread1P) {
         this.roundThread1P = roundThread1P;
@@ -32,11 +28,13 @@ public class GameRepository {
     // TODO: 이름 바꿀 것 start
     private boolean roundChangeToggle = false;
 
-    /** 1P 승리 횟수 카운트 */
-    public void plusWinCount1P() {++winCount1P;}
-
-    /** 2P 승리 횟수 카운트 */
-    public void plusWinCount2P() {++winCount2P;}
+    /**
+     * 승리 횟수 카운트
+     */
+    public int plusWinCount(int player) {
+        if(player == 1) return ++winCount1P;
+        else return ++winCount2P;
+    }
 
     // TODO: 이름 바꿀 것 setStart()
     public boolean changeRoundChangeToggle() {
@@ -52,4 +50,9 @@ public class GameRepository {
 
     /** roundChangeToggle getter */
     public boolean getRoundChangeToggle() {return roundChangeToggle;}
+
+    public static int otherPlayer(int player) {
+        if(player == 1) return 2;
+        else return 1;
+    }
 }

@@ -40,12 +40,9 @@ public class MapService {
      * getter
      *
      */
-    public GroundPanel getGroundPanel1P() {
-        return groundPanel1P;
-    }
-
-    public GroundPanel getGroundPanel2P() {
-        return groundPanel2P;
+    public GroundPanel getGroundPanel(int iAm) {
+        if(iAm == 1) return groundPanel1P;
+        else return groundPanel2P;
     }
 
     public ScorePanel getScorePanel() {

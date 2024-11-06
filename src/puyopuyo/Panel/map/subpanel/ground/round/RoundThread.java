@@ -6,8 +6,8 @@ import puyopuyo.Panel.map.MapService;
 public class RoundThread extends Thread{
     private final RoundService roundService;
 
-    public RoundThread(int iAm, GameService gameService, MapService mapService) {
-        roundService = new RoundService(iAm, this, gameService, mapService);
+    public RoundThread(int iAm, GameService gameService) {
+        roundService = new RoundService(iAm, this, gameService);
         roundService.setRound();
     }
 
