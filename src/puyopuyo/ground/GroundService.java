@@ -16,7 +16,6 @@ public class GroundService {
         var leftPuyo = groundRepository.getLeftPuyo();
         var rightPuyo = groundRepository.getRightPuyo();
 
-        groundPanel.setBackground(Color.CYAN);
         groundPanel.setLayout(null);
         groundPanel.setSize(400,750);
 
