@@ -1,30 +1,14 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
 public class RoundThread extends Thread{
-    private final RoundService roundService;
+    private final RoundService2 roundService;
 
     public RoundThread(int player) {
-        roundService = new RoundService(player);
-        roundService.nextPuyo();
+        roundService = new RoundService2(player);
     }
 
-    public RoundService getRoundService() {
+    public RoundService2 getRoundService() {
         return roundService;
-    }
-
-    // TODO: 위치 조정 필요
-    public void setGarbagePuyo(int plusScore) {
-        roundService.setGarbagePuyo(plusScore);
-    }
-
-    // TODO: 위치 조정 필요
-    public void changeOneWin() {
-        roundService.changeOneWin();
-    }
-
-    // TODO: 위치 조정 필요
-    public void setEnd(boolean state) {
-        roundService.setEnd(state);
     }
 
     @Override

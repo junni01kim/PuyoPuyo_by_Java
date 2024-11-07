@@ -8,8 +8,8 @@ package puyopuyo.Panel.map.subpanel.ground;
  * 코드의 복잡성을 줄이기 위해 합성관계로 구현하였다.
  */
 public class GroundService {
-    private final Puyo leftPuyo = new Puyo(0);
-    private final Puyo rightPuyo = new Puyo(0);
+    private final Puyo leftPuyo = new Puyo(5);
+    private final Puyo rightPuyo = new Puyo(5);
 
     private Puyo[][] puyoMap = new Puyo[6][12];
 

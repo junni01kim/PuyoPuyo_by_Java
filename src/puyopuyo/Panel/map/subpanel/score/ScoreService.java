@@ -30,8 +30,8 @@ public class ScoreService {
         var nextLeftPuyo = getNextLeftPuyo(iAm);
         var nextRightPuyo = getNextRightPuyo(iAm);
 
-        nextLeftPuyo.setType(nextLeftControlPuyoType);
-        nextRightPuyo.setType(nextRightControlPuyoType);
+        nextLeftPuyo.setColor(nextLeftControlPuyoType);
+        nextRightPuyo.setColor(nextRightControlPuyoType);
 
         // type에 맞는 아이콘을 사용한다.
         nextLeftPuyo.setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);

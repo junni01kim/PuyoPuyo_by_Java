@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Puyo extends JLabel {
     /** 뿌요는 0.초록 1.빨강 2.노랑 3.파랑 4.보라 5.방해이다. */
-    private int type;
+    private int color;
 
     public int x() {
         return (getX()-20)/60;
@@ -20,38 +20,39 @@ public class Puyo extends JLabel {
         setLocation(20+x*60, 10+y*60);
     }
 
-    public void setType(int type) {this.type = type;}
-    public int getType() {return type;}
+    public void setColor(int color) {this.color = color;}
+    public int getColor() {return color;}
+    
     public static ImageIcon[] getPuyoIcon() {return GameImageIcon.puyoIcon;}
 
     /**
      * 위치를 지정하지 않는 생성자
      *
-     * @param type 생성할 뿌요 색
+     * @param color 생성할 뿌요 색
      */
-    public Puyo(int type){
+    public Puyo(int color){
         super();
 
-        this.type = type;
+        this.color = color;
 
         setSize(60,60);
-        setIcon(GameImageIcon.puyoIcon[type]);
+        setIcon(GameImageIcon.puyoIcon[color]);
     }
 
     /**
      * 위치를 생성하는 지정자
      *
-     * @param type 생성할 뿌요 색
+     * @param color 생성할 뿌요 색
      * @param indexX 배치할 뿌요의 위치
      * @param indexY 배치할 뿌요의 위치
      */
-    public Puyo(int type, int indexX, int indexY){
+    public Puyo(int color, int indexX, int indexY){
         super();
 
-        this.type = type;
+        this.color = color;
         pos(indexX, indexY);
         setSize(60,60);
-        setIcon(GameImageIcon.puyoIcon[type]);
+        setIcon(GameImageIcon.puyoIcon[color]);
 
         setVisible(true);
     }

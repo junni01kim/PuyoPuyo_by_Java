@@ -22,5 +22,11 @@ public final class Constants {
     public static final int X_MAX = 5;
     public static final int X_MIN = 0;
     public static final int Y_MAX = 11;
+    public static final int Y_MIN = 0;
     public static final int MOVE = 1;
+
+    public static final int RIGHT_PUYO_SPAWN_X = 2;
+    public static final int RIGHT_PUYO_SPAWN_Y = 1;
+    public static final int LEFT_PUYO_SPAWN_X = 3;
+    public static final int LEFT_PUYO_SPAWN_Y = 1;
 }
