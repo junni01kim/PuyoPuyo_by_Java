@@ -4,6 +4,8 @@ package puyopuyo.resource;
  * 게임 점수 로직을 상수로 지정해둔 클래스이다.
  */
 public final class Constants {
+    public static final int GARBAGE = 5;
+
     /**
      * 연속적으로 뿌요를 폭발 시켰을 시 증가하는 보너스 점수이다.
      */
