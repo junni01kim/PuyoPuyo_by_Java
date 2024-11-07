@@ -20,11 +20,13 @@ public class RoundService {
     private final GroundService groundService;
 
     private final Algorithm algorithm;
+    private final Puyo[][] puyoMap;
 
     public RoundService(int player) {
         this.player = player;
         groundPanel = mapService.getGroundPanel(player);
         groundService = groundPanel.getGroundService();
+        puyoMap = groundService.getPuyoMap();
         algorithm = new Algorithm(player);
     }
 
@@ -32,8 +34,6 @@ public class RoundService {
      * 라운드 종료 후 모든 roundRepository를 정리한다.
      */
     public void clearRound() {
-        var puyoMap = groundService.getPuyoMap();
-
         groundService.getLeftPuyo().setVisible(false);
         groundService.getRightPuyo().setVisible(false);
 
@@ -56,7 +56,7 @@ public class RoundService {
         while (true) {
 
             // 뿌요 중 하나가 바닥에 닿은 경우
-            if (round.isWin()) {
+            if (isWin()) {
                 // TODO: 승리 모션
                 break;
             }
@@ -81,18 +81,27 @@ public class RoundService {
         groundPanel.repaint();
     }
 
+    public boolean isWin() {
+        if(!round.isWin()) return false;
+
+        // 자신의 승리 카운트를 올림
+        gameService.playerWin(player);
+        return true;
+    }
+
     /**
      * 패배를 판단하는 함수
      * @return
      */
     public boolean isLose() {
-        var puyoMap = groundService.getPuyoMap();
-
         // 1. 이전에 배치된 뿌요가 뿌요 생성 지점에 이미 존재하는지 확인
-        if(puyoMap[LEFT_PUYO_SPAWN_X][LEFT_PUYO_SPAWN_Y] == null || puyoMap[RIGHT_PUYO_SPAWN_X][RIGHT_PUYO_SPAWN_Y] == null) return false;
+        if(puyoMap[LEFT_PUYO_SPAWN_X][LEFT_PUYO_SPAWN_Y] == null && puyoMap[RIGHT_PUYO_SPAWN_X][RIGHT_PUYO_SPAWN_Y] == null) return false;
 
         // 상대팀이 승리했음을 알림
         gameService.getRoundThread(Game.otherPlayer(player)).getRoundService().win();
+
+        // GameThread에게 게임 종료를 알림
+        gameService.roundEnd();
         return true;
     }
 
@@ -107,6 +116,21 @@ public class RoundService {
         if(algorithm.isFix()) {
             algorithm.detect();
             nextPuyo();
+        }
+
+        // Puyo를 한 블록(+60 픽셀)만큼 내린다.
+        leftPuyo.pos(leftPuyo.x(), leftPuyo.y()+MOVE);
+        rightPuyo.pos(rightPuyo.x(), rightPuyo.y()+MOVE);
+    }
+
+    public void downPuyo() {
+        var leftPuyo = groundService.getLeftPuyo();
+        var rightPuyo = groundService.getRightPuyo();
+
+        // 뿌요 중 하나가 바닥에 닿은 경우
+        if(leftPuyo.y() >= Y_MAX || puyoMap[leftPuyo.x()][leftPuyo.y()+MOVE] != null
+                || rightPuyo.y() >= Y_MAX || puyoMap[rightPuyo.x()][rightPuyo.y()+MOVE] != null) {
+            return;
         }
 
         // Puyo를 한 블록(+60 픽셀)만큼 내린다.
@@ -149,38 +173,14 @@ public class RoundService {
      * 뿌요 폭발 후 가산에 이용했던 점수 변수 초기화
      */
     void initializeScoreVariable() {
-//        var colorChecker = round.getColorChecker();
-//
-//        for(int i=0;i<Puyo.getPuyoIcon().length;i++)
-//            colorChecker[i]=false;
-//
-//        round.setPuyoRemovedSum(0);
-//        round.setPuyoConnect(0);
-//        round.setPuyoCombo(0);
-//        round.setPuyoColor(0);
+
     }
 
     /**
      * 스코어 패널에 점수 표시
      */
     void printScore() {
-        var player = round.getPlayer();
 
-        var scoreService = mapService.getScorePanel().getScoreService();
-
-        var score = round.getScore();
-
-        if(player == 1)
-            scoreService.getScoreLabel(1).setText(Integer.toString(score));
-        else
-            scoreService.getScoreLabel(2).setText(Integer.toString(score));
-    }
-
-    /**
-     * 3판 2선승제 기준 승리 여부를 판단하는 함수
-     */
-    public void changeOneWin() {
-        round.changeOneWin();
     }
 
     /**

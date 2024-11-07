@@ -38,12 +38,6 @@ public class Round {
     // setter TODO: 세터도 수정된 값을 다시 반환하도록 만들기
     public void setPuyoIndex(int i) { puyoIndex = i; }
 
-    // TODO: 필요없음
-    public boolean changeOneWin() {
-        oneWin = !oneWin;
-        return oneWin;
-    }
-
     public void setScore(int i) { score = i; }
 
     public void setPuyoRemovedSum(int i) { puyoRemovedSum = i; }

@@ -20,38 +20,38 @@ public class Game {
         return roundThread2P;
     }
 
-    private int winCount1P = 0;
-    private int winCount2P = 0;
+    private int win1P = 0;
+    private int win2P = 0;
 
     private final int[] puyoLogic = new int[25];
 
-    // TODO: 이름 바꿀 것 start
-    private boolean roundChangeToggle = false;
+    private boolean playing = false;
+    public void roundStart() {
+        playing = true;
+    }
+    public void roundEnd() {
+        playing = false;
+    }
+    public boolean isPlaying() {
+        return playing;
+    }
 
     /**
      * 승리 횟수 카운트
      */
     public int plusWinCount(int player) {
-        if(player == 1) return ++winCount1P;
-        else return ++winCount2P;
-    }
-
-    // TODO: 이름 바꿀 것 setStart()
-    public boolean changeRoundChangeToggle() {
-        roundChangeToggle = !roundChangeToggle;
-        return roundChangeToggle;
+        if(player == 1) return ++win1P;
+        else return ++win2P;
     }
 
     public int[] getPuyoLogic() { return puyoLogic; }
 
     /** winCount getter */
-    public int getWinCount(int player) {
-        if(player == 1) return winCount1P;
-        else return winCount2P;
+    public int totalWin(int player) {
+        if(player == 1) return win1P;
+        else return win2P;
     }
 
-    /** roundChangeToggle getter */
-    public boolean getRoundChangeToggle() {return roundChangeToggle;}
 
     public static int otherPlayer(int player) {
         if(player == 1) return 2;

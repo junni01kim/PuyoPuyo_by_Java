@@ -76,8 +76,6 @@ public class Algorithm {
                 break;
             }
 
-        puyo.setVisible(false);
-
         try {
             sleep(500);
         } catch (InterruptedException _) {}
@@ -93,13 +91,11 @@ public class Algorithm {
         var leftPuyo = groundService.getLeftPuyo();
         var rightPuyo = groundService.getRightPuyo();
 
-        boolean check;
-
         leftPuyo.setVisible(false);
         rightPuyo.setVisible(false);
 
         while(true){
-            check = false;
+            boolean check = false;
 
             // 1. 동일한 뿌요가 있는지 탐색하는 함수
             for(int COLOR = 0; COLOR < COLOR_BONUS.length; COLOR++)
