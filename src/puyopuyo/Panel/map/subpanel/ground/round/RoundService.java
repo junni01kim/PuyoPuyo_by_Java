@@ -468,7 +468,9 @@ public class RoundService {
      */
     void deletePuyos(Puyo puyo, int indexX, int indexY) {
         var player = round.getPlayer();
-        var groundService = mapService.getGroundPanel(player).getGroundService();
+
+        GroundService groundService = mapService.getGroundPanel(player).getGroundService();
+
         var puyoMap = groundService.getPuyoMap();
 
         round.setSamePuyoChecker(false, indexX, indexY);
