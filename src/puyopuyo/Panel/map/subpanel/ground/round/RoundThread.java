@@ -1,13 +1,13 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
 public class RoundThread extends Thread{
-    private final RoundService2 roundService;
+    private final RoundService roundService;
 
     public RoundThread(int player) {
-        roundService = new RoundService2(player);
+        roundService = new RoundService(player);
     }
 
-    public RoundService2 getRoundService() {
+    public RoundService getRoundService() {
         return roundService;
     }
 

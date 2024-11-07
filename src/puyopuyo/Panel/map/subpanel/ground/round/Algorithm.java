@@ -9,7 +9,7 @@ import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;
 
 public class Algorithm {
-    private final Round2 round;
+    private final Round round;
 
     private final MapService mapService = MapService.getInstance();
     private final GroundPanel groundPanel;
@@ -23,7 +23,7 @@ public class Algorithm {
     private int numberOfSamePuyo = 0;
 
     public Algorithm(int player) {
-        round = new Round2(player);
+        round = new Round(player);
         groundPanel = mapService.getGroundPanel(player);
         groundService = groundPanel.getGroundService();
         puyoMap = groundService.getPuyoMap();

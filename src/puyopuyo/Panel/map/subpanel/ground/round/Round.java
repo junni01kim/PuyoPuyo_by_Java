@@ -1,7 +1,5 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
-import puyopuyo.Panel.map.subpanel.ground.Puyo;
-
 public class Round {
     private final int player;
 
@@ -11,22 +9,20 @@ public class Round {
 
     public int getPlayer() { return player; }
 
-    private boolean endFlag = false;
-    public boolean isEnd() {return endFlag;}
-    public boolean setEnd(boolean state) {
-        endFlag = state;
-        return endFlag;
+    private boolean win = false;
+    public void win(boolean state) {
+        win = state;
     }
+    public boolean isWin() {
+        return win;
+    }
+
+    // 점수 관련 로직 ========================================
 
     // nextPuyo()에서 사용한다.
     private int puyoIndex = 0;
 
     boolean oneWin = false;
-
-    // 폭발 계산 용 변수
-    private boolean[][] samePuyoChecker = new boolean[6][12];
-    private int numberOfSamePuyo = 0;
-    private boolean[] colorChecker = new boolean[Puyo.getPuyoIcon().length];
 
     private int score = 0;
 
@@ -47,10 +43,6 @@ public class Round {
         oneWin = !oneWin;
         return oneWin;
     }
-
-    public void setSamePuyoChecker(boolean checker, int i, int j) { this.samePuyoChecker[i][j] = checker; }
-    public void setNumberOfSamePuyo(int i) { numberOfSamePuyo = i; }
-    public void setColorChecker(boolean[] colorChecker) { this.colorChecker = colorChecker; }
 
     public void setScore(int i) { score = i; }
 
@@ -77,10 +69,6 @@ public class Round {
     public int getPuyoIndex() { return puyoIndex; }
 
     public boolean getOneWin() { return oneWin; }
-
-    public boolean[][] getSamePuyoChecker() { return samePuyoChecker; }
-    public int getNumberOfSamePuyo() { return numberOfSamePuyo; }
-    public boolean[] getColorChecker() { return colorChecker; }
 
     public int getScore() { return score; }
 
