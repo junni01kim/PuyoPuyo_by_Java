@@ -1,29 +1,35 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
 import puyopuyo.Panel.map.MapService;
+import puyopuyo.Panel.map.game.GameService;
 import puyopuyo.Panel.map.subpanel.ground.GroundPanel;
 import puyopuyo.Panel.map.subpanel.ground.GroundService;
 import puyopuyo.Panel.map.subpanel.ground.Puyo;
+import puyopuyo.Panel.map.subpanel.score.Score;
 
 import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;
 
 public class Algorithm {
     private final Round round;
+    private final Score score;
 
     private final MapService mapService = MapService.getInstance();
+    private final GameService gameService = GameService.getInstance();
     private final GroundPanel groundPanel;
     private final GroundService groundService;
 
     private final Puyo[][] puyoMap;
 
     // 폭발 계산 용 변수
-    private final boolean[] colorChecker = new boolean[Puyo.getPuyoIcon().length];
     private final boolean[][] samePuyoChecker = new boolean[6][12];
+    private final boolean[] colorChecker = new boolean[Puyo.getPuyoIcon().length];
     private int numberOfSamePuyo = 0;
 
     public Algorithm(int player) {
         round = new Round(player);
+        score = new Score(player);
+
         groundPanel = mapService.getGroundPanel(player);
         groundService = groundPanel.getGroundService();
         puyoMap = groundService.getPuyoMap();
@@ -91,6 +97,10 @@ public class Algorithm {
         var leftPuyo = groundService.getLeftPuyo();
         var rightPuyo = groundService.getRightPuyo();
 
+        var puyoColor = score.getPuyoColor();
+        var puyoConnect = score.getPuyoConnect();
+        var puyoCombo = score.getPuyoCombo();
+
         leftPuyo.setVisible(false);
         rightPuyo.setVisible(false);
 
@@ -105,14 +115,39 @@ public class Algorithm {
 
                         // 2. 4가지 이상 존재하는 영역은 마킹을 한다.
                         checkPuyo(x, y); // 여기서 numberOfSamePuyo의 값이 확정된다.
-                        //System.out.println(numberOfSamePuyo);
 
                         if (numberOfSamePuyo >= 4) {
+                            if(!colorChecker[COLOR]) {
+                                colorChecker[COLOR]=true;
+                                score.setPuyoColor(puyoColor++);
+                            }
+                            puyoConnect = score.setPuyoConnect(numberOfSamePuyo);
+
+                            var puyoRemovedSum = score.plusPuyoRemovedSum(puyoConnect);
+
+                            score.setPuyoCombo(++puyoCombo);
+
+                            int plusScore = puyoRemovedSum * (COMBO_BONUS[++puyoCombo] + COLOR_BONUS[puyoColor] + CONNECT_BONUS[puyoConnect]) * 10;
+                            //int plusScore = puyoRemovedSum * (puyoCombo + puyoColor + puyoConnect) * 10;
+
+                            score.plusScore(score.getScore());
+
+//                            printScore();
+
+                            if(round.getPlayer() == 1) {
+                                gameService.tossGarbagePuyo(1, plusScore);
+                                //scoreService.getNumberOfGarbagePuyoLabel(2).setText(Integer.toString(plusScore/70));
+                            }
+                            else {
+                                gameService.tossGarbagePuyo(2, plusScore);
+                                //scoreService.getNumberOfGarbagePuyoLabel(1).setText(Integer.toString(plusScore/70));
+                            }
+
                             deletePuyos(x, y);
                             check = true;
                         }
+                        score.setPuyoRemovedSum(0);
                     }
-
 
             // 폭발되어 값이 수정되었다면 모든 뿌요를 드롭시킨다.
             if (check) dropPuyos();
@@ -140,14 +175,9 @@ public class Algorithm {
     }
 
     private void deletePuyos(int x, int y) {
-        samePuyoChecker[x][y] = false;
-
-        // 현재 삭제 중인 뿌요의 색상을 확인하기 위함
-        var color = puyoMap[x][y].getColor();
-
-        samePuyoChecker[x][y] = false;
-
         // 해당 뿌요 삭제
+        samePuyoChecker[x][y] = false;
+
         groundPanel.remove(puyoMap[x][y]);
         groundPanel.repaint();
         puyoMap[x][y]=null;
