@@ -50,6 +50,8 @@ public class RoundService {
      */
     public void newRound() {
         round = new Round(player);
+        algorithm.setRound(round);
+
         nextPuyo();
         
         // 게임이 끝났는지 판단
@@ -66,6 +68,7 @@ public class RoundService {
             }
             else if (algorithm.isFix()) {
                 algorithm.detect();
+                algorithm.dropGarbagePuyo();
                 nextPuyo();
             }
             // 뿌요 중 하나가 바닥에 닿지 않은 경우
@@ -186,8 +189,8 @@ public class RoundService {
     /**
      * 방해 뿌요 개수를 설정하는 함수
      */
-    public void setGarbagePuyo(int numberOfGarbagePuyo) {
-        round.setGarbagePuyo(numberOfGarbagePuyo);
+    public void plusGarbagePuyo(int numberOfGarbagePuyo) {
+        round.plusGarbagePuyo(numberOfGarbagePuyo);
     }
 
     public void win() {

@@ -11,7 +11,7 @@ import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;
 
 public class Algorithm {
-    private final Round round;
+    private Round round;
     private final Score score;
 
     private final MapService mapService = MapService.getInstance();
@@ -27,7 +27,6 @@ public class Algorithm {
     private int numberOfSamePuyo = 0;
 
     public Algorithm(int player) {
-        round = new Round(player);
         score = new Score(player);
 
         groundPanel = mapService.getGroundPanel(player);
@@ -47,13 +46,11 @@ public class Algorithm {
         if(leftPuyo.y() >= Y_MAX || puyoMap[leftPuyo.x()][leftPuyo.y()+MOVE] != null) {
             fixPuyo(leftPuyo); // 닿은 뿌요 배치
             dropPuyo(rightPuyo); // 남은 뿌요 하강
-            dropGarbagePuyo();
             return true;
         } // 3. right 아래에 뿌요가 존재하는지 확인하는 로직
         else if(rightPuyo.y() >= Y_MAX || puyoMap[rightPuyo.x()][rightPuyo.y()+MOVE] != null) {
             fixPuyo(rightPuyo); // 닿은 뿌요 배치
             dropPuyo(leftPuyo); // 남은 뿌요 하강
-            dropGarbagePuyo();
             return true;
         }
 
@@ -63,8 +60,6 @@ public class Algorithm {
     private void fixPuyo(Puyo puyo) {
         // 1. 현재 뿌요를 가리는 함수 setVisible()
         puyo.setVisible(false);
-
-        // TODO: 같이 생성할 방해 뿌요가 존재하는지 확인한다.
 
         // 2. 현재 뿌요맵 위치에 새로운 객체를 생성
         puyoMap[(puyo.x())][(puyo.y())] = new Puyo(puyo.getColor(),puyo.x(),puyo.y());
@@ -97,9 +92,11 @@ public class Algorithm {
         var leftPuyo = groundService.getLeftPuyo();
         var rightPuyo = groundService.getRightPuyo();
 
-        var puyoColor = score.getPuyoColor();
-        var puyoConnect = score.getPuyoConnect();
-        var puyoCombo = score.getPuyoCombo();
+        var puyoColor = 0;
+        var puyoConnect = 0;
+        var puyoCombo = 0;
+        var puyoRemovedSum = 0;
+        var totalPlusScore = 0;
 
         leftPuyo.setVisible(false);
         rightPuyo.setVisible(false);
@@ -120,46 +117,44 @@ public class Algorithm {
                             // [색수 보너스] 뿌요 폭발 조건에서 폭발된 새로운 색상을 기록
                             if(!colorBonusChecker[COLOR]) {
                                 colorBonusChecker[COLOR]=true;
-                                score.setPuyoColor(puyoColor++); // TODO: [수정할것] 컬러 점수 추가
+                                puyoColor++;
                             }
                             // [연결 보너스] 폭발되는 뿌요에 한번에 연결된 뿌요의 수를 기록
-                            puyoConnect = score.setPuyoConnect(numberOfSamePuyo);
+                            puyoConnect = numberOfSamePuyo;
 
                             // [없어진 뿌요 수] 총 제거된 뿌요의 수를 기록
-                            var puyoRemovedSum = score.plusPuyoRemovedSum(puyoConnect);
+                            puyoRemovedSum += numberOfSamePuyo;
 
                             // [연쇄 보너스] 연속적으로 폭발된 횟수를 기록
-                            score.setPuyoCombo(++puyoCombo);
+                            // check가 이미 true인 경우, 이미 puyoCombo가 증가한 상황이다.
+                            if(!check) puyoCombo++;
 
                             // [득점 계산] 없어진 뿌요 수 x (연쇄 보너스 + 연결 보너스 + 색수 보너스) x 10
-                            int plusScore = puyoRemovedSum * (COMBO_BONUS[++puyoCombo] + COLOR_BONUS[puyoColor] + CONNECT_BONUS[puyoConnect]) * 10;
+                            var plusScore = puyoRemovedSum * (COMBO_BONUS[puyoCombo] + COLOR_BONUS[puyoColor] + CONNECT_BONUS[puyoConnect]) * 10;
+                            totalPlusScore += plusScore;
 
                             // 득점 점수 합산
-                            score.plusScore(score.getScore());
+                            score.plusScore(plusScore);
 
-//                            printScore(); // TODO: 점수 변경 사항 출력
+                            // TODO: 추가 점수에 대한 정보 출력
+//                            printScore();
 
-                            if(round.getPlayer() == 1) {
-                                gameService.tossGarbagePuyo(1, plusScore);
-                                //scoreService.getNumberOfGarbagePuyoLabel(2).setText(Integer.toString(plusScore/70));
-                                // TODO: 점수 변경 사항 출력
-                            }
-                            else {
-                                gameService.tossGarbagePuyo(2, plusScore);
-                                //scoreService.getNumberOfGarbagePuyoLabel(1).setText(Integer.toString(plusScore/70));
-                                // TODO: 점수 변경 사항 출력
-                            }
+                            // TODO: 전달될 방해뿌요 수를 그림으로 출력
+//                            scoreService.getNumberOfGarbagePuyoLabel(2).setText(Integer.toString(totalPlusScore/70));
 
                             deletePuyos(x, y);
                             check = true;
                         }
-                        score.setPuyoRemovedSum(0);
                     }
-
+                    
             // 폭발되어 값이 수정되었다면 모든 뿌요를 드롭시킨다.
             if (check) dropPuyos();
             else break;
         }
+        
+        // 추가된 총 점수의 /70 만큼 방해 뿌요 상대방에게 전달
+        gameService.tossGarbagePuyo(round.getPlayer(), totalPlusScore);
+        // TODO: 전체 점수에 대한 정보 출력
     }
 
     private void checkPuyo(int x, int y) {
@@ -225,7 +220,7 @@ public class Algorithm {
         }
     }
 
-    private void dropGarbagePuyo() {
+    void dropGarbagePuyo() {
         // 1. 상대 유저에게 방해뿌요 전달
         var garbagePuyo = round.getGarbagePuyo();
 
@@ -236,6 +231,7 @@ public class Algorithm {
                 for (int q = 0; q < seperateGarbagePuyo; q++) {
                     if (y - q <= 2) continue;
                     puyoMap[x][y - q] = new Puyo(GARBAGE, x, y-q);
+
                     groundPanel.add(puyoMap[x][y - q]);
                 }
 
@@ -246,12 +242,15 @@ public class Algorithm {
 
             for (int j = 11; j >= 0; j--)
                 if (puyoMap[randomVariable][j] == null) {
-                    if(j<=2) continue;
+                    if(j<=1) continue;
                     puyoMap[randomVariable][j] = new Puyo(5, randomVariable, j);
+
                     groundPanel.add(puyoMap[randomVariable][j]);
                     break;
                 }
         }
+        groundPanel.repaint();
+
         round.setGarbagePuyo(0);
 
         // TODO: 방해 뿌요 표시를 0으로 변경
@@ -288,5 +287,9 @@ public class Algorithm {
         for(int x=0; x<samePuyoChecker.length; x++)
             for(int y=0; y<samePuyoChecker[x].length; y++)
                 samePuyoChecker[x][y] = false;
+    }
+
+    public void setRound(Round round) {
+        this.round = round;
     }
 }
