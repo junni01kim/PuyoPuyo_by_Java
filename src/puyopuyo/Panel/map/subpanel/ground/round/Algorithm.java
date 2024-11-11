@@ -23,7 +23,7 @@ public class Algorithm {
 
     // 폭발 계산 용 변수
     private final boolean[][] samePuyoChecker = new boolean[6][12];
-    private final boolean[] colorChecker = new boolean[Puyo.getPuyoIcon().length];
+    private final boolean[] colorBonusChecker = new boolean[Puyo.getPuyoIcon().length];
     private int numberOfSamePuyo = 0;
 
     public Algorithm(int player) {
@@ -117,30 +117,37 @@ public class Algorithm {
                         checkPuyo(x, y); // 여기서 numberOfSamePuyo의 값이 확정된다.
 
                         if (numberOfSamePuyo >= 4) {
-                            if(!colorChecker[COLOR]) {
-                                colorChecker[COLOR]=true;
-                                score.setPuyoColor(puyoColor++);
+                            // [색수 보너스] 뿌요 폭발 조건에서 폭발된 새로운 색상을 기록
+                            if(!colorBonusChecker[COLOR]) {
+                                colorBonusChecker[COLOR]=true;
+                                score.setPuyoColor(puyoColor++); // TODO: [수정할것] 컬러 점수 추가
                             }
+                            // [연결 보너스] 폭발되는 뿌요에 한번에 연결된 뿌요의 수를 기록
                             puyoConnect = score.setPuyoConnect(numberOfSamePuyo);
 
+                            // [없어진 뿌요 수] 총 제거된 뿌요의 수를 기록
                             var puyoRemovedSum = score.plusPuyoRemovedSum(puyoConnect);
 
+                            // [연쇄 보너스] 연속적으로 폭발된 횟수를 기록
                             score.setPuyoCombo(++puyoCombo);
 
+                            // [득점 계산] 없어진 뿌요 수 x (연쇄 보너스 + 연결 보너스 + 색수 보너스) x 10
                             int plusScore = puyoRemovedSum * (COMBO_BONUS[++puyoCombo] + COLOR_BONUS[puyoColor] + CONNECT_BONUS[puyoConnect]) * 10;
-                            //int plusScore = puyoRemovedSum * (puyoCombo + puyoColor + puyoConnect) * 10;
 
+                            // 득점 점수 합산
                             score.plusScore(score.getScore());
 
-//                            printScore();
+//                            printScore(); // TODO: 점수 변경 사항 출력
 
                             if(round.getPlayer() == 1) {
                                 gameService.tossGarbagePuyo(1, plusScore);
                                 //scoreService.getNumberOfGarbagePuyoLabel(2).setText(Integer.toString(plusScore/70));
+                                // TODO: 점수 변경 사항 출력
                             }
                             else {
                                 gameService.tossGarbagePuyo(2, plusScore);
                                 //scoreService.getNumberOfGarbagePuyoLabel(1).setText(Integer.toString(plusScore/70));
+                                // TODO: 점수 변경 사항 출력
                             }
 
                             deletePuyos(x, y);
