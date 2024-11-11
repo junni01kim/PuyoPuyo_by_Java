@@ -19,7 +19,6 @@ public class MapService {
     private ScorePanel scorePanel;
 
     public synchronized static MapService getInstance() {
-        // TODO: MapPanel 존재 여부 우선 확인하기
         if (instance == null) {
             instance = new MapService();
         }

@@ -14,15 +14,21 @@ public class ScoreRepository {
     private JLabel roundCountLabel = new JLabel("1");
     private JLabel scoreLabel1P = new JLabel("0");
     private JLabel scoreLabel2P = new JLabel("0");
-    private JLabel numberOfGarbagePuyoLabel1P = new JLabel("None");
-    private JLabel numberOfGarbagePuyoLabel2P = new JLabel("None");
+    private JLabel garbagePuyoCount1P = new JLabel("None");
+    private JLabel garbagePuyoCount2P = new JLabel("None");
+    private JLabel timer = new JLabel("0");
 
     // setter
     public void setRoundCount(int count) {roundCountLabel.setText(String.valueOf(count));}
     public void setScore1P(int score) {scoreLabel1P.setText(String.valueOf(score));}
     public void setScore2P(int score) {scoreLabel2P.setText(String.valueOf(score));}
-    public void setNumberOfGarbagePuyoLabel1P(int count) {numberOfGarbagePuyoLabel1P.setText(String.valueOf(count));}
-    public void setNumberOfGarbagePuyoLabel2P(int count) {numberOfGarbagePuyoLabel2P.setText(String.valueOf(count));}
+    public void setGarbagePuyoCount1P(int count) {
+        garbagePuyoCount1P.setText(String.valueOf(count));
+    }
+    public void setGarbagePuyoCount2P(int count) {
+        garbagePuyoCount2P.setText(String.valueOf(count));
+    }
+    public void setTimer(int time) {timer.setText(String.valueOf(time));}
 
     // getter
     public Puyo getNextLeftPuyo1P() {return nextLeftPuyo1P;}
@@ -32,6 +38,7 @@ public class ScoreRepository {
     public JLabel getRoundCountLabel() {return roundCountLabel;}
     public JLabel getScoreLabel1P() {return scoreLabel1P;}
     public JLabel getScoreLabel2P() {return scoreLabel2P;}
-    public JLabel getNumberOfGarbagePuyoLabel1P() {return numberOfGarbagePuyoLabel1P;}
-    public JLabel getNumberOfGarbagePuyoLabel2P() {return numberOfGarbagePuyoLabel2P;}
+    public JLabel getGarbagePuyoCount1P() {return garbagePuyoCount1P;}
+    public JLabel getGarbagePuyoCount2P() {return garbagePuyoCount2P;}
+    public JLabel getTimer() {return timer;}
 }

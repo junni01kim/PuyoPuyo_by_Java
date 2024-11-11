@@ -1,8 +1,13 @@
 package puyopuyo.Panel.map.game;
 
+import puyopuyo.Panel.map.MapPanel;
+import puyopuyo.Panel.map.MapService;
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 import puyopuyo.Panel.start.StartPanel;
 import puyopuyo.frame.Frame;
+
+import java.time.Duration;
+import java.time.LocalTime;
 
 import static java.lang.Thread.sleep;
 
@@ -49,13 +54,8 @@ public class GameService {
      */
     public void countThreeSecond() {
         try {
-            for(int i=3; i>0; i--) {
-                sleep(1000);
-            }
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            for(int i=3; i>0; i--) sleep(1000);
+        } catch (InterruptedException _) {}
     }
 
     /**
@@ -67,7 +67,7 @@ public class GameService {
 
         while(totalRound-- != 0) {
             round();
-            endCheck();
+            if(isEnd()) Frame.getInstance().changePanel(StartPanel.getInstance());
         }
     }
 
@@ -75,6 +75,10 @@ public class GameService {
      * 게임 한 라운드에 대한 로직을 관리하는 함수
      */
     private void round() {
+        var mapPanel = MapPanel.getInstance();
+        var mapService = MapService.getInstance();
+        var scoreService = mapService.getScorePanel().getScoreService();
+
         makePuyoLogic();
 
         countThreeSecond(); // 3초 뒤 시작
@@ -82,33 +86,35 @@ public class GameService {
         game.setRoundThread1P(new RoundThread(1)).start();
         game.setRoundThread2P(new RoundThread(2)).start();
 
-        changeRoundChangeToggle(); // 게임 진행중에는 true여야 함
-        
-        while(game.getRoundChangeToggle()) {
+        mapPanel.requestFocus();
+
+        roundStart(); // 게임 진행중에는 true여야 함
+
+        LocalTime start = LocalTime.now();
+
+        while(game.isPlaying()) {
+
             try {
                 sleep(100);
-                //TODO: 시간 측정
-            } catch (InterruptedException e) {
-                e.printStackTrace(); // sleep 실패
-            }
+                
+                // ScorePanel Timer에 시간초 출력
+                scoreService.setTimer((int) Duration.between(start, LocalTime.now()).toSeconds());
+            } catch (InterruptedException _) {}
         }
     }
 
     /**
      * 한 라운드가 종료되었는지 확인하는 함수
      */
-    private void endCheck() {
-        var winCount1P = game.getWinCount(1);
-        var winCount2P = game.getWinCount(2);
-
-        if(winCount1P == 2) {
-            // TODO: 승리 문구 출력
-            Frame.getInstance().changePanel(StartPanel.getInstance());
+    private boolean isEnd() {
+        if(game.totalWin(1) == 2) {
+            // TODO: 최종 승리 문구 출력
+            return true;
+        } else if(game.totalWin(2) == 2) {
+            // TODO: 최종 승리 문구 출력
+            return true;
         }
-        else if(winCount2P == 2) {
-            // TODO: 승리 문구 출력
-            Frame.getInstance().changePanel(StartPanel.getInstance());
-        }
+        return false;
     }
 
     /**
@@ -124,14 +130,21 @@ public class GameService {
      * ※ 전달하는 주체의 player 번호를 주입할 것
      */
     public void tossGarbagePuyo(int player, int plusScore) {
-        game.getRoundThread(Game.otherPlayer(player)).setGarbagePuyo(plusScore/70);
+        game.getRoundThread(Game.otherPlayer(player)).getRoundService().plusGarbagePuyo(plusScore/70);
     }
 
     /**
-     * 게임 라운드가 변경되어야 하는지 판단하는 함수
+     * 라운드 시작
      */
-    public boolean changeRoundChangeToggle() {
-        return game.changeRoundChangeToggle();
+    public void roundStart() {
+        game.roundStart();
+    }
+    
+    /**
+     * 라운드 종료
+     */
+    public void roundEnd() {
+        game.roundEnd();
     }
 
     // getter
