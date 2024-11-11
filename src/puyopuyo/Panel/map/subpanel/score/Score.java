@@ -13,7 +13,7 @@ public class Score {
         score += plusScore;
     }
 
-    public void setScore() {
+    public void setScore(int score) {
         this.score = score;
     }
 

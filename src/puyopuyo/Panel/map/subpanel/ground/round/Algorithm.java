@@ -99,7 +99,7 @@ public class Algorithm {
         var puyoConnect = 0;
         var puyoCombo = 0;
         var puyoRemovedSum = 0;
-        var totalPlusScore = 0;
+        var plusScore = 0;
 
         leftPuyo.setVisible(false);
         rightPuyo.setVisible(false);
@@ -133,17 +133,15 @@ public class Algorithm {
                             if(!check) puyoCombo++;
 
                             // [득점 계산] 없어진 뿌요 수 x (연쇄 보너스 + 연결 보너스 + 색수 보너스) x 10
-                            var plusScore = puyoRemovedSum * (COMBO_BONUS[puyoCombo] + COLOR_BONUS[puyoColor] + CONNECT_BONUS[puyoConnect]) * 10;
-                            totalPlusScore += plusScore;
+                            plusScore = puyoRemovedSum * (COMBO_BONUS[puyoCombo] + COLOR_BONUS[puyoColor] + CONNECT_BONUS[puyoConnect]) * 10;
 
-                            // 득점 점수 합산
-                            score.plusScore(plusScore);
-                            //scoreService
+                            // 득점 점수 합산 (전체 점수 Label에 작성)
+                            score.setScore(plusScore);
 
-                            scoreService.setScore(player, totalPlusScore);
+                            scoreService.setScore(player, plusScore);
 
                             // TODO: 전달될 방해뿌요 수를 그림으로 출력
-                            scoreService.setGarbagePuyoCount(player, totalPlusScore/70);
+                            scoreService.setGarbagePuyoCount(player, plusScore/70);
 
                             deletePuyos(x, y);
                             check = true;
@@ -154,10 +152,12 @@ public class Algorithm {
             if (check) dropPuyos();
             else break;
         }
-        
-        // 추가된 총 점수의 /70 만큼 방해 뿌요 상대방에게 전달
+
+        // 득점 점수로 바뀌었던 점수 기존 점수로 전환
         scoreService.setScore(player, score.getScore());
-        gameService.tossGarbagePuyo(round.getPlayer(), totalPlusScore);
+
+        // 추가된 총 점수의 /70 만큼 방해 뿌요 상대방에게 전달
+        gameService.tossGarbagePuyo(round.getPlayer(), plusScore);
     }
 
     private void checkPuyo(int x, int y) {
