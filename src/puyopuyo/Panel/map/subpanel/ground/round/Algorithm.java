@@ -226,13 +226,16 @@ public class Algorithm {
 
         // 방해뿌요 위치 분배
         int seperateGarbagePuyo = garbagePuyo / 6;
-        for (int x = 0; x < 6; x++) for (int y = 11; y >= 0; y--)
-            if (puyoMap[x][y] == null)
-                for (int q = 0; q < seperateGarbagePuyo; q++) {
-                    if (y - q <= 2) continue;
-                    puyoMap[x][y - q] = new Puyo(GARBAGE, x, y-q);
+        for (int x = X_MIN; x <= X_MAX; x++)
+            for (int y = Y_MAX; y >= Y_MIN; y--)
+                if (puyoMap[x][y] == null) {
+                    for (int q = 0; q < seperateGarbagePuyo; q++) {
+                        if (y - q <= 2) continue;
+                        puyoMap[x][y - q] = new Puyo(GARBAGE, x, y - q);
 
-                    groundPanel.add(puyoMap[x][y - q]);
+                        groundPanel.add(puyoMap[x][y - q]);
+                    }
+                    break;
                 }
 
         int moduloGarbagePuyo = garbagePuyo % 6;

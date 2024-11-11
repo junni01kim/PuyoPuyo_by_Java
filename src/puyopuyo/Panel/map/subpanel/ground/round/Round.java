@@ -26,7 +26,7 @@ public class Round {
     }
 
     private int garbagePuyo = 0;
-    public void plusGarbagePuyo(int garbagePuyo) { //durl
+    public void plusGarbagePuyo(int garbagePuyo) {
         this.garbagePuyo += garbagePuyo;
     }
     public void setGarbagePuyo(int garbagePuyo) {
