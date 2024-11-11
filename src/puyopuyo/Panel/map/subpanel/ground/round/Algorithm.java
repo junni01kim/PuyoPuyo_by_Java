@@ -1,6 +1,7 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
 import puyopuyo.Panel.map.MapService;
+import puyopuyo.Panel.map.game.Game;
 import puyopuyo.Panel.map.game.GameService;
 import puyopuyo.Panel.map.subpanel.ground.GroundPanel;
 import puyopuyo.Panel.map.subpanel.ground.GroundService;
@@ -89,6 +90,8 @@ public class Algorithm {
      * 존재하지 않다면 false를 반환한다.
      */
     public void detect() {
+        var player = round.getPlayer();
+        var scoreService = mapService.getScorePanel().getScoreService();
         var leftPuyo = groundService.getLeftPuyo();
         var rightPuyo = groundService.getRightPuyo();
 
@@ -135,12 +138,12 @@ public class Algorithm {
 
                             // 득점 점수 합산
                             score.plusScore(plusScore);
+                            //scoreService
 
-                            // TODO: 추가 점수에 대한 정보 출력
-//                            printScore();
+                            scoreService.setScore(player, totalPlusScore);
 
                             // TODO: 전달될 방해뿌요 수를 그림으로 출력
-//                            scoreService.getNumberOfGarbagePuyoLabel(2).setText(Integer.toString(totalPlusScore/70));
+                            scoreService.setGarbagePuyoCount(player, totalPlusScore/70);
 
                             deletePuyos(x, y);
                             check = true;
@@ -153,8 +156,8 @@ public class Algorithm {
         }
         
         // 추가된 총 점수의 /70 만큼 방해 뿌요 상대방에게 전달
+        scoreService.setScore(player, score.getScore());
         gameService.tossGarbagePuyo(round.getPlayer(), totalPlusScore);
-        // TODO: 전체 점수에 대한 정보 출력
     }
 
     private void checkPuyo(int x, int y) {
@@ -214,10 +217,7 @@ public class Algorithm {
          */
         try {
             sleep(500);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        } catch (InterruptedException _) {}
     }
 
     void dropGarbagePuyo() {
@@ -252,8 +252,8 @@ public class Algorithm {
         groundPanel.repaint();
 
         round.setGarbagePuyo(0);
-
-        // TODO: 방해 뿌요 표시를 0으로 변경
+        var scoreService = MapService.getInstance().getScorePanel().getScoreService();
+        scoreService.setGarbagePuyoCount(round.getPlayer(), round.getGarbagePuyo());
     }
 
     private void splashGarbagePuyo(int x, int y) {

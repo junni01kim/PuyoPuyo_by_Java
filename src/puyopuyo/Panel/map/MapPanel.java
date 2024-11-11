@@ -76,6 +76,7 @@ public class MapPanel extends JPanel implements PanelState {
 
     @Override
     public void close(Frame frame) {
+        MapService.getInstance().closeMap();
         var me = getInstance();
 
         // 이전 화면 삭제
@@ -92,7 +93,6 @@ public class MapPanel extends JPanel implements PanelState {
          * 해당 패널의 키보드 값을 받도록 설정.
          * 보통은 따로하나, 동시에 1p, 2p의 키보드 값을 받게하기 위함
          */
-        //TODO: 에러발생 위치:: 수정할 것
         addKeyListener(new ControlPuyoKeyListener());
         setFocusable(true);
         requestFocus();

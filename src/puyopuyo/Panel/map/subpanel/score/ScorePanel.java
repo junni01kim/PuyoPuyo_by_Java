@@ -69,10 +69,11 @@ public class ScorePanel extends JPanel {
         scoreService.setLabel(new JLabel("T I M E"), getWidth()/2-20, 360);
 
         // 타이머 표시 (변동되는 숫자)
-        scoreService.setLabel(new JLabel("0"), getWidth()/2, 400);
+        var timer = scoreService.getTimer();
+        scoreService.setLabel(timer, getWidth()/2, 400);
 
-        var numberOfGarbagePuyoLabel1P = scoreService.getNumberOfGarbagePuyoLabel(1);
-        var numberOfGarbagePuyoLabel2P = scoreService.getNumberOfGarbagePuyoLabel(2);
+        var numberOfGarbagePuyoLabel1P = scoreService.getGarbagePuyoCount(1);
+        var numberOfGarbagePuyoLabel2P = scoreService.getGarbagePuyoCount(2);
 
         // 전달할 방해뿌요 표시 1P (변동되는 숫자)
         // TODO: 넘길 방해 뿌요 개발 완료 시 함께 수정
@@ -83,8 +84,8 @@ public class ScorePanel extends JPanel {
         scoreService.setLabel(numberOfGarbagePuyoLabel2P, getWidth()/2+50);
 
         // TODO: 넘길 방해 뿌요 수 그림
+
         // TODO: 남은 라운드 현재 라운드 수
-        // TODO: 자신의 점수
     }
 
     // getter

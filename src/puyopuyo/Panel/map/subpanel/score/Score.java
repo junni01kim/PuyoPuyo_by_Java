@@ -9,9 +9,8 @@ public class Score {
 
     private int score = 0;
 
-    public int plusScore(int i) {
-        score += i;
-        return score;
+    public void plusScore(int plusScore) {
+        score += plusScore;
     }
 
     public void setScore() {

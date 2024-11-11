@@ -1,9 +1,13 @@
 package puyopuyo.Panel.map.game;
 
 import puyopuyo.Panel.map.MapPanel;
+import puyopuyo.Panel.map.MapService;
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 import puyopuyo.Panel.start.StartPanel;
 import puyopuyo.frame.Frame;
+
+import java.time.Duration;
+import java.time.LocalTime;
 
 import static java.lang.Thread.sleep;
 
@@ -72,6 +76,8 @@ public class GameService {
      */
     private void round() {
         var mapPanel = MapPanel.getInstance();
+        var mapService = MapService.getInstance();
+        var scoreService = mapService.getScorePanel().getScoreService();
 
         makePuyoLogic();
 
@@ -83,13 +89,17 @@ public class GameService {
         mapPanel.requestFocus();
 
         roundStart(); // 게임 진행중에는 true여야 함
-        
+
+        LocalTime start = LocalTime.now();
+
         while(game.isPlaying()) {
+
             try {
                 sleep(100);
+                
+                // ScorePanel Timer에 시간초 출력
+                scoreService.setTimer((int) Duration.between(start, LocalTime.now()).toSeconds());
             } catch (InterruptedException _) {}
-
-            //TODO: 시간 측정 및 출력
         }
     }
 
