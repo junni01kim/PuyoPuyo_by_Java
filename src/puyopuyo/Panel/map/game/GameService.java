@@ -1,5 +1,6 @@
 package puyopuyo.Panel.map.game;
 
+import puyopuyo.Panel.map.MapPanel;
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 import puyopuyo.Panel.start.StartPanel;
 import puyopuyo.frame.Frame;
@@ -70,12 +71,16 @@ public class GameService {
      * 게임 한 라운드에 대한 로직을 관리하는 함수
      */
     private void round() {
+        var mapPanel = MapPanel.getInstance();
+
         makePuyoLogic();
 
         countThreeSecond(); // 3초 뒤 시작
 
         game.setRoundThread1P(new RoundThread(1)).start();
         game.setRoundThread2P(new RoundThread(2)).start();
+
+        mapPanel.requestFocus();
 
         roundStart(); // 게임 진행중에는 true여야 함
         
