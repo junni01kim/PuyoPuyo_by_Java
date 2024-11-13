@@ -1,5 +1,6 @@
 package puyopuyo.Panel.start;
 
+import puyopuyo.Panel.explain.ExplainPanel;
 import puyopuyo.frame.Frame;
 import puyopuyo.Panel.PanelState;
 import puyopuyo.Panel.map.MapPanel;
@@ -62,7 +63,7 @@ public class StartPanel extends JPanel implements PanelState {
         startGameButton.setSize(150, 60);
         this.add(startGameButton);
 
-        explainGameButton.addActionListener(null);
+        explainGameButton.addActionListener(new ExplainButtonActionListener());
         explainGameButton.setLocation(550, 620);
         explainGameButton.setSize(150, 60);
         this.add(explainGameButton);
@@ -105,6 +106,18 @@ public class StartPanel extends JPanel implements PanelState {
             var mapPanel = MapPanel.getInstance();
 
             frame.changePanel(mapPanel);
+        }
+    }
+
+    class ExplainButtonActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JButton myButton = (JButton)e.getSource();
+            myButton.getParent().setVisible(false);
+
+            var frame = Frame.getInstance();
+            var explainPanel = ExplainPanel.getInstance();
+
+            frame.changePanel(explainPanel);
         }
     }
 }
