@@ -73,6 +73,20 @@ public class ScoreService {
         scorePanel.add(label);
     }
 
+    public void setGarbagePuyoCount(int player, int count) {
+        if(player == 1) scoreRepository.setGarbagePuyoCount2P(count);
+        else scoreRepository.setGarbagePuyoCount1P(count);
+    }
+
+    public void setScore(int player, int score) {
+        if(player == 1) scoreRepository.setScore2P(score);
+        else scoreRepository.setScore1P(score);
+    }
+
+    public void setTimer(int timer) {
+        scoreRepository.setTimer(timer);
+    }
+
     // getter
     public JLabel getRoundCountLabel() {
         return scoreRepository.getRoundCountLabel();
@@ -83,9 +97,9 @@ public class ScoreService {
         else return scoreRepository.getScoreLabel2P();
     }
 
-    public JLabel getNumberOfGarbagePuyoLabel(int player) {
-        if(player == 1) return scoreRepository.getNumberOfGarbagePuyoLabel1P();
-        else return scoreRepository.getNumberOfGarbagePuyoLabel2P();
+    public JLabel getGarbagePuyoCount(int player) {
+        if(player == 1) return scoreRepository.getGarbagePuyoCount1P();
+        else return scoreRepository.getGarbagePuyoCount2P();
     }
 
     public Puyo getNextLeftPuyo(int iAm) {
@@ -96,5 +110,9 @@ public class ScoreService {
     public Puyo getNextRightPuyo(int iAm) {
         if(iAm == 1) return scoreRepository.getNextRightPuyo1P();
         else return scoreRepository.getNextRightPuyo2P();
+    }
+
+    public JLabel getTimer() {
+        return scoreRepository.getTimer();
     }
 }
