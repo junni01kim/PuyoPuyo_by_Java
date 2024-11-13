@@ -62,10 +62,12 @@ public class GameService {
      * 새로운 게임 엔티티를 만들고 진행하는 함수이다.
      */
     public void newGame() {
+        var roundCountLabel = MapService.getInstance().getScorePanel().getScoreService().getRoundCountLabel();
         game = new Game();
-        var totalRound = 3;
+        var totalRound = 0;
 
-        while(totalRound-- != 0) {
+        while(totalRound++ <= 3) {
+            roundCountLabel.setText(Integer.toString(totalRound));
             round();
             if(isEnd()) Frame.getInstance().changePanel(StartPanel.getInstance());
         }
