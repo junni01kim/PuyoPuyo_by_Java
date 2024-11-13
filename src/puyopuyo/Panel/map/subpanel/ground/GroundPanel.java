@@ -44,6 +44,7 @@ public class GroundPanel extends JPanel {
 
         add(leftPuyo);
         add(rightPuyo);
+
     }
 
     /**
@@ -58,8 +59,11 @@ public class GroundPanel extends JPanel {
         else graphics.drawImage(GameImageIcon.player2Ground.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
     }
 
-    // getter
     public GroundService getGroundService() {
-        return groundService;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getGroundService'");
     }
+
+    // getter
+
 }
