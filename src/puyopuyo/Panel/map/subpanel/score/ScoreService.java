@@ -16,6 +16,8 @@ public class ScoreService {
     private final ScorePanel scorePanel;
     private final ScoreRepository scoreRepository = new ScoreRepository();
 
+
+
     public ScoreService(ScorePanel scorePanel) {
         this.scorePanel = scorePanel;
     }
@@ -114,5 +116,17 @@ public class ScoreService {
 
     public JLabel getTimer() {
         return scoreRepository.getTimer();
+    }
+
+    public int getCurrentRound() {
+        return scoreRepository.getCurrentRound();
+    }
+
+    public void advanceToNextRound() {
+        scoreRepository.nextRound();
+    }
+
+    public int getRemainingRounds() {
+        return scoreRepository.getRemainingRounds();
     }
 }

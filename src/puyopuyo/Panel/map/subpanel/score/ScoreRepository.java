@@ -10,6 +10,9 @@ public class ScoreRepository {
     private final Puyo nextRightPuyo1P = new Puyo(5);
     private final Puyo nextLeftPuyo2P = new Puyo(5);
     private final Puyo nextRightPuyo2P = new Puyo(5);
+    // 남은 라운드랑 총 라운드 추가
+    private int currentRound = 1;
+    private final int totalRounds = 5;
 
     private JLabel roundCountLabel = new JLabel("1");
     private JLabel scoreLabel1P = new JLabel("0");
@@ -29,6 +32,12 @@ public class ScoreRepository {
         garbagePuyoCount2P.setText(String.valueOf(count));
     }
     public void setTimer(int time) {timer.setText(String.valueOf(time));}
+
+
+    // 남은 라운드 추가
+    public int getCurrentRound() {return currentRound;}
+    public void nextRound() {if (currentRound < totalRounds) {currentRound++;}}
+    public int getRemainingRounds() {return totalRounds - currentRound;}
 
     // getter
     public Puyo getNextLeftPuyo1P() {return nextLeftPuyo1P;}

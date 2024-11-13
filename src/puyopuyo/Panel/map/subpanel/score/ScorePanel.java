@@ -10,6 +10,8 @@ import java.awt.*;
  */
 public class ScorePanel extends JPanel {
     private final ScoreService scoreService = new ScoreService(this);
+    private JLabel roundCountLabel;
+    private JLabel remainingRoundsLabel;
 
     public ScorePanel() {
         setUi();
@@ -69,6 +71,18 @@ public class ScorePanel extends JPanel {
         scoreService.setLabel(roundLabel, getWidth() / 2 - 50, 43, 300, 27);
         transparentPanel.add(roundLabel);
 
+        // 현재 라운드 라벨 설정
+        roundCountLabel = new JLabel(scoreService.getCurrentRound() + " R O U N D");
+        roundCountLabel.setForeground(Color.WHITE);
+        scoreService.setLabel(roundCountLabel, getWidth() / 2 - 75, 43, 300, 27);
+        add(roundCountLabel);
+
+        // 남은 라운드 라벨 설정
+        remainingRoundsLabel = new JLabel("남은 라운드: " + scoreService.getRemainingRounds());
+        remainingRoundsLabel.setForeground(Color.WHITE);
+        scoreService.setLabel(remainingRoundsLabel, getWidth() / 2 - 75, 70, 300, 27);
+        add(remainingRoundsLabel);
+
         // 점수 표시 (고정 텍스트)
         JLabel LeftscoreTextLabel = new JLabel("1P SCORE");
         LeftscoreTextLabel.setForeground(Color.WHITE);
@@ -126,5 +140,11 @@ public class ScorePanel extends JPanel {
     // getter
     public ScoreService getScoreService() {
         return scoreService;
+    }
+
+      // 다음 라운드로 넘어갈 때 UI 업데이트
+      public void advanceToNextRound() {
+        scoreService.advanceToNextRound();
+        remainingRoundsLabel.setText("남은 라운드: " + scoreService.getRemainingRounds());
     }
 }
