@@ -68,9 +68,9 @@ public class MapPanel extends JPanel implements PanelState {
     @Override
     public void open(Frame frame) {
         var me = getInstance();
-
+        me.setVisible(true);
         frame.add(me);
-        frame.setVisible(true);
+        frame.revalidate();
         frame.repaint();
     }
 
@@ -81,6 +81,7 @@ public class MapPanel extends JPanel implements PanelState {
 
         // 이전 화면 삭제
         frame.remove(me);
+        frame.revalidate();
         frame.repaint();
     }
 

@@ -41,19 +41,20 @@ public class ExplainPanel extends JPanel implements PanelState {
 
     @Override
     public void open(Frame frame) {
-        var me = ExplainPanel.getInstance();
-
+        var me = getInstance();
+        me.setVisible(true);
         frame.add(me);
-        frame.setVisible(true);
+        frame.revalidate();
         frame.repaint();
     }
 
     @Override
     public void close(Frame frame) {
         var me = getInstance();
-
+        me.setVisible(true);
         // 이전 화면 삭제
         frame.remove(me);
+        frame.revalidate();
         frame.repaint();
     }
 
