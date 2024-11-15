@@ -14,6 +14,8 @@ public class ScoreRepository {
     private int currentRound = 1;
     private final int totalRounds = 5;
 
+
+
     private JLabel roundCountLabel = new JLabel("1");
     private JLabel scoreLabel1P = new JLabel("0");
     private JLabel scoreLabel2P = new JLabel("0");

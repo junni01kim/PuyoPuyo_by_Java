@@ -45,7 +45,7 @@ public class ScoreService {
      * 모듈화 하다보니 사용하는 곳이 하나 구간 밖에 없어서 축약함
      */
     void setLabel(JLabel label, int x, int y, int width, int fontSize) {
-        label.setFont(new Font("Serif", Font.BOLD, fontSize));
+        label.setFont(new Font("Arial", Font.BOLD, fontSize));
         label.setLocation(x, y);
         label.setSize(width, 30);
         scorePanel.add(label);
@@ -123,6 +123,7 @@ public class ScoreService {
     }
 
     public void advanceToNextRound() {
+
         scoreRepository.nextRound();
     }
 
