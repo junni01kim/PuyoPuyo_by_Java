@@ -107,11 +107,17 @@ public class GameService {
      * 한 라운드가 종료되었는지 확인하는 함수
      */
     private boolean isEnd() {
-        if(game.totalWin(1) == 2) {
-            // TODO: 최종 승리 문구 출력
+        if (game.totalWin(1) == 2) {
+            // 1P 승리, 2P 패배
+            var mapService = MapService.getInstance();
+            mapService.getGroundPanel(1).showResultImage(true);  // 1P 승리 이미지
+            mapService.getGroundPanel(2).showResultImage(false); // 2P 패배 이미지
             return true;
-        } else if(game.totalWin(2) == 2) {
-            // TODO: 최종 승리 문구 출력
+        } else if (game.totalWin(2) == 2) {
+            // 2P 승리, 1P 패배
+            var mapService = MapService.getInstance();
+            mapService.getGroundPanel(1).showResultImage(false); // 1P 패배 이미지
+            mapService.getGroundPanel(2).showResultImage(true);  // 2P 승리 이미지
             return true;
         }
         return false;

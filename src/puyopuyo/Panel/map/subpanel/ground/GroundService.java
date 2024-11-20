@@ -1,5 +1,7 @@
 package puyopuyo.Panel.map.subpanel.ground;
 
+import puyopuyo.Panel.map.MapService;
+
 /**
  * 한 라운드 간 진행되는 뿌요 보드을 관리하는 패널 서비스이다.<br>
  *
@@ -36,5 +38,6 @@ public class GroundService {
     public Puyo[][] getPuyoMap() {
         return puyoMap;
     }
+    
     
 }

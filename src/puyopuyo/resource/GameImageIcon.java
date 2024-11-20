@@ -22,6 +22,9 @@ public class GameImageIcon {
     /** @property startGameButtonImage <p> expalinGameButton에 들어갈 이미지 */
     public static final ImageIcon explainGameButtonImage = new ImageIcon("res/ExplainGame");
 
+    public static final ImageIcon WINImage = new ImageIcon("res/Win.png");
+    public static final ImageIcon LOSERImage = new ImageIcon("res/Loser.png");
+
     private static final ImageIcon greenPuyo = new ImageIcon("res/GreenPuyo.png");
     private static final ImageIcon redPuyo = new ImageIcon("res/RedPuyo.png");
     private static final ImageIcon yelloPuyo = new ImageIcon("res/YellowPuyo.png");

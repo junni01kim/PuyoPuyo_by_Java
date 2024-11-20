@@ -66,4 +66,20 @@ public class GroundPanel extends JPanel {
 
     // getter
 
+    //플레이어 승리, 패배시 이미지 출력하는 함수
+    public void showResultImage(boolean isWinner) {
+        JLabel resultLabel = new JLabel();
+        if (isWinner) {
+            resultLabel.setIcon(GameImageIcon.WINImage);
+        } else {
+            resultLabel.setIcon(GameImageIcon.LOSERImage);
+        }
+        resultLabel.setSize(this.getWidth(), this.getHeight());
+        resultLabel.setLocation(0, 0);
+        resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        resultLabel.setVerticalAlignment(SwingConstants.CENTER);
+        add(resultLabel);
+        repaint();
+    }
+
 }
