@@ -89,12 +89,7 @@ public class ScorePanel extends JPanel {
         scoreService.setLabel(timer, getWidth() / 2, 400);
         transparentPanel.add(timer);
     }
-
-    // 다음 라운드로 넘어갈 때 UI 업데이트
-    public void advanceToNextRound() {
-        scoreService.advanceToNextRound();
-        remainingRoundsLabel.setText("remainingRounds: " + scoreService.getRemainingRounds());
-    }
+    
 
     // getter
     public ScoreService getScoreService() {

@@ -69,7 +69,7 @@ public class ScoreService {
     }
 
     void setLabel(JLabel label, int x, int y) {
-        label.setFont(new Font("Serif", Font.BOLD, 15));
+        label.setFont(new Font("Arial", Font.BOLD, 15));
         label.setLocation(x, y);
         label.setSize(100, 30);
         scorePanel.add(label);

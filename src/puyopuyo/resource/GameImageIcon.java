@@ -22,9 +22,15 @@ public class GameImageIcon {
     /** @property startGameButtonImage <p> expalinGameButton에 들어갈 이미지 */
     public static final ImageIcon explainGameButtonImage = new ImageIcon("res/ExplainGame");
 
+    /* 승리 패배시 GroundPanel에 출력될 이미지 */
     public static final ImageIcon WINImage = new ImageIcon("res/Win.png");
     public static final ImageIcon LOSERImage = new ImageIcon("res/Loser.png");
 
+    /* 플레이어 승리시 ScorePanel에 출력될 승리 횟수 이미지  */
+    public static final ImageIcon WINCountIcon = new ImageIcon("res/WinCount.png");
+    public static final ImageIcon WInBaseIcon = new ImageIcon("res/WinCountBase.png");
+    public static final ImageIcon WINCountedIcon = new ImageIcon("res/WinCounted.png");
+    
     private static final ImageIcon greenPuyo = new ImageIcon("res/GreenPuyo.png");
     private static final ImageIcon redPuyo = new ImageIcon("res/RedPuyo.png");
     private static final ImageIcon yelloPuyo = new ImageIcon("res/YellowPuyo.png");
