@@ -55,7 +55,6 @@ public class RoundService {
         round = new Round(player);
         algorithm.setRound(round);
 
-        scorePanel.advanceToNextRound();
         nextPuyo();
         
         // 게임이 끝났는지 판단

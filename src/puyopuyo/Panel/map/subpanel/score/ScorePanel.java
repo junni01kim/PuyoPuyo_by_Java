@@ -1,5 +1,7 @@
 package puyopuyo.Panel.map.subpanel.score;
 
+import puyopuyo.resource.GameImageIcon;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,6 +15,11 @@ public class ScorePanel extends JPanel {
     private JLabel roundCountLabel;
     private JLabel remainingRoundsLabel;
 
+    private JLabel winLabel;
+    private JLabel winCount1PLabel1;
+    private JLabel winCount1PLabel2;
+    private JLabel winCount2PLabel1;
+    private JLabel winCount2PLabel2;
 
     public ScorePanel() {
         setUi();
@@ -41,6 +48,8 @@ public class ScorePanel extends JPanel {
         transparentPanel.setLayout(null);
         add(transparentPanel);
 
+
+
         // 현재 라운드를 명시
         roundCountLabel = new JLabel(scoreService.getCurrentRound() + " R O U N D");
         roundCountLabel.setForeground(Color.WHITE);
@@ -50,6 +59,7 @@ public class ScorePanel extends JPanel {
 
         // 남은 라운드 라벨 설정
         remainingRoundsLabel = new JLabel("남은 라운드: " + scoreService.getRemainingRounds());
+
         remainingRoundsLabel.setForeground(Color.WHITE);
         scoreService.setLabel(remainingRoundsLabel, getWidth() / 2 - 75, 70, 300, 27);
         transparentPanel.add(remainingRoundsLabel);
@@ -88,6 +98,39 @@ public class ScorePanel extends JPanel {
         timer.setForeground(Color.YELLOW);
         scoreService.setLabel(timer, getWidth() / 2, 400);
         transparentPanel.add(timer);
+
+        /*승리 횟수 Label 추가
+        // WINS Label 추가*/
+        winLabel = new JLabel(GameImageIcon.WINCountIcon);
+        winLabel.setBounds(getWidth() / 2 - 60, 500, 120, 50); // 위치 설정
+        add(winLabel);
+
+        // 1P Win Count Label 추가 (초기: 빈 별 이미지)
+        winCount1PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
+        winCount1PLabel1.setBounds(getWidth() / 2 - 150, 500, 50, 50); // 왼쪽
+        add(winCount1PLabel1);
+
+        winCount1PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
+        winCount1PLabel2.setBounds(getWidth() / 2 - 100, 500, 50, 50); // 왼쪽
+        add(winCount1PLabel2);
+
+        // 2P Win Count Label 추가 (초기: 빈 별 이미지)
+        winCount2PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
+        winCount2PLabel1.setBounds(getWidth() / 2 + 100, 500, 50, 50); // 오른쪽
+        add(winCount2PLabel1);
+
+        winCount2PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
+        winCount2PLabel2.setBounds(getWidth() / 2 + 150, 500, 50, 50); // 오른쪽
+        add(winCount2PLabel2);
+
+    }
+
+    public void WinCount(int player) {
+        if (player == 1) {
+            winCount1PLabel1.setIcon(GameImageIcon.WINCountedIcon);
+        } else if (player == 2) {
+            winCount2PLabel1.setIcon(GameImageIcon.WINCountedIcon);
+        }
     }
     
 

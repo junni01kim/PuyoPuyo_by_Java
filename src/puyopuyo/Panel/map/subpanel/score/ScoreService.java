@@ -1,6 +1,7 @@
 package puyopuyo.Panel.map.subpanel.score;
 
 import puyopuyo.Panel.map.subpanel.ground.Puyo;
+import puyopuyo.resource.GameImageIcon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +21,10 @@ public class ScoreService {
 
     public ScoreService(ScorePanel scorePanel) {
         this.scorePanel = scorePanel;
+    }
+
+    public Font getDefaultFont(int fontSize) {
+        return new Font("Arial", Font.BOLD, fontSize);
     }
 
     /**
@@ -45,10 +50,13 @@ public class ScoreService {
      * 모듈화 하다보니 사용하는 곳이 하나 구간 밖에 없어서 축약함
      */
     void setLabel(JLabel label, int x, int y, int width, int fontSize) {
-        label.setFont(new Font("Arial", Font.BOLD, fontSize));
+        label.setFont(getDefaultFont(fontSize));
         label.setLocation(x, y);
-        label.setSize(width, 30);
-        scorePanel.add(label);
+        int height = fontSize + 10;
+        label.setSize(width, height);
+        if (label.getParent() == null) {
+            scorePanel.add(label); // 중복 추가 방지
+        }
     }
 
     /**
@@ -126,6 +134,8 @@ public class ScoreService {
 
         scoreRepository.nextRound();
     }
+
+
 
     public int getRemainingRounds() {
         return scoreRepository.getRemainingRounds();
