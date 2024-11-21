@@ -99,33 +99,45 @@ public class ScorePanel extends JPanel {
         scoreService.setLabel(timer, getWidth() / 2, 400);
         transparentPanel.add(timer);
 
-        /*승리 횟수 Label 추가
-        // WINS Label 추가*/
-        winLabel = new JLabel(GameImageIcon.WINCountIcon);
-        winLabel.setBounds(getWidth() / 2 - 60, 500, 120, 50); // 위치 설정
-        add(winLabel);
+        // 승리 횟수 Label들을 그룹화할 패널 생성
+        JPanel winPanel = new JPanel();
+        winPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        winPanel.setOpaque(false); // 패널 투명 설정
+        winPanel.setBounds(getWidth() / 2 - 150, 650, 300, 50); // 위치 및 크기 설정
+        add(winPanel);
+
+        int scaledWidth = 280; // 원하는 크기로 설정
+        int scaledHeight = 50;
+
+        Image scaledWinImage = GameImageIcon.WINCountIcon.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledWinIcon = new ImageIcon(scaledWinImage);
+
+        /*승리 횟수 Label 추가*/
+        winLabel = new JLabel(scaledWinIcon);
+        winPanel.add(winLabel);
 
         // 1P Win Count Label 추가 (초기: 빈 별 이미지)
         winCount1PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount1PLabel1.setBounds(getWidth() / 2 - 150, 500, 50, 50); // 왼쪽
+       winCount1PLabel1.setBounds(getWidth() / 2 - 150, 745, 50, 50); // 왼쪽
         add(winCount1PLabel1);
 
         winCount1PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount1PLabel2.setBounds(getWidth() / 2 - 100, 500, 50, 50); // 왼쪽
+        winCount1PLabel2.setBounds(getWidth() / 2 - 100, 545, 50, 50); // 왼쪽
         add(winCount1PLabel2);
 
         // 2P Win Count Label 추가 (초기: 빈 별 이미지)
         winCount2PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount2PLabel1.setBounds(getWidth() / 2 + 100, 500, 50, 50); // 오른쪽
+        winCount2PLabel1.setBounds(getWidth() / 2 + 50, 545,50, 50); // 오른쪽
         add(winCount2PLabel1);
 
         winCount2PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount2PLabel2.setBounds(getWidth() / 2 + 150, 500, 50, 50); // 오른쪽
+        winCount2PLabel2.setBounds(getWidth() / 2 + 100, 545, 50, 50); // 오른쪽
         add(winCount2PLabel2);
 
     }
 
     public void WinCount(int player) {
+
         if (player == 1) {
             winCount1PLabel1.setIcon(GameImageIcon.WINCountedIcon);
         } else if (player == 2) {

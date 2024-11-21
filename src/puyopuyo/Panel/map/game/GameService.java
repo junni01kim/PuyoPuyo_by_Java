@@ -3,6 +3,7 @@ package puyopuyo.Panel.map.game;
 import puyopuyo.Panel.map.MapPanel;
 import puyopuyo.Panel.map.MapService;
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
+import puyopuyo.Panel.map.subpanel.score.ScorePanel;
 import puyopuyo.Panel.start.StartPanel;
 import puyopuyo.frame.Frame;
 
@@ -13,6 +14,7 @@ import static java.lang.Thread.sleep;
 
 public class GameService {
     private static GameService instance;
+    private final ScorePanel scorePanel = MapService.getInstance().getScorePanel();
 
     public synchronized static GameService getInstance() {
         if (instance == null) {
@@ -131,6 +133,7 @@ public class GameService {
      */
     public void playerWin(int player) {
         game.plusWinCount(player);
+        scorePanel.WinCount(player);
     }
 
     /**
