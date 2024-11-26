@@ -118,20 +118,20 @@ public class ScorePanel extends JPanel {
 
         // 1P Win Count Label 추가 (초기: 빈 별 이미지)
         winCount1PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
-       winCount1PLabel1.setBounds(getWidth() / 2 - 150, 745, 50, 50); // 왼쪽
+       winCount1PLabel1.setBounds(getWidth() / 2 - 150, 700, 50, 50); //왼쪽
         add(winCount1PLabel1);
 
         winCount1PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount1PLabel2.setBounds(getWidth() / 2 - 100, 545, 50, 50); // 왼쪽
+        winCount1PLabel2.setBounds(getWidth() / 2 - 100, 700, 50, 50); //왼쪽
         add(winCount1PLabel2);
 
         // 2P Win Count Label 추가 (초기: 빈 별 이미지)
         winCount2PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount2PLabel1.setBounds(getWidth() / 2 + 50, 545,50, 50); // 오른쪽
+        winCount2PLabel1.setBounds(getWidth() / 2 + 50, 700,50, 50); //오른쪽
         add(winCount2PLabel1);
 
         winCount2PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount2PLabel2.setBounds(getWidth() / 2 + 100, 545, 50, 50); // 오른쪽
+        winCount2PLabel2.setBounds(getWidth() / 2 + 100, 700, 50, 50); //오른쪽
         add(winCount2PLabel2);
 
     }
