@@ -1,10 +1,10 @@
-package puyopuyo.Panel.map.game;
+package server.game;
 
 import puyopuyo.Panel.map.MapPanel;
 import puyopuyo.Panel.map.MapService;
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
-import puyopuyo.Panel.start.StartPanel;
-import puyopuyo.frame.Frame;
+import client.panel.start.StartPanel;
+import client.frame.Frame;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -30,6 +30,7 @@ public class GameService {
      * 라운드마다 puyoLogic을 재설정하는 함수이다.
      */
     private void makePuyoLogic() {
+        System.out.println("[Server] makePuyoLogic");
         var puyoLogic = game.getPuyoLogic();
 
         int[][] puyoCase = new int[5][5];
@@ -53,6 +54,7 @@ public class GameService {
      * 게임 시작 전 3초 지연시키는 함수이다.
      */
     public void countThreeSecond() {
+        System.out.println("[Server] countThreeSecond");
         try {
             for(int i=3; i>0; i--) sleep(1000);
         } catch (InterruptedException _) {}
@@ -62,6 +64,7 @@ public class GameService {
      * 새로운 게임 엔티티를 만들고 진행하는 함수이다.
      */
     public void newGame() {
+        System.out.println("[Server] newGame");
         var roundCountLabel = MapService.getInstance().getScorePanel().getScoreService().getRoundCountLabel();
         game = new Game();
         var totalRound = 0;
@@ -77,6 +80,7 @@ public class GameService {
      * 게임 한 라운드에 대한 로직을 관리하는 함수
      */
     private void round() {
+        System.out.println("[Server] round");
         var mapPanel = MapPanel.getInstance();
         var mapService = MapService.getInstance();
         var scoreService = mapService.getScorePanel().getScoreService();

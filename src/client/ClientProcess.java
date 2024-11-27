@@ -2,40 +2,46 @@ package client;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ClientProcess {
+    private static ClientProcess instance;
+
+    private final InputStream inputStream = System.in; // 표준 입력
+    private BufferedReader in;
+    private BufferedWriter out;
+    private Socket socket;
+
+    public synchronized static ClientProcess getInstance() {
+        if (instance == null) {
+            instance = new ClientProcess();
+        }
+        return instance;
+    }
+
     public ClientProcess() {
-        BufferedReader in;
-        BufferedWriter out;
-        Socket socket = null;
-        Scanner scanner = new Scanner(System.in);
         try {
             socket = new Socket("localhost", 9999);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
-            while (true)
-            {
-                System.out.print("보내기>>");
-                String outputMessage = scanner.nextLine();
-                if (outputMessage.equalsIgnoreCase("bye")) {
-                    out.write(outputMessage+"\n");
-                    out.flush();
-                    break;
-                }
-                out.write(outputMessage + "\n");
-                out.flush();
-            }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                scanner.close();
-                if(socket != null) socket.close();
-            } catch (IOException e) {
-                System.out.println("서버와 채팅중 오류가 발생했습니다.");
-            }
+            System.out.println("Error1: " + e.getMessage());
+        }
+    }
+
+    public void closeSocket() {
+        try {
+            if (socket != null) socket.close();
+        } catch (IOException e) {
+            System.out.println("Error closing socket.");
+        }
+    }
+
+    public void send(String message) {
+        try {
+            out.write(message + "\n");
+            out.flush();
+        } catch (Exception e) {
+            System.out.println("Error2: " + e.getMessage());
         }
     }
 }

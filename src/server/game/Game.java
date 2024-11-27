@@ -1,4 +1,4 @@
-package puyopuyo.Panel.map.game;
+package server.game;
 
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 
