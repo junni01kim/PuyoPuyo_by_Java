@@ -4,6 +4,7 @@ import puyopuyo.Panel.map.MapPanel;
 import puyopuyo.Panel.map.MapService;
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 import puyopuyo.Panel.map.subpanel.score.ScorePanel;
+import puyopuyo.Panel.map.subpanel.score.ScoreService;
 import puyopuyo.Panel.start.StartPanel;
 import puyopuyo.frame.Frame;
 
@@ -96,14 +97,17 @@ public class GameService {
 
         LocalTime start = LocalTime.now();
 
-        while(game.isPlaying()) {
-
+        while (game.isPlaying()) {
             try {
-                sleep(100);
-                
-                // ScorePanel Timer에 시간초 출력
-                scoreService.setTimer((int) Duration.between(start, LocalTime.now()).toSeconds());
-            } catch (InterruptedException _) {}
+                sleep(1000); // 1초마다 타이머를 업데이트
+                int elapsedTime = (int) Duration.between(start, LocalTime.now()).toSeconds();
+
+                // ScoreService의 타이머 업데이트 메소드를 사용하여 UI 업데이트
+                scoreService.updateTimer(elapsedTime);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

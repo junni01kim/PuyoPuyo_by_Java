@@ -17,8 +17,6 @@ public class ScoreService {
     private final ScorePanel scorePanel;
     private final ScoreRepository scoreRepository = new ScoreRepository();
 
-
-
     public ScoreService(ScorePanel scorePanel) {
         this.scorePanel = scorePanel;
     }
@@ -26,6 +24,8 @@ public class ScoreService {
     public Font getDefaultFont(int fontSize) {
         return new Font("Arial", Font.BOLD, fontSize);
     }
+
+
 
     /**
      * PuyoLogic을 기반으로 다음 뿌요의 색상을 변경하는 함수
@@ -93,9 +93,11 @@ public class ScoreService {
         else scoreRepository.setScore1P(score);
     }
 
-    public void setTimer(int timer) {
-        scoreRepository.setTimer(timer);
+    public void updateTimer(int timerCount) {
+        scoreRepository.setTimer(timerCount);
+        scorePanel.updateTimerLabel(timerCount); // ScorePanel에서 타이머 라벨 업데이트
     }
+
 
     // getter
     public JLabel getRoundCountLabel() {
@@ -134,7 +136,6 @@ public class ScoreService {
 
         scoreRepository.nextRound();
     }
-
 
 
     public int getRemainingRounds() {

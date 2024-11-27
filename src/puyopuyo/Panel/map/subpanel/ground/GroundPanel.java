@@ -60,8 +60,7 @@ public class GroundPanel extends JPanel {
     }
 
     public GroundService getGroundService() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getGroundService'");
+        return groundService;
     }
 
     // getter
