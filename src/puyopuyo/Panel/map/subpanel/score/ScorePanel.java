@@ -54,7 +54,7 @@ public class ScorePanel extends JPanel {
         timerPanel.setOpaque(false); // 패널을 투명하게 설정
         timerPanel.setBounds(0, 0, 300, 750);
         timerPanel.setLayout(null);
-        add(timerPanel); // `transparentPanel` 위에 추가될 새로운 패널
+        transparentPanel.add(timerPanel); // `transparentPanel` 위에 추가될 새로운 패널
 
 
         // 현재 라운드를 명시
@@ -97,7 +97,7 @@ public class ScorePanel extends JPanel {
         JLabel timeTextLabel = new JLabel("T I M E");
         timeTextLabel.setForeground(Color.WHITE);
         scoreService.setLabel(timeTextLabel, getWidth() / 2 - 20, 360);
-        timerPanel.add(timeTextLabel);
+        transparentPanel.add(timeTextLabel);
 
         // 타이머 표시 (변동되는 숫자)
         timer = scoreService.getTimer();
@@ -154,14 +154,6 @@ public class ScorePanel extends JPanel {
     public void updateTimerLabel(int timerCount) {
         timer.setText(Integer.toString(timerCount));
     }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // 이전 컴포넌트의 그래픽 초기화
-        g.setColor(new Color(0, 0, 0, 100)); // 반투명한 검은 배경
-        g.fillRect(0, 0, getWidth(), getHeight()); // 패널 크기만큼 배경 색을 다시 그리기
-    }
-
     // getter
     public ScoreService getScoreService() {
         return scoreService;
