@@ -1,4 +1,4 @@
-package puyopuyo.Panel.map.game;
+package server.game;
 
 public class GameThread extends Thread {
     private static GameThread instance;
