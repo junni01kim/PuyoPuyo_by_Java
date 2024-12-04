@@ -1,12 +1,9 @@
 package client;
 
-import client.panel.start.StartPanel;
-import client.frame.Frame;
+import server.ServerProcess;
 
 public class Client {
     public static void main(String[] args) {
-        var frame = Frame.getInstance();
-        frame.setVisible(true);
-        frame.changePanel(StartPanel.getInstance());
+        var clientProcess = new ClientProcess();
     }
 }

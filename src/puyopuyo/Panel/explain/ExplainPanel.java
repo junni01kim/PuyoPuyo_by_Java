@@ -1,10 +1,10 @@
-package client.panel.explain;
+package puyopuyo.Panel.explain;
 
-import client.ClientKeyListener;
-import client.ClientProcess;
 import puyopuyo.Panel.PanelState;
-import client.panel.start.StartPanel;
-import client.frame.Frame;
+import puyopuyo.Panel.map.MapPanel;
+import puyopuyo.Panel.start.StartPanel;
+import puyopuyo.frame.Frame;
+import puyopuyo.resource.GameImageIcon;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,16 +22,12 @@ public class ExplainPanel extends JPanel implements PanelState {
 
     public ExplainPanel() {
         setUi();
-
-        ClientProcess.getInstance(); //TODO: 임시 코드
     }
 
     @Override
     public void setUi() {
-        var homeButton = new JButton("Nav Home");
+        var homeButton = new JButton("홈화면으로 이동");
         homeButton.addActionListener(new HomeButtonActionListener());
-
-        addKeyListener(); // TODO: 임시!!
 
         homeButton.setLocation(550, 540);
         homeButton.setSize(150, 60);
@@ -60,8 +56,6 @@ public class ExplainPanel extends JPanel implements PanelState {
         frame.remove(me);
         frame.revalidate();
         frame.repaint();
-        
-        ClientProcess.getInstance().closeSocket(); // TODO: 임시코드
     }
 
     /**
@@ -79,20 +73,5 @@ public class ExplainPanel extends JPanel implements PanelState {
 
             frame.changePanel(startPanel);
         }
-    }
-
-    /**
-     * TODO: 임시 패널!!
-     * 해당 패널에서 키보드를 주관할 수 있게 만드는 함수이다.
-     *
-     */
-    public void addKeyListener() {
-        /*
-         * 해당 패널의 키보드 값을 받도록 설정.
-         * 보통은 따로하나, 동시에 1p, 2p의 키보드 값을 받게하기 위함
-         */
-        addKeyListener(new ClientKeyListener());
-        setFocusable(true);
-        requestFocus();
     }
 }

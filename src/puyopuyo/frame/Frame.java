@@ -1,8 +1,9 @@
-package client.frame;
+package puyopuyo.frame;
 
 import puyopuyo.Panel.PanelState;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * 화면을 구성하는 틀을 제공하는 클래스

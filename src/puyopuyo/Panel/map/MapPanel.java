@@ -1,8 +1,8 @@
 package puyopuyo.Panel.map;
 
-import client.frame.Frame;
+import puyopuyo.frame.Frame;
 import puyopuyo.Panel.PanelState;
-import server.game.GameThread;
+import puyopuyo.Panel.map.game.GameThread;
 import puyopuyo.resource.GameImageIcon;
 
 import javax.swing.*;
@@ -62,7 +62,7 @@ public class MapPanel extends JPanel implements PanelState {
 
     @Override
     public void process() {
-        GameThread.getInstance().start();
+        new GameThread().start();
     }
 
     @Override
