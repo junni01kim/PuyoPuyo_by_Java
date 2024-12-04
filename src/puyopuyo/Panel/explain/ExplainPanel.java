@@ -9,6 +9,7 @@ import puyopuyo.resource.GameImageIcon;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
 
 public class ExplainPanel extends JPanel implements PanelState {
     private static ExplainPanel instance;
@@ -26,17 +27,26 @@ public class ExplainPanel extends JPanel implements PanelState {
 
     @Override
     public void setUi() {
-        var homeButton = new JButton("홈화면으로 이동");
-        homeButton.addActionListener(new HomeButtonActionListener());
+        setLayout(null); // 절대 위치 사용
+        setBackground(Color.WHITE); // 배경 색상 설정
 
+        // 이미지를 로드하여 JLabel에 추가
+        ImageIcon explainImageIcon = new ImageIcon("path/to/Explain.png"); // 실제 파일 경로로 변경 필요
+        JLabel explainImageLabel = new JLabel(explainImageIcon);
+        explainImageLabel.setBounds(100, 50, explainImageIcon.getIconWidth(), explainImageIcon.getIconHeight()); // 위치와 크기 설정
+
+        this.add(explainImageLabel); // 패널에 이미지 추가
+
+        // 홈으로 이동 버튼 설정
+        JButton homeButton = new JButton("홈화면으로 이동");
         homeButton.setLocation(550, 540);
         homeButton.setSize(150, 60);
+        homeButton.addActionListener(new HomeButtonActionListener());
         this.add(homeButton);
     }
 
     @Override
     public void process() {
-
     }
 
     @Override
@@ -60,7 +70,6 @@ public class ExplainPanel extends JPanel implements PanelState {
 
     /**
      * 패널 조작 책임을 가지며, MVC 패턴의 Controller의 역할을 한다.
-     *
      * 코드의 복잡성을 줄이기 위해 합성관계로 구현하였다.
      */
     class HomeButtonActionListener implements ActionListener {
