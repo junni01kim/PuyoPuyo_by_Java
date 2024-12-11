@@ -1,7 +1,7 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
 import puyopuyo.Panel.map.MapService;
-import server.game.GameService;
+import puyopuyo.server.game.GameService;
 import puyopuyo.Panel.map.subpanel.ground.GroundPanel;
 import puyopuyo.Panel.map.subpanel.ground.GroundService;
 import puyopuyo.Panel.map.subpanel.ground.Puyo;

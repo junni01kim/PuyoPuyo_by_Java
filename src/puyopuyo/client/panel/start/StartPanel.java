@@ -1,8 +1,7 @@
-package client.panel.start;
+package puyopuyo.client.panel.start;
 
-import client.ClientProcess;
-import client.panel.explain.ExplainPanel;
-import client.frame.Frame;
+import puyopuyo.client.panel.explain.ExplainPanel;
+import puyopuyo.client.frame.Frame;
 import puyopuyo.Panel.PanelState;
 import puyopuyo.Panel.map.MapPanel;
 import puyopuyo.resource.GameImageIcon;
@@ -101,16 +100,13 @@ public class StartPanel extends JPanel implements PanelState {
      */
     class StartGameButtonActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-//            JButton myButton = (JButton)e.getSource();
-//            myButton.getParent().setVisible(false);
-//
-//            var frame = Frame.getInstance();
-//            var mapPanel = MapPanel.getInstance();
-//
-//            frame.changePanel(mapPanel);
+            JButton myButton = (JButton)e.getSource();
+            myButton.getParent().setVisible(false);
 
-            //TODO: 임시 코드
-            ClientProcess.getInstance();
+            var frame = Frame.getInstance();
+            var mapPanel = MapPanel.getInstance();
+
+            frame.changePanel(mapPanel);
         }
     }
 

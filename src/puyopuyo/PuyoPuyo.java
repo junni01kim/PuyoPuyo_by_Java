@@ -1,7 +1,7 @@
 package puyopuyo;
 
-import client.frame.Frame;
-import client.panel.start.StartPanel;
+import puyopuyo.client.frame.Frame;
+import puyopuyo.client.panel.start.StartPanel;
 
 public class PuyoPuyo {
 	public static void main(String[] args) {

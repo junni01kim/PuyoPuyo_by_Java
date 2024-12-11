@@ -1,4 +1,4 @@
-package server.game;
+package puyopuyo.server.game;
 
 public class GameThread extends Thread {
     private static GameThread instance;

@@ -1,10 +1,10 @@
-package server.game;
+package puyopuyo.server.game;
 
 import puyopuyo.Panel.map.MapPanel;
 import puyopuyo.Panel.map.MapService;
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
-import client.panel.start.StartPanel;
-import client.frame.Frame;
+import puyopuyo.client.panel.start.StartPanel;
+import puyopuyo.client.frame.Frame;
 
 import java.time.Duration;
 import java.time.LocalTime;

@@ -1,4 +1,4 @@
-package client.frame;
+package puyopuyo.client.frame;
 
 import puyopuyo.Panel.PanelState;
 
