@@ -27,11 +27,19 @@ public class ServerProcess {
         return instance;
     }
 
+    /**
+     * 변수 선언
+     *
+     */
     private final ArrayList<BufferedReader> ins = new ArrayList<>(2);
     private final ArrayList<BufferedWriter> outs = new ArrayList<>(2);
     private ServerSocket listener;
     private final ArrayList<Socket> sockets = new ArrayList<>(2);
 
+    /**
+     * 생성자
+     *
+     */
     public ServerProcess() {
         try {
             setupConnection();
@@ -40,6 +48,11 @@ public class ServerProcess {
         }
     }
 
+    /**
+     * 연결 로직
+     *
+     * @throws IOException
+     */
     private void setupConnection() throws IOException {
         listener = new ServerSocket(9999);
 
@@ -68,13 +81,14 @@ public class ServerProcess {
 
     /**
      * 반복적으로 클라이언트의 메세지를 받는 함수
+     *
      */
     private void listenClient() {
         while (true) {
             for (int i = 0; i < ins.size(); i++) {
                 String message = readMessage(i);
                 var sendDTO = gson.fromJson(message, SendDTO.class);
-                System.out.println("From Client" + sendDTO.getPlayer() + ": " + sendDTO.getData());
+                System.out.println("From Client" + sendDTO.getPlayer() + ": " + sendDTO.getData()); // 로그 처리
 
                 if (message != null) {
                     // TODO: 서버 내부 로직 진행
@@ -97,7 +111,7 @@ public class ServerProcess {
                 return ins.get(playerIndex).readLine();
             }
         } catch (IOException e) {
-            handleError("puyopuyo.Player" + (playerIndex + 1) + " 연결 오류: " + e.getMessage());
+            handleError("Player" + (playerIndex + 1) + " 연결 오류: " + e.getMessage());
         }
         return null;
     }
@@ -129,7 +143,7 @@ public class ServerProcess {
         outs.get(player).write(json+"\n");
         outs.get(player).flush();
 
-        System.out.println("To Client" + sendDTO.getPlayer() + ": " + sendDTO.getData());
+        System.out.println("To Client" + sendDTO.getPlayer() + ": " + sendDTO.getData()); // 로그 처리
     }
 
     /**
