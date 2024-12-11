@@ -36,71 +36,59 @@ public class ScorePanel extends JPanel {
      * 6. 라운드 승리 수를 명시한다.
      */
     private void setUi() {
-        setBackground(new Color(0, 0, 0, 0)); // 완전 투명 배경 설정
+        setBackground(new Color(0, 0, 0, 100)); // 완전 투명 배경 설정
         setSize(300, 750);
         setLocation(490, 60);
         setLayout(null);
-
-        // 반투명한 배경을 가지는 패널 생성
-        JPanel transparentPanel = new JPanel();
-        transparentPanel.setBackground(new Color(0, 0, 0, 100)); // 알파값 100으로 반투명 설정
-        transparentPanel.setBounds(0, 0, 300, 750);
-        transparentPanel.setLayout(null);
-        add(transparentPanel);
 
         // 현재 라운드를 명시
         roundCountLabel = new JLabel(scoreService.getCurrentRound() + " R O U N D");
         roundCountLabel.setForeground(Color.WHITE);
         scoreService.setLabel(roundCountLabel, getWidth() / 2 - 75, 43, 300, 27);
-        transparentPanel.add(roundCountLabel);
-
 
         // 남은 라운드 라벨 설정
         remainingRoundsLabel = new JLabel("remaining Rounds: " + scoreService.getRemainingRounds());
         remainingRoundsLabel.setForeground(Color.WHITE);
         scoreService.setLabel(remainingRoundsLabel, getWidth() / 2 - 100, 70, 300, 20);
-        transparentPanel.add(remainingRoundsLabel);
+
 
         // 점수 표시 (고정 텍스트)
         JLabel LeftscoreTextLabel = new JLabel("1P SCORE");
         LeftscoreTextLabel.setForeground(Color.WHITE);
         scoreService.setLabel(LeftscoreTextLabel, getWidth() / 2 - 130, 175, 100, 15);
-        transparentPanel.add(LeftscoreTextLabel);
+
 
         JLabel RightscoreTextLabel = new JLabel("2P SCORE");
         RightscoreTextLabel.setForeground(Color.WHITE);
         scoreService.setLabel(RightscoreTextLabel, getWidth() / 2 + 55, 175, 100, 15);
-        transparentPanel.add(RightscoreTextLabel);
+
 
         // 점수 표시 1P (변동되는 숫자)
         var scoreLabel1P = scoreService.getScoreLabel(1);
-        scoreLabel1P.setForeground(Color.WHITE);
+        scoreLabel1P.setOpaque(true);
+        scoreLabel1P.setBackground(new Color(255, 255, 255, 0));
         scoreService.setLabel(scoreLabel1P, 50, 205);
-        transparentPanel.add(scoreLabel1P);
+
 
         // 점수 표시 2P (변동되는 숫자)
         var scoreLabel2P = scoreService.getScoreLabel(2);
         scoreLabel2P.setForeground(Color.WHITE);
         scoreService.setLabel(scoreLabel2P, getWidth() - 60, 205);
-        transparentPanel.add(scoreLabel2P);
+
 
         // 타이머 표시 (타이틀)
         JLabel timeTextLabel = new JLabel("T I M E");
         timeTextLabel.setForeground(Color.WHITE);
         scoreService.setLabel(timeTextLabel, getWidth() / 2 - 20, 360);
-        transparentPanel.add(timeTextLabel);
+
 
         // 타이머 표시 (변동되는 숫자)
         timer = scoreService.getTimer();
+        timer.setOpaque(false);
         timer.setForeground(Color.YELLOW);
         scoreService.setLabel(timer, getWidth() / 2, 400);
-        transparentPanel.add(timer);
 
-        JPanel winPanel = new JPanel();
-        winPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
-        winPanel.setOpaque(false); // 패널 투명 설정
-        winPanel.setBounds(getWidth() / 2 - 150, 650, 300, 50); // 위치 및 크기 설정
-        transparentPanel.add(winPanel);  // 여기서 `transparentPanel`에 추가하도록 변경
+
 
         int scaledWidth = 280; // 원하는 크기로 설정
         int scaledHeight = 50;
@@ -110,25 +98,21 @@ public class ScorePanel extends JPanel {
 
         /*승리 횟수 Label 추가*/
         winLabel = new JLabel(scaledWinIcon);
-        winPanel.add(winLabel);
 
         // 1P Win Count Label 추가 (초기: 빈 별 이미지)
         winCount1PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
         winCount1PLabel1.setBounds(getWidth() / 2 - 150, 700, 50, 50); // 왼쪽
-        transparentPanel.add(winCount1PLabel1);  // transparentPanel에 추가
 
         winCount1PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
         winCount1PLabel2.setBounds(getWidth() / 2 - 100, 700, 50, 50); // 왼쪽
-        transparentPanel.add(winCount1PLabel2);  // transparentPanel에 추가
 
         // 2P Win Count Label 추가 (초기: 빈 별 이미지)
         winCount2PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
         winCount2PLabel1.setBounds(getWidth() / 2 + 50, 700, 50, 50); // 오른쪽
-        transparentPanel.add(winCount2PLabel1);  // transparentPanel에 추가
 
         winCount2PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
         winCount2PLabel2.setBounds(getWidth() / 2 + 100, 700, 50, 50); // 오른쪽
-        transparentPanel.add(winCount2PLabel2);  // transparentPanel에 추가
+        scoreService.setLabel(winCount2PLabel2, getWidth()/2 + 100, 700);
     }
 
 
@@ -142,9 +126,7 @@ public class ScorePanel extends JPanel {
         }
     }
 
-    public void updateTimerLabel(int timerCount) {
-        timer.setText(Integer.toString(timerCount));
-    }
+
     // getter
     public ScoreService getScoreService() {
         return scoreService;

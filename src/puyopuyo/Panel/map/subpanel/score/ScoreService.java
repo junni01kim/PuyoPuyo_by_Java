@@ -80,6 +80,7 @@ public class ScoreService {
         label.setFont(new Font("Arial", Font.BOLD, 15));
         label.setLocation(x, y);
         label.setSize(100, 30);
+        label.setOpaque(false);
         scorePanel.add(label);
     }
 
@@ -95,7 +96,6 @@ public class ScoreService {
 
     public void updateTimer(int timerCount) {
         scoreRepository.setTimer(timerCount);
-        scorePanel.updateTimerLabel(timerCount); // ScorePanel에서 타이머 라벨 업데이트
     }
 
 
