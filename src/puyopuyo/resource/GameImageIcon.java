@@ -20,7 +20,7 @@ public class GameImageIcon {
     /** @property startGameButtonImage <p> startGameButton에 들어갈 이미지 */
     public static final ImageIcon startGameButtonImage = new ImageIcon("res/StartGameButton.png");
     /** @property startGameButtonImage <p> expalinGameButton에 들어갈 이미지 */
-    public static final ImageIcon explainGameButtonImage = new ImageIcon("res/ExplainGame");
+    public static final ImageIcon explainGameButtonImage = new ImageIcon("res/Explain.png");
 
     /* 승리 패배시 GroundPanel에 출력될 이미지 */
     public static final ImageIcon WINImage = new ImageIcon("res/Win.png");

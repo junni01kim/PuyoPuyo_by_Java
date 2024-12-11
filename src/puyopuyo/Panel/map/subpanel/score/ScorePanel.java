@@ -14,7 +14,6 @@ public class ScorePanel extends JPanel {
     private final ScoreService scoreService = new ScoreService(this);
     private JLabel roundCountLabel;
     private JLabel remainingRoundsLabel;
-
     private JLabel winLabel;
     private JLabel winCount1PLabel1;
     private JLabel winCount1PLabel2;
@@ -48,14 +47,6 @@ public class ScorePanel extends JPanel {
         transparentPanel.setBounds(0, 0, 300, 750);
         transparentPanel.setLayout(null);
         add(transparentPanel);
-
-        // 새로운 타이머 패널 생성 (타이머를 별도로 관리하기 위해)
-        JPanel timerPanel = new JPanel();
-        timerPanel.setOpaque(false); // 패널을 투명하게 설정
-        timerPanel.setBounds(0, 0, 300, 750);
-        timerPanel.setLayout(null);
-        transparentPanel.add(timerPanel); // `transparentPanel` 위에 추가될 새로운 패널
-
 
         // 현재 라운드를 명시
         roundCountLabel = new JLabel(scoreService.getCurrentRound() + " R O U N D");
@@ -103,7 +94,7 @@ public class ScorePanel extends JPanel {
         timer = scoreService.getTimer();
         timer.setForeground(Color.YELLOW);
         scoreService.setLabel(timer, getWidth() / 2, 400);
-        timerPanel.add(timer);
+        transparentPanel.add(timer);
 
         JPanel winPanel = new JPanel();
         winPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 0));
