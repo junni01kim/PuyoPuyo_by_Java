@@ -10,29 +10,29 @@ public class ClientKeyListener extends KeyAdapter {
         switch(e.getKeyCode()) {
             /** Player1에 대한 키입력 */
             case KeyEvent.VK_W:
-                clientProcess.send("Up");
+                clientProcess.toServer("Up");
                 break;
             case KeyEvent.VK_S:
-                clientProcess.send("Down");
+                clientProcess.toServer("Down");
                 break;
             case KeyEvent.VK_A:
-                clientProcess.send("Left");
+                clientProcess.toServer("Left");
                 break;
             case KeyEvent.VK_D:
-                clientProcess.send("Right");
+                clientProcess.toServer("Right");
                 break;
             /** Player2에 대한 키입력 */
             case KeyEvent.VK_UP:
-                clientProcess.send("Up");
+                clientProcess.toServer("Up");
                 break;
             case KeyEvent.VK_DOWN:
-                clientProcess.send("Down");
+                clientProcess.toServer("Down");
                 break;
             case KeyEvent.VK_LEFT:
-                clientProcess.send("Left");
+                clientProcess.toServer("Left");
                 break;
             case KeyEvent.VK_RIGHT:
-                clientProcess.send("Right");
+                clientProcess.toServer("Right");
                 break;
         }
     }

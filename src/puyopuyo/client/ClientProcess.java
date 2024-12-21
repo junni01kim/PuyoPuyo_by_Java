@@ -37,7 +37,7 @@ public class ClientProcess {
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
             // 서버 응답 수신을 위한 별도 스레드 실행
-            new Thread(this::readFromServer).start();
+            new Thread(this::fromServer).start();
 
         } catch (IOException e) {
             System.err.println("Error connecting to puyopuyo.server: " + e.getMessage());
@@ -49,7 +49,7 @@ public class ClientProcess {
      * 메세지를 전송하는 함수. ClientKeyListener를 통해서 방향키 정보를 전달할 예정이다.
      * @param message
      */
-    public void send(String message) {
+    public void toServer(String message) {
         try {
             var sendDTO = new SendDTO<>(player, message);
             var json = gson.toJson(sendDTO);
@@ -66,7 +66,7 @@ public class ClientProcess {
      * 스레드를 통해 반복적으로 서버의 결과를 받는 함수이다.
      * TODO: 두 플레이어의 puyoMap을 지속적으로 받을 것.
      */
-    private void readFromServer() {
+    private void fromServer() {
         String serverMessage;
         try {
             while ((serverMessage = in.readLine()) != null) {

@@ -61,32 +61,30 @@ public class ServerProcess {
         sockets.add(player1Socket);
         ins.add(new BufferedReader(new InputStreamReader(player1Socket.getInputStream())));
         outs.add(new BufferedWriter(new OutputStreamWriter(player1Socket.getOutputStream())));
-        sendMessage(0, "Client1 Connected!");
-//        System.out.println("Client1 Connected!");
+        toClient(0, "Client1 Connected!");
 
         // 두 번째 클라이언트 접속 처리
         Socket player2Socket = listener.accept();
         sockets.add(player2Socket);
         ins.add(new BufferedReader(new InputStreamReader(player2Socket.getInputStream())));
         outs.add(new BufferedWriter(new OutputStreamWriter(player2Socket.getOutputStream())));
-        sendMessage(1, "Client2 Connected!");
-//        System.out.println("Client2 Connected!");
+        toClient(1, "Client2 Connected!");
 
         System.out.println("All Player Access Complete. Waiting Game Start...");
 
         // TODO: 게임 시작 (GameThread 진행)
 
-        listenClient();
+        messageObserver();
     }
 
     /**
      * 반복적으로 클라이언트의 메세지를 받는 함수
      *
      */
-    private void listenClient() {
+    private void messageObserver() {
         while (true) {
             for (int i = 0; i < ins.size(); i++) {
-                String message = readMessage(i);
+                String message = fromClient(i);
                 var sendDTO = gson.fromJson(message, SendDTO.class);
                 System.out.println("From Client" + sendDTO.getPlayer() + ": " + sendDTO.getData()); // 로그 처리
 
@@ -94,7 +92,7 @@ public class ServerProcess {
                     // TODO: 서버 내부 로직 진행
 
                     // 각 플레이어에게 메시지 전달
-                    broadcastMessage("To Server: " +sendDTO.getData());
+                    toAllClient("To Server: " +sendDTO.getData());
                 }
             }
         }
@@ -105,7 +103,7 @@ public class ServerProcess {
      * @param playerIndex
      * @return
      */
-    private String readMessage(int playerIndex) {
+    private String fromClient(int playerIndex) {
         try {
             if (ins.get(playerIndex).ready()) {
                 return ins.get(playerIndex).readLine();
@@ -120,10 +118,10 @@ public class ServerProcess {
      * 모든 클라이언트에게 동일한 메세지를 전달한다.
      * @param message
      */
-    private void broadcastMessage(String message) {
+    private void toAllClient(String message) {
         for (int player = 0; player < ins.size(); player++) {
             try {
-                sendMessage(player, message);
+                toClient(player, message);
             } catch (IOException e) {
                 System.out.println("Message Send Error: " + e.getMessage());
             }
@@ -136,7 +134,7 @@ public class ServerProcess {
      * @param message
      * @throws IOException
      */
-    private void sendMessage(int player, String message) throws IOException {
+    private void toClient(int player, String message) throws IOException {
         var sendDTO = new SendDTO<>(player, message);
         var json = gson.toJson(sendDTO);
 
