@@ -1,7 +1,9 @@
 package puyopuyo.client;
 
 import com.google.gson.Gson;
+import puyopuyo.client.panel.map.subpanel.DrawFactory;
 import puyopuyo.dto.SendDTO;
+import puyopuyo.server.ServerProcess;
 
 import java.io.*;
 import java.net.Socket;
@@ -13,7 +15,7 @@ public class ClientProcess {
     private BufferedReader in; // 서버로부터의 입력
     private BufferedWriter out; // 서버로의 출력
     private Socket socket;
-    private final Gson gson = new Gson();
+    private static final Gson gson = new Gson();
 
     /**
      * 싱글톤으로 제작하기 위함
@@ -51,7 +53,7 @@ public class ClientProcess {
      */
     public void toServer(String message) {
         try {
-            var sendDTO = new SendDTO<>(player, 0, message);
+            var sendDTO = new SendDTO(player, 0, message);
             var json = gson.toJson(sendDTO);
             out.write(json+"\n");
             out.flush();
@@ -70,9 +72,10 @@ public class ClientProcess {
         String serverMessage;
         try {
             while ((serverMessage = in.readLine()) != null) {
-                System.out.println("From Server: " + serverMessage);
+                //System.out.println("From Server: " + serverMessage);
                 
                 // TODO: observer 설정
+                DrawFactory.redraw(gson.fromJson(serverMessage, SendDTO.class));
             }
         } catch (IOException e) {
             System.err.println("Error while reading puyopuyo.server message: " + e.getMessage());
@@ -92,5 +95,9 @@ public class ClientProcess {
             System.err.println("Error closing resources: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static Gson getGson() {
+        return gson;
     }
 }

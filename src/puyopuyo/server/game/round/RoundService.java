@@ -106,7 +106,6 @@ public class RoundService {
      * 뿌요를 한칸 밑으로 내린다.
      */
     public void dropPuyo() {
-        System.out.println("Drop Puyo");
         // 뿌요 중 하나가 바닥에 닿은 경우
         if(algorithm.isFix()) {
             algorithm.detect();

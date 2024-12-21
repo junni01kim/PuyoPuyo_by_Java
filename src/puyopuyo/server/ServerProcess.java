@@ -161,7 +161,7 @@ public class ServerProcess {
      * @throws IOException
      */
     private void toClient(int player, int type, String message) throws IOException {
-        var sendDTO = new SendDTO<>(player, type, message);
+        var sendDTO = new SendDTO(player, type, message);
         var json = gson.toJson(sendDTO);
 
         outs.get(player).write(json+"\n");
@@ -178,7 +178,6 @@ public class ServerProcess {
     }
 
     public Gson getGson() {
-        System.out.println("getGson");
         return gson;
     }
 }

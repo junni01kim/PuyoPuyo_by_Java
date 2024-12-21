@@ -1,5 +1,7 @@
 package puyopuyo.client.panel.map.subpanel.ground;
 
+import puyopuyo.server.game.round.PuyoS;
+
 /**
  * 한 라운드 간 진행되는 뿌요 보드을 관리하는 패널 서비스이다.<br>
  *

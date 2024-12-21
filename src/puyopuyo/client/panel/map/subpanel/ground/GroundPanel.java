@@ -1,6 +1,7 @@
 package puyopuyo.client.panel.map.subpanel.ground;
 
 import puyopuyo.resource.GameImageIcon;
+import puyopuyo.server.game.round.PuyoS;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,11 @@ import java.awt.*;
  */
 public class GroundPanel extends JPanel {
     private final int player;
+
+    private final Puyo leftPuyo = new Puyo(5);
+    private final Puyo rightPuyo = new Puyo(5);
+
+    private Puyo[][] puyoMap = new Puyo[6][12];
 
     private final GroundService groundService = new GroundService();
 
@@ -61,5 +67,19 @@ public class GroundPanel extends JPanel {
     // getter
     public GroundService getGroundService() {
         return groundService;
+    }
+
+    public void drawPuyoMap(PuyoS[][] puyoMapS) {
+        System.out.print("drawPuyoMapStart          ");
+        for(int x = 0; x < puyoMapS.length; x++) {
+            for(int y = 0; y < puyoMapS[x].length; y++) {
+                if(puyoMapS[x][y] != null) {
+                    puyoMap[x][y] = new Puyo(puyoMapS[x][y].getColor(), x, y);
+                    add(puyoMap[x][y]);
+                }
+            }
+        }
+        repaint();
+        System.out.println("drawPuyoMapEnd");
     }
 }
