@@ -1,6 +1,6 @@
 package puyopuyo.server.game;
 
-import puyopuyo.client.panel.map.subpanel.ground.round.RoundThread;
+import puyopuyo.server.game.round.RoundThread;
 
 public class Game {
     private RoundThread roundThread1P;
@@ -51,7 +51,6 @@ public class Game {
         if(player == 1) return win1P;
         else return win2P;
     }
-
 
     public static int otherPlayer(int player) {
         if(player == 1) return 2;

@@ -1,4 +1,4 @@
-package puyopuyo.client.panel.map.subpanel.ground.round;
+package puyopuyo.server.game.round;
 
 public class RoundThread extends Thread{
     private final RoundService roundService;

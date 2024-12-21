@@ -4,7 +4,6 @@ import puyopuyo.client.ClientKeyListener;
 import puyopuyo.client.ClientProcess;
 import puyopuyo.client.frame.Frame;
 import puyopuyo.client.panel.PanelState;
-import puyopuyo.server.game.GameThread;
 import puyopuyo.resource.GameImageIcon;
 
 import javax.swing.*;
@@ -29,7 +28,6 @@ public class MapPanel extends JPanel implements PanelState {
 
     public MapPanel() {
         setUi();
-        process();
     }
 
     /**
@@ -64,7 +62,7 @@ public class MapPanel extends JPanel implements PanelState {
 
     @Override
     public void process() {
-        GameThread.getInstance().start();
+        //GameThread.getInstance().start();
     }
 
     @Override

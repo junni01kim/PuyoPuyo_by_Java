@@ -51,7 +51,7 @@ public class ClientProcess {
      */
     public void toServer(String message) {
         try {
-            var sendDTO = new SendDTO<>(player, message);
+            var sendDTO = new SendDTO<>(player, 0, message);
             var json = gson.toJson(sendDTO);
             out.write(json+"\n");
             out.flush();
@@ -71,6 +71,8 @@ public class ClientProcess {
         try {
             while ((serverMessage = in.readLine()) != null) {
                 System.out.println("From Server: " + serverMessage);
+                
+                // TODO: observer 설정
             }
         } catch (IOException e) {
             System.err.println("Error while reading puyopuyo.server message: " + e.getMessage());

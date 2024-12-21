@@ -1,5 +1,7 @@
 package puyopuyo.server.movecommand;
 
+import puyopuyo.server.game.GameService;
+
 public class DownMoveCommand implements MoveCommand {
     private static DownMoveCommand instance;
 
@@ -15,6 +17,9 @@ public class DownMoveCommand implements MoveCommand {
 
     @Override
     public void execute(int player) {
-
+        GameService.getInstance()
+                .getRoundThread(player)
+                .getRoundService()
+                .downPuyo();
     }
 }

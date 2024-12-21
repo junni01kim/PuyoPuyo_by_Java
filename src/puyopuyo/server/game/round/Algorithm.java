@@ -1,10 +1,8 @@
-package puyopuyo.client.panel.map.subpanel.ground.round;
+package puyopuyo.server.game.round;
 
 import puyopuyo.client.panel.map.MapService;
 import puyopuyo.client.panel.map.subpanel.score.Score;
 import puyopuyo.server.game.GameService;
-import puyopuyo.client.panel.map.subpanel.ground.GroundPanel;
-import puyopuyo.client.panel.map.subpanel.ground.GroundService;
 import puyopuyo.client.panel.map.subpanel.ground.Puyo;
 
 import static java.lang.Thread.sleep;
@@ -14,24 +12,21 @@ public class Algorithm {
     private Round round;
     private final Score score;
 
-    private final MapService mapService = MapService.getInstance();
     private final GameService gameService = GameService.getInstance();
-    private final GroundPanel groundPanel;
-    private final GroundService groundService;
+    private final RoundService roundService;
 
-    private final Puyo[][] puyoMap;
+    private final PuyoS[][] puyoMap;
 
     // 폭발 계산 용 변수
     private final boolean[][] samePuyoChecker = new boolean[6][12];
     private final boolean[] colorBonusChecker = new boolean[Puyo.getPuyoIcon().length];
     private int numberOfSamePuyo = 0;
 
-    public Algorithm(int player) {
+    public Algorithm(int player, RoundService roundService) {
         score = new Score(player);
 
-        groundPanel = mapService.getGroundPanel(player);
-        groundService = groundPanel.getGroundService();
-        puyoMap = groundService.getPuyoMap();
+        this.roundService = roundService;
+        puyoMap = roundService.getPuyoMap();
     }
 
     /**
@@ -39,8 +34,8 @@ public class Algorithm {
      *
      */
     public boolean isFix() {
-        var leftPuyo = groundService.getLeftPuyo();
-        var rightPuyo = groundService.getRightPuyo();
+        var leftPuyo = roundService.getLeftPuyo();
+        var rightPuyo = roundService.getRightPuyo();
 
         // 2. left 아래에 뿌요가 존재하는지 확인하는 로직
         if(leftPuyo.y() >= Y_MAX || puyoMap[leftPuyo.x()][leftPuyo.y()+MOVE] != null) {
@@ -57,21 +52,17 @@ public class Algorithm {
         return false;
     }
 
-    private void fixPuyo(Puyo puyo) {
-        // 1. 현재 뿌요를 가리는 함수 setVisible()
-        puyo.setVisible(false);
-
+    private void fixPuyo(PuyoS puyo) {
         // 2. 현재 뿌요맵 위치에 새로운 객체를 생성
-        puyoMap[(puyo.x())][(puyo.y())] = new Puyo(puyo.getColor(),puyo.x(),puyo.y());
-        groundPanel.add(puyoMap[puyo.x()][puyo.y()]);
+        puyoMap[(puyo.x())][(puyo.y())] = new PuyoS(puyo.getColor(),puyo.x(),puyo.y());
     }
 
     /**
      * 한 뿌요의 위치가 정해지고 다음 뿌요의 위치를 보여주는 함수
      */
-    private void dropPuyo(Puyo puyo) {
+    private void dropPuyo(PuyoS puyo) {
         for(int y = Y_MAX; y >= Y_MIN; y--)
-            if(puyoMap[puyo.x()][y]==null) {
+            if(puyoMap[puyo.x()][y] == null) {
                 puyo.pos(puyo.x(),y);
                 fixPuyo(puyo);
                 break;
@@ -90,18 +81,15 @@ public class Algorithm {
      */
     public void detect() {
         var player = round.getPlayer();
-        var scoreService = mapService.getScorePanel().getScoreService();
-        var leftPuyo = groundService.getLeftPuyo();
-        var rightPuyo = groundService.getRightPuyo();
+//        var scoreService = mapService.getScorePanel().getScoreService();
+        var leftPuyo = roundService.getLeftPuyo();
+        var rightPuyo = roundService.getRightPuyo();
 
         var puyoColor = 0;
         var puyoConnect = 0;
         var puyoCombo = 0;
         var puyoRemovedSum = 0;
         var plusScore = 0;
-
-        leftPuyo.setVisible(false);
-        rightPuyo.setVisible(false);
 
         while(true){
             boolean check = false;
@@ -137,10 +125,10 @@ public class Algorithm {
                             // 득점 점수 합산 (전체 점수 Label에 작성)
                             score.setScore(plusScore);
 
-                            scoreService.setScore(player, plusScore);
+//                            scoreService.setScore(player, plusScore);
 
                             // TODO: 전달될 방해뿌요 수를 그림으로 출력
-                            scoreService.setGarbagePuyoCount(player, plusScore/70);
+//                            scoreService.setGarbagePuyoCount(player, plusScore/70);
 
                             deletePuyos(x, y);
                             check = true;
@@ -153,7 +141,7 @@ public class Algorithm {
         }
 
         // 득점 점수로 바뀌었던 점수 기존 점수로 전환
-        scoreService.setScore(player, score.getScore());
+//        scoreService.setScore(player, score.getScore());
 
         // 추가된 총 점수의 /70 만큼 방해 뿌요 상대방에게 전달
         gameService.tossGarbagePuyo(round.getPlayer(), plusScore);
@@ -182,8 +170,6 @@ public class Algorithm {
         // 해당 뿌요 삭제
         samePuyoChecker[x][y] = false;
 
-        groundPanel.remove(puyoMap[x][y]);
-        groundPanel.repaint();
         puyoMap[x][y]=null;
 
         splashGarbagePuyo(x,y);
@@ -230,9 +216,7 @@ public class Algorithm {
                 if (puyoMap[x][y] == null) {
                     for (int q = 0; q < seperateGarbagePuyo; q++) {
                         if (y - q <= 2) continue;
-                        puyoMap[x][y - q] = new Puyo(GARBAGE, x, y - q);
-
-                        groundPanel.add(puyoMap[x][y - q]);
+                        puyoMap[x][y - q] = new PuyoS(GARBAGE, x, y - q);
                     }
                     break;
                 }
@@ -245,13 +229,10 @@ public class Algorithm {
             for (int j = 11; j >= 0; j--)
                 if (puyoMap[randomVariable][j] == null) {
                     if(j<=1) continue;
-                    puyoMap[randomVariable][j] = new Puyo(5, randomVariable, j);
-
-                    groundPanel.add(puyoMap[randomVariable][j]);
+                    puyoMap[randomVariable][j] = new PuyoS(5, randomVariable, j);
                     break;
                 }
         }
-        groundPanel.repaint();
 
         round.setGarbagePuyo(0);
         var scoreService = MapService.getInstance().getScorePanel().getScoreService();
@@ -261,23 +242,15 @@ public class Algorithm {
     private void splashGarbagePuyo(int x, int y) {
         // 1. 주변에 방해뿌요를 탐색하고 삭제한다.
         if (x+1 <= X_MAX && puyoMap[x+1][y] != null && puyoMap[x+1][y].getColor() == GARBAGE) {
-            groundPanel.remove(puyoMap[x+1][y]);
-            groundPanel.repaint();
             puyoMap[x+1][y] = null;
         }
         if (x-1 >= X_MIN && puyoMap[x-1][y] != null && puyoMap[x-1][y].getColor() == GARBAGE) {
-            groundPanel.remove(puyoMap[x-1][y]);
-            groundPanel.repaint();
             puyoMap[x-1][y] = null;
         }
         if (y+1 <= Y_MAX && puyoMap[x][y+1] != null && puyoMap[x][y+1].getColor() == GARBAGE) {
-            groundPanel.remove(puyoMap[x][y+1]);
-            groundPanel.repaint();
             puyoMap[x][y+1] = null;
         }
         if (y-1 >= Y_MIN && puyoMap[x][y-1] != null && puyoMap[x][y-1].getColor() == GARBAGE) {
-            groundPanel.remove(puyoMap[x][y-1]);
-            groundPanel.repaint();
             puyoMap[x][y-1] = null;
         }
     }

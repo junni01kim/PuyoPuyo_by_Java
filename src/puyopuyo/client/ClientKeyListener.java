@@ -8,20 +8,7 @@ public class ClientKeyListener extends KeyAdapter {
 
     synchronized public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
-            /** Player1에 대한 키입력 */
-            case KeyEvent.VK_W:
-                clientProcess.toServer("Up");
-                break;
-            case KeyEvent.VK_S:
-                clientProcess.toServer("Down");
-                break;
-            case KeyEvent.VK_A:
-                clientProcess.toServer("Left");
-                break;
-            case KeyEvent.VK_D:
-                clientProcess.toServer("Right");
-                break;
-            /** Player2에 대한 키입력 */
+            /** Player에 대한 키입력 */
             case KeyEvent.VK_UP:
                 clientProcess.toServer("Up");
                 break;

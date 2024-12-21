@@ -2,17 +2,20 @@ package puyopuyo.server.game;
 
 import puyopuyo.client.panel.map.MapPanel;
 import puyopuyo.client.panel.map.MapService;
-import puyopuyo.client.panel.map.subpanel.ground.round.RoundThread;
+import puyopuyo.server.game.round.PuyoS;
+import puyopuyo.server.game.round.RoundThread;
 import puyopuyo.client.panel.start.StartPanel;
 import puyopuyo.client.frame.Frame;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
 public class GameService {
     private static GameService instance;
+    private final ArrayList<PuyoS[][]> puyoMaps = new ArrayList<>();
 
     public synchronized static GameService getInstance() {
         if (instance == null) {
@@ -65,12 +68,12 @@ public class GameService {
      */
     public void newGame() {
         System.out.println("[Server] newGame");
-        var roundCountLabel = MapService.getInstance().getScorePanel().getScoreService().getRoundCountLabel();
+        //var roundCountLabel = MapService.getInstance().getScorePanel().getScoreService().getRoundCountLabel();
         game = new Game();
         var totalRound = 0;
 
         while(totalRound++ <= 3) {
-            roundCountLabel.setText(Integer.toString(totalRound));
+            //roundCountLabel.setText(Integer.toString(totalRound));
             round();
             if(isEnd()) Frame.getInstance().changePanel(StartPanel.getInstance());
         }
@@ -160,5 +163,13 @@ public class GameService {
 
     public int[] getPuyoLogic() {
         return game.getPuyoLogic();
+    }
+
+    public ArrayList<PuyoS[][]> getPuyoMaps() {
+        if(puyoMaps.isEmpty()) {
+            puyoMaps.add(getRoundThread(0).getRoundService().getPuyoMap());
+            puyoMaps.add(getRoundThread(1).getRoundService().getPuyoMap());
+        }
+        return puyoMaps;
     }
 }
