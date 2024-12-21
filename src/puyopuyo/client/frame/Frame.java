@@ -1,6 +1,6 @@
 package puyopuyo.client.frame;
 
-import puyopuyo.Panel.PanelState;
+import puyopuyo.client.panel.PanelState;
 
 import javax.swing.*;
 

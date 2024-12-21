@@ -2,6 +2,7 @@ package puyopuyo.server;
 
 import com.google.gson.Gson;
 import puyopuyo.dto.SendDTO;
+import puyopuyo.server.movecommand.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -19,6 +20,7 @@ public class ServerProcess {
     private static ServerProcess instance;
 
     private final Gson gson = new Gson();
+    private MoveCommand moveCommand;
 
     public synchronized static ServerProcess getInstance() {
         if (instance == null) {
@@ -76,7 +78,7 @@ public class ServerProcess {
 
         messageObserver();
     }
-
+    
     /**
      * 반복적으로 클라이언트의 메세지를 받는 함수
      *
@@ -86,16 +88,28 @@ public class ServerProcess {
             for (int i = 0; i < ins.size(); i++) {
                 String message = fromClient(i);
                 var sendDTO = gson.fromJson(message, SendDTO.class);
+                
                 System.out.println("From Client" + sendDTO.getPlayer() + ": " + sendDTO.getData()); // 로그 처리
 
                 if (message != null) {
-                    // TODO: 서버 내부 로직 진행
+                    // 클라이언트는 sendDTO로 String을 무조건 반환한다.
+                    controlPuyo(sendDTO.getPlayer(), (String)sendDTO.getData());
 
                     // 각 플레이어에게 메시지 전달
                     toAllClient("To Server: " +sendDTO.getData());
                 }
             }
         }
+    }
+
+    /**
+     * 방향 명령을 기반으로 뿌요를 조작
+     * @param player
+     * @param direction
+     */
+    private void controlPuyo(int player, String direction) {
+        moveCommand = MoveCommandFactory.getMoveCommand(direction);
+        moveCommand.execute(player);
     }
 
     /**

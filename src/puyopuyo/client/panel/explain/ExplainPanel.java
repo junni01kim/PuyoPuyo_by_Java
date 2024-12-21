@@ -1,6 +1,6 @@
 package puyopuyo.client.panel.explain;
 
-import puyopuyo.Panel.PanelState;
+import puyopuyo.client.panel.PanelState;
 import puyopuyo.client.panel.start.StartPanel;
 import puyopuyo.client.frame.Frame;
 

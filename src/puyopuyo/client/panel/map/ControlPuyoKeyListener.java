@@ -1,7 +1,7 @@
-package puyopuyo.Panel.map;
+package puyopuyo.client.panel.map;
 
+import puyopuyo.client.panel.map.subpanel.ground.Puyo;
 import puyopuyo.server.game.GameService;
-import puyopuyo.Panel.map.subpanel.ground.Puyo;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

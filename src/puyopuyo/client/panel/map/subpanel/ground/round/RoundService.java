@@ -1,11 +1,11 @@
-package puyopuyo.Panel.map.subpanel.ground.round;
+package puyopuyo.client.panel.map.subpanel.ground.round;
 
-import puyopuyo.Panel.map.MapService;
+import puyopuyo.client.panel.map.MapService;
 import puyopuyo.server.game.Game;
 import puyopuyo.server.game.GameService;
-import puyopuyo.Panel.map.subpanel.ground.GroundPanel;
-import puyopuyo.Panel.map.subpanel.ground.GroundService;
-import puyopuyo.Panel.map.subpanel.ground.Puyo;
+import puyopuyo.client.panel.map.subpanel.ground.GroundPanel;
+import puyopuyo.client.panel.map.subpanel.ground.GroundService;
+import puyopuyo.client.panel.map.subpanel.ground.Puyo;
 
 import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;

@@ -1,6 +1,6 @@
-package puyopuyo.Panel.map.subpanel.score;
+package puyopuyo.client.panel.map.subpanel.score;
 
-import puyopuyo.Panel.map.subpanel.ground.Puyo;
+import puyopuyo.client.panel.map.subpanel.ground.Puyo;
 
 import javax.swing.*;
 

@@ -1,9 +1,9 @@
-package puyopuyo.Panel.map;
+package puyopuyo.client.panel.map;
 
 import puyopuyo.client.ClientKeyListener;
 import puyopuyo.client.ClientProcess;
 import puyopuyo.client.frame.Frame;
-import puyopuyo.Panel.PanelState;
+import puyopuyo.client.panel.PanelState;
 import puyopuyo.server.game.GameThread;
 import puyopuyo.resource.GameImageIcon;
 

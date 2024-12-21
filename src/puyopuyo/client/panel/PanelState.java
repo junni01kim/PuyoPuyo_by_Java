@@ -1,4 +1,4 @@
-package puyopuyo.Panel;
+package puyopuyo.client.panel;
 
 import puyopuyo.client.frame.Frame;
 

@@ -1,8 +1,8 @@
 package puyopuyo.server.game;
 
-import puyopuyo.Panel.map.MapPanel;
-import puyopuyo.Panel.map.MapService;
-import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
+import puyopuyo.client.panel.map.MapPanel;
+import puyopuyo.client.panel.map.MapService;
+import puyopuyo.client.panel.map.subpanel.ground.round.RoundThread;
 import puyopuyo.client.panel.start.StartPanel;
 import puyopuyo.client.frame.Frame;
 

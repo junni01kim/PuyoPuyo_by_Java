@@ -1,6 +1,6 @@
 package puyopuyo.server.game;
 
-import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
+import puyopuyo.client.panel.map.subpanel.ground.round.RoundThread;
 
 public class Game {
     private RoundThread roundThread1P;

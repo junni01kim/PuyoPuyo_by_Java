@@ -1,4 +1,4 @@
-package puyopuyo.Panel.map.subpanel.ground;
+package puyopuyo.client.panel.map.subpanel.ground;
 
 /**
  * 한 라운드 간 진행되는 뿌요 보드을 관리하는 패널 서비스이다.<br>

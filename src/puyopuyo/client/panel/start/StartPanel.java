@@ -2,8 +2,8 @@ package puyopuyo.client.panel.start;
 
 import puyopuyo.client.panel.explain.ExplainPanel;
 import puyopuyo.client.frame.Frame;
-import puyopuyo.Panel.PanelState;
-import puyopuyo.Panel.map.MapPanel;
+import puyopuyo.client.panel.PanelState;
+import puyopuyo.client.panel.map.MapPanel;
 import puyopuyo.resource.GameImageIcon;
 
 import javax.swing.*;

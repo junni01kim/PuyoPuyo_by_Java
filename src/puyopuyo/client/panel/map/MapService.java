@@ -1,7 +1,7 @@
-package puyopuyo.Panel.map;
+package puyopuyo.client.panel.map;
 
-import puyopuyo.Panel.map.subpanel.ground.GroundPanel;
-import puyopuyo.Panel.map.subpanel.score.ScorePanel;
+import puyopuyo.client.panel.map.subpanel.ground.GroundPanel;
+import puyopuyo.client.panel.map.subpanel.score.ScorePanel;
 
 /**
  * 게임 전체 화면을 관리하는 패널 서비스이다.<br>

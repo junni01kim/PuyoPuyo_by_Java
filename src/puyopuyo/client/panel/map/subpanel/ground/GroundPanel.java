@@ -1,4 +1,4 @@
-package puyopuyo.Panel.map.subpanel.ground;
+package puyopuyo.client.panel.map.subpanel.ground;
 
 import puyopuyo.resource.GameImageIcon;
 

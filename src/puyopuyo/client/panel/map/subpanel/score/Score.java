@@ -1,4 +1,4 @@
-package puyopuyo.Panel.map.subpanel.score;
+package puyopuyo.client.panel.map.subpanel.score;
 
 public class Score {
     private final int player;

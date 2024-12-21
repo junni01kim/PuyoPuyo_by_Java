@@ -1,4 +1,4 @@
-package puyopuyo.Panel.map.subpanel.ground.round;
+package puyopuyo.client.panel.map.subpanel.ground.round;
 
 public class Round {
     public Round(int player) {
