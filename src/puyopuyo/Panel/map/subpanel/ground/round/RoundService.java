@@ -40,13 +40,17 @@ public class RoundService {
         groundService.getLeftPuyo().setVisible(false);
         groundService.getRightPuyo().setVisible(false);
 
-        for(int i=0;i<puyoMap.length;i++)
-            for(int j=0;j<puyoMap[i].length;j++)
-                if(puyoMap[i][j]!=null) {
+        for (int i = 0; i < puyoMap.length; i++) {
+            for (int j = 0; j < puyoMap[i].length; j++) {
+                if (puyoMap[i][j] != null) {
                     groundPanel.remove(puyoMap[i][j]);
                     puyoMap[i][j] = null;
                 }
+            }
+        }
+        groundPanel.repaint();
     }
+
 
     /**
      * 새로운 라운드를 시작하는 함수
@@ -110,6 +114,8 @@ public class RoundService {
         gameService.roundEnd();
         return true;
     }
+
+
 
     /**
      * 뿌요를 한칸 밑으로 내린다.

@@ -109,27 +109,38 @@ public class GameService {
                 e.printStackTrace();
             }
         }
+
+        // Round가 끝나고 승패가 결정되었을 경우, 결과 이미지 표시
+        if (isEnd()) {
+            try {
+                sleep(3000); // 3초 대기 후 화면 전환
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Frame.getInstance().changePanel(StartPanel.getInstance());
+        }
     }
 
     /**
      * 한 라운드가 종료되었는지 확인하는 함수
      */
     private boolean isEnd() {
+        var mapPanel = MapPanel.getInstance();
+
         if (game.totalWin(1) == 2) {
             // 1P 승리, 2P 패배
-            var mapService = MapService.getInstance();
-            mapService.getGroundPanel(1).showResultImage(true);  // 1P 승리 이미지
-            mapService.getGroundPanel(2).showResultImage(false); // 2P 패배 이미지
+            mapPanel.showWinnerAndLoser(true); // 1P 승리
             return true;
         } else if (game.totalWin(2) == 2) {
             // 2P 승리, 1P 패배
-            var mapService = MapService.getInstance();
-            mapService.getGroundPanel(1).showResultImage(false); // 1P 패배 이미지
-            mapService.getGroundPanel(2).showResultImage(true);  // 2P 승리 이미지
+            mapPanel.showWinnerAndLoser(false); // 2P 승리
             return true;
         }
+
         return false;
     }
+
+
 
     /**
      * RoundThread에서 상대방의 Game.win 속성에 접근 가능하도록 지원하는 함수
