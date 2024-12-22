@@ -3,6 +3,7 @@ package puyopuyo.client.panel.map.subpanel;
 import com.google.gson.reflect.TypeToken;
 import puyopuyo.client.ClientProcess;
 import puyopuyo.client.frame.Frame;
+import puyopuyo.client.panel.map.MapPanel;
 import puyopuyo.client.panel.map.MapService;
 import puyopuyo.client.panel.start.StartPanel;
 import puyopuyo.dto.SendDTO;
@@ -191,6 +192,27 @@ public class DrawFactory {
                 } catch (InterruptedException _) {}
                 Frame.getInstance().changePanel(StartPanel.getInstance());
                 break;
+
+            case 11:
+                System.out.println("print: Player2 Score");
+                MapService.getInstance().getScorePanel().getScoreService().setScore(1, Integer.parseInt(sendDTO.getData()));
+                break;
+
+            case 12:
+                System.out.println("print: Player1 Score");
+                MapService.getInstance().getScorePanel().getScoreService().setScore(0, Integer.parseInt(sendDTO.getData()));
+                break;
+
+            case 13:
+                System.out.println("print: Player2 Garbage Puyo");
+                MapService.getInstance().getScorePanel().getScoreService().setGarbagePuyoCount(1, Integer.parseInt(sendDTO.getData()));
+                break;
+
+            case 14:
+                System.out.println("print: Player1 Garbage Puyo");
+                MapService.getInstance().getScorePanel().getScoreService().setGarbagePuyoCount(0, Integer.parseInt(sendDTO.getData()));
+                break;
+
             default:
                 System.out.println("redraw: Message");
                 // Type 0: 메시지 처리 (추후 구현 가능)

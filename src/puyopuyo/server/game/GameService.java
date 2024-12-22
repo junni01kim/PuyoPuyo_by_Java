@@ -1,7 +1,6 @@
 package puyopuyo.server.game;
 
 import puyopuyo.client.panel.map.MapPanel;
-import puyopuyo.client.panel.map.MapService;
 import puyopuyo.server.ServerProcess;
 import puyopuyo.server.game.round.PuyoS;
 import puyopuyo.server.game.round.RoundThread;
@@ -87,8 +86,6 @@ public class GameService {
     private void round() {
         System.out.println("[Server] round");
         var mapPanel = MapPanel.getInstance();
-        var mapService = MapService.getInstance();
-        var scoreService = mapService.getScorePanel().getScoreService();
 
         makePuyoLogic();
 

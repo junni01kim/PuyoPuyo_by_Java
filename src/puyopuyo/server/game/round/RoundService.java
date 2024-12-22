@@ -1,11 +1,8 @@
 package puyopuyo.server.game.round;
 
-import puyopuyo.client.panel.map.MapService;
 import puyopuyo.server.ServerProcess;
 import puyopuyo.server.game.Game;
 import puyopuyo.server.game.GameService;
-
-import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;
@@ -60,6 +57,7 @@ public class RoundService {
                 // TODO: 승리 모션
                 System.out.println("Game Over You Won!");
                 ServerProcess.getInstance().toAllClient(10, "The End");
+                // TODO: 라운드 로직 추가할 것
 //                ServerProcess.getInstance().toAllClient(8+ round.getPlayer(), String.valueOf(round.getPlayer()));
                 break;
             }
@@ -72,6 +70,7 @@ public class RoundService {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                // TODO: 라운드 로직 추가할 것
                 break;
             }
             else if (algorithm.isFix()) {
@@ -173,20 +172,6 @@ public class RoundService {
         nextPuyo[1] = (puyoLogic[(puyoIndex)%puyoLogic.length])%10;
 
         ServerProcess.getInstance().toAllClient(6+player, ServerProcess.getInstance().getGson().toJson(nextPuyo));
-    }
-
-    /**
-     * 뿌요 폭발 후 가산에 이용했던 점수 변수 초기화
-     */
-    void initializeScoreVariable() {
-
-    }
-
-    /**
-     * 스코어 패널에 점수 표시
-     */
-    void printScore() {
-
     }
 
     /**

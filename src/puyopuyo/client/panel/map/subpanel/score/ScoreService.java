@@ -20,24 +20,6 @@ public class ScoreService {
         this.scorePanel = scorePanel;
     }
 
-    /**
-     * PuyoLogic을 기반으로 다음 뿌요의 색상을 변경하는 함수
-     */
-    public void changeNextPuyo(int iAm, int[] puyoLogic, int puyoIndex) {
-        int nextLeftControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])/10;
-        int nextRightControlPuyoType = (puyoLogic[(puyoIndex)%puyoLogic.length])%10;
-
-        var nextLeftPuyo = getNextLeftPuyo(iAm);
-        var nextRightPuyo = getNextRightPuyo(iAm);
-
-        nextLeftPuyo.setColor(nextLeftControlPuyoType);
-        nextRightPuyo.setColor(nextRightControlPuyoType);
-
-        // type에 맞는 아이콘을 사용한다.
-        nextLeftPuyo.setIcon(Puyo.getPuyoIcon()[nextLeftControlPuyoType]);
-        nextRightPuyo.setIcon(Puyo.getPuyoIcon()[nextRightControlPuyoType]);
-    }
-
     // setter
     /**
      * 모듈화 하다보니 사용하는 곳이 하나 구간 밖에 없어서 축약함
