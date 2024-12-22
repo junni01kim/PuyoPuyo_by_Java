@@ -25,9 +25,10 @@ public class ScoreService {
      * 모듈화 하다보니 사용하는 곳이 하나 구간 밖에 없어서 축약함
      */
     void setLabel(JLabel label, int x, int y, int width, int fontSize) {
-        label.setFont(new Font("Serif", Font.BOLD, fontSize));
+        label.setFont(new Font("Arial", Font.BOLD, fontSize));
         label.setLocation(x, y);
         label.setSize(width, 30);
+        label.setForeground(Color.white);
         scorePanel.add(label);
     }
 
@@ -37,6 +38,15 @@ public class ScoreService {
     void setLabel(JLabel label, int x) {
         label.setSize(100, 30);
         label.setLocation(x, 600);
+        label.setForeground(Color.white);
+        scorePanel.add(label);
+    }
+
+    void setLabel(JLabel label, int x, int y) {
+        label.setFont(new Font("Arial", Font.BOLD, 15));
+        label.setLocation(x, y);
+        label.setSize(100, 30);
+        label.setForeground(Color.white);
         scorePanel.add(label);
     }
 
@@ -45,13 +55,6 @@ public class ScoreService {
      */
     void setPosition(JLabel label, int x) {
         label.setLocation(x, 100);
-        scorePanel.add(label);
-    }
-
-    void setLabel(JLabel label, int x, int y) {
-        label.setFont(new Font("Serif", Font.BOLD, 15));
-        label.setLocation(x, y);
-        label.setSize(100, 30);
         scorePanel.add(label);
     }
 

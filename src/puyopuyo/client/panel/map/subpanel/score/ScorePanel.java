@@ -1,5 +1,7 @@
 package puyopuyo.client.panel.map.subpanel.score;
 
+import puyopuyo.resource.GameImageIcon;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,6 +17,13 @@ public class ScorePanel extends JPanel {
         setUi();
     }
 
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+
+        graphics.drawImage(GameImageIcon.scorePanel.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+    }
+
     /**
      * 화면 설정을 하는 함수이다. <br>
      *
@@ -26,7 +35,7 @@ public class ScorePanel extends JPanel {
      * 6. 라운드 승리 수를 명시한다.
      */
     private void setUi() {
-        setBackground(Color.YELLOW); //TODO: 배경 완성되면 제거할 것
+        setBackground(new Color(0, 0, 0, 255)); //TODO: 배경 완성되면 제거할 것
         setSize(300, 750);
         setLocation(490,60);
         setLayout(null);
@@ -51,25 +60,30 @@ public class ScorePanel extends JPanel {
         scoreService.setLabel(roundCountLabel, getWidth()/2-75, 43, 300, 27);
 
         // 라운드 표시 (고정 텍스트)
+        // TODO: 라운드 수정할 것
         scoreService.setLabel(new JLabel("R O U N D"), getWidth()/2-50, 43, 300, 27);
 
-        // 점수 표시 (고정 텍스트)
-        scoreService.setLabel(new JLabel("S C O R E"), getWidth()/2-29, 175, 100, 15);
+        // 1P 점수 표시 (고정 텍스트)
+        scoreService.setLabel( new JLabel("1P SCORE"), getWidth() / 2 - 130, 175, 100, 15);
+
+        // 2P 점수 표시 (고정 텍스트)
+        scoreService.setLabel( new JLabel("2P SCORE"), getWidth()/2 + 55, 175, 100, 15);
 
         var scoreLabel1P = scoreService.getScoreLabel(1);
         var scoreLabel2P = scoreService.getScoreLabel(2);
 
         // 점수 표시 1P (변동되는 숫자)
-        scoreService.setLabel(scoreLabel1P, getWidth()/2, 205);
+        scoreService.setLabel(scoreLabel1P, 50, 205);
 
         // 점수 표시 2P (변동되는 숫자)
-        scoreService.setLabel(scoreLabel2P, getWidth()/2, 235);
+        scoreService.setLabel(scoreLabel2P, getWidth() - 60, 205);
 
         // 타이머 표시 (타이틀)
         scoreService.setLabel(new JLabel("T I M E"), getWidth()/2-20, 360);
 
         // 타이머 표시 (변동되는 숫자)
         var timer = scoreService.getTimer();
+        timer.setForeground(Color.YELLOW);
         scoreService.setLabel(timer, getWidth()/2, 400);
 
         var numberOfGarbagePuyoLabel1P = scoreService.getGarbagePuyoCount(1);

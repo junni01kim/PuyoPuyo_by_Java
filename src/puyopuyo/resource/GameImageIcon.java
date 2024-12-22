@@ -27,4 +27,6 @@ public class GameImageIcon {
 
     public static final ImageIcon player1Ground = new ImageIcon("res/Player1Ground.png");
     public static final ImageIcon player2Ground = new ImageIcon("res/Player2Ground.png");
+
+    public static final ImageIcon scorePanel = new ImageIcon("res/ScorePanel.png");
 }
