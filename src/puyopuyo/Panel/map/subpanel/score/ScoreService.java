@@ -94,9 +94,6 @@ public class ScoreService {
         else scoreRepository.setScore1P(score);
     }
 
-
-
-
     public void updateTimer(int timerCount) {
         scoreRepository.setTimer(timerCount);
     }

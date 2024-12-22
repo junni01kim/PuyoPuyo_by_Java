@@ -37,8 +37,8 @@ public class ScorePanel extends JPanel {
      */
     private void setUi() {
         setBackground(new Color(0, 0, 0, 100)); // 완전 투명 배경 설정
-        setSize(350, 750);
-        setLocation(465, 60);
+        setSize(300, 750);
+        setLocation(490, 60);
         setLayout(null);
 
         // 현재 라운드를 명시
@@ -96,29 +96,23 @@ public class ScorePanel extends JPanel {
         Image scaledWinImage = GameImageIcon.WINCountIcon.getImage().getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
         ImageIcon scaledWinIcon = new ImageIcon(scaledWinImage);
 
-        // 승리 횟수 Label 추가 (승리 아이콘)
+        /*승리 횟수 Label 추가*/
         winLabel = new JLabel(scaledWinIcon);
-        winLabel.setBounds(getWidth() / 2 - 140, 650, 280, 50); // 중앙에 위치하도록 설정
-        add(winLabel); // 패널에 추가
 
         // 1P Win Count Label 추가 (초기: 빈 별 이미지)
         winCount1PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount1PLabel1.setBounds(getWidth() / 2 - 130, 700, 50, 50); // 왼쪽 첫 번째 별
-        add(winCount1PLabel1); // 패널에 추가
+        winCount1PLabel1.setBounds(getWidth() / 2 - 150, 700, 50, 50); // 왼쪽
 
         winCount1PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount1PLabel2.setBounds(getWidth() / 2 - 70, 700, 50, 50); // 왼쪽 두 번째 별
-        add(winCount1PLabel2); // 패널에 추가
+        winCount1PLabel2.setBounds(getWidth() / 2 - 100, 700, 50, 50); // 왼쪽
 
         // 2P Win Count Label 추가 (초기: 빈 별 이미지)
         winCount2PLabel1 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount2PLabel1.setBounds(getWidth() / 2 + 10, 700, 50, 50); // 오른쪽 첫 번째 별
-        add(winCount2PLabel1); // 패널에 추가
+        winCount2PLabel1.setBounds(getWidth() / 2 + 50, 700, 50, 50); // 오른쪽
 
         winCount2PLabel2 = new JLabel(GameImageIcon.WInBaseIcon);
-        winCount2PLabel2.setBounds(getWidth() / 2 + 70, 700, 50, 50); // 오른쪽 두 번째 별
-        add(winCount2PLabel2); // 패널에 추가
-
+        winCount2PLabel2.setBounds(getWidth() / 2 + 100, 700, 50, 50); // 오른쪽
+        scoreService.setLabel(winCount2PLabel2, getWidth()/2 + 100, 700);
     }
 
 

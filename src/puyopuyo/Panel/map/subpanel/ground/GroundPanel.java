@@ -12,12 +12,11 @@ import java.awt.*;
  */
 public class GroundPanel extends JPanel {
     private final int player;
-    private final GroundService groundService;
-    private JLabel resultLabel; // 승패 이미지를 관리할 라벨
+
+    private final GroundService groundService = new GroundService();
 
     public GroundPanel(int player) {
         this.player = player;
-        this.groundService = new GroundService();
         setUi();
     }
 
@@ -32,7 +31,7 @@ public class GroundPanel extends JPanel {
      */
     public void setUi() {
         setLayout(null);
-        setSize(400, 750);
+        setSize(400,750);
 
         if(player == 1) setLocation(50,60);
         else setLocation(830,60);
@@ -46,12 +45,7 @@ public class GroundPanel extends JPanel {
         add(leftPuyo);
         add(rightPuyo);
 
-        if (player == 1) setLocation(50, 60);
-        else setLocation(830, 60);
-
     }
-
-
 
     /**
      * 패널의 백그라운드 이미지를 그리기 위한 함수 <br>
@@ -61,36 +55,30 @@ public class GroundPanel extends JPanel {
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
 
-        if (player == 1) graphics.drawImage(GameImageIcon.player1Ground.getImage(), 0, 0, getWidth(), getHeight(), this);
-        else graphics.drawImage(GameImageIcon.player2Ground.getImage(), 0, 0, getWidth(), getHeight(), this);
+        if(player == 1) graphics.drawImage(GameImageIcon.player1Ground.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
+        else graphics.drawImage(GameImageIcon.player2Ground.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
     }
-
-    public void showResultImage(boolean isWinner) {
-        JLabel resultLabel = new JLabel();
-        resultLabel.setSize(150, 100); // 적절한 크기로 설정
-        resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        resultLabel.setVerticalAlignment(SwingConstants.CENTER);
-
-        if (isWinner) {
-            resultLabel.setIcon(GameImageIcon.WINImage); // Winner 이미지
-            resultLabel.setLocation(200, 50); // Winner 위치
-        } else {
-            resultLabel.setIcon(GameImageIcon.LOSERImage); // Loser 이미지
-            resultLabel.setLocation(200, 50); // Loser 위치
-        }
-
-        add(resultLabel); // GroundPanel에 추가
-        repaint();
-
-        // 이미지 제거 타이머 (2초 뒤 제거)
-        new Timer(2000, e -> {
-            remove(resultLabel);
-            repaint();
-        }).start();
-    }
-
 
     public GroundService getGroundService() {
         return groundService;
     }
+
+    // getter
+
+    //플레이어 승리, 패배시 이미지 출력하는 함수
+    public void showResultImage(boolean isWinner) {
+        JLabel resultLabel = new JLabel();
+        if (isWinner) {
+            resultLabel.setIcon(GameImageIcon.WINImage);
+        } else {
+            resultLabel.setIcon(GameImageIcon.LOSERImage);
+        }
+        resultLabel.setSize(this.getWidth(), this.getHeight());
+        resultLabel.setLocation(0, 0);
+        resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        resultLabel.setVerticalAlignment(SwingConstants.CENTER);
+        add(resultLabel);
+        repaint();
+    }
+
 }
