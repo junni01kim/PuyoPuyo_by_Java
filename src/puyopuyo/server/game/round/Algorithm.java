@@ -245,8 +245,7 @@ public class Algorithm {
         }
 
         round.setGarbagePuyo(0);
-        var scoreService = MapService.getInstance().getScorePanel().getScoreService();
-        scoreService.setGarbagePuyoCount(round.getPlayer(), round.getGarbagePuyo());
+        ServerProcess.getInstance().toAllClient(13+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(0));
 
         System.out.println("dropGarbagePuyo");
         ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
