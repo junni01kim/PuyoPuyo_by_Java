@@ -73,14 +73,16 @@ public class GroundPanel extends JPanel {
                 }
             }
         }
-        add(leftPuyo);
-        add(rightPuyo);
+        if(leftPuyo != null) add(leftPuyo);
+        if(rightPuyo != null) add(rightPuyo);
         repaint();
     }
 
     public void clearLrPuyo() {
-        remove(leftPuyo);
-        remove(rightPuyo);
+        if(leftPuyo != null) remove(leftPuyo);
+        if(rightPuyo != null) remove(rightPuyo);
+        leftPuyo = null;
+        rightPuyo = null;
         repaint();
     }
 
