@@ -1,7 +1,7 @@
 package puyopuyo.Panel;
 
-import puyopuyo.frame.Frame;
 
+import puyopuyo.client.frame.Frame;
 /**
  * Frame의 Panel 객체를 관리하기 위한 인터페이스 <br>
  *

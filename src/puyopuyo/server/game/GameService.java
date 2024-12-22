@@ -1,13 +1,21 @@
-
+<<<<<<<< HEAD:src/puyopuyo/Panel/map/game/GameService.java
+package puyopuyo.Panel.map.game;
+========
 package puyopuyo.server.game;
-
+>>>>>>>> main:src/puyopuyo/server/game/GameService.java
 
 import puyopuyo.Panel.map.MapPanel;
 import puyopuyo.Panel.map.MapService;
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
+<<<<<<<< HEAD:src/puyopuyo/Panel/map/game/GameService.java
 import puyopuyo.Panel.map.subpanel.score.ScorePanel;
+import puyopuyo.Panel.map.subpanel.score.ScoreService;
+import puyopuyo.Panel.start.StartPanel;
+import puyopuyo.frame.Frame;
+========
 import puyopuyo.client.panel.start.StartPanel;
 import puyopuyo.client.frame.Frame;
+>>>>>>>> main:src/puyopuyo/server/game/GameService.java
 
 import java.time.Duration;
 import java.time.LocalTime;

@@ -1,8 +1,11 @@
 package puyopuyo.Panel.map;
 
-import puyopuyo.frame.Frame;
+import puyopuyo.client.ClientKeyListener;
+import puyopuyo.client.ClientProcess;
+import puyopuyo.client.frame.Frame;
 import puyopuyo.Panel.PanelState;
-import puyopuyo.Panel.map.game.GameThread;
+import puyopuyo.server.game.GameThread;
+
 import puyopuyo.resource.GameImageIcon;
 
 import javax.swing.*;
@@ -76,6 +79,8 @@ public class MapPanel extends JPanel implements PanelState {
 
     @Override
     public void close(Frame frame) {
+        ClientProcess.getInstance().closeSocket();
+
         MapService.getInstance().closeMap();
         var me = getInstance();
 
@@ -90,11 +95,12 @@ public class MapPanel extends JPanel implements PanelState {
      *
      */
     public void addKeyListener() {
+
         /*
          * 해당 패널의 키보드 값을 받도록 설정.
          * 보통은 따로하나, 동시에 1p, 2p의 키보드 값을 받게하기 위함
          */
-        addKeyListener(new ControlPuyoKeyListener());
+        addKeyListener(new ClientKeyListener());
         setFocusable(true);
         requestFocus();
     }

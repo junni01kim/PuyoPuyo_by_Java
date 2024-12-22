@@ -1,18 +1,16 @@
 package puyopuyo.Panel.map.subpanel.ground.round;
 
 import puyopuyo.Panel.map.MapService;
-import puyopuyo.Panel.map.game.Game;
-import puyopuyo.Panel.map.game.GameService;
+import puyopuyo.server.game.Game;
+import puyopuyo.server.game.GameService;
 import puyopuyo.Panel.map.subpanel.ground.GroundPanel;
 import puyopuyo.Panel.map.subpanel.ground.GroundService;
 import puyopuyo.Panel.map.subpanel.ground.Puyo;
-import puyopuyo.Panel.map.subpanel.score.ScorePanel;
 
 import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;
 
 public class RoundService {
-    private ScorePanel scorePanel = new ScorePanel();
     private final int player;
     private Round round;
 
@@ -30,7 +28,6 @@ public class RoundService {
         groundService = groundPanel.getGroundService();
         puyoMap = groundService.getPuyoMap();
         algorithm = new Algorithm(player);
-        this.scorePanel = scorePanel;
     }
 
     /**

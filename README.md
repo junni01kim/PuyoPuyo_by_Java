@@ -32,7 +32,7 @@
   3. 알고리즘:
       1. 게임 진행:
           1. 게임 시작 시 각 Round를 담당하는 `GameThread`를 배치, 각 라운드는 Player마다 새로운 `RoundThread`를 가진다.
-          2. 게임 이벤트는 `RoundThread`의 메서드에서 관리되며, 상대 Player 데이터 접근은 `RoundThread`를 통해서 전달된다.
+          2. 게임 이벤트는 `RoundThread`의 메서드에서 관리되며, 상대 puyopuyo.Player 데이터 접근은 `RoundThread`를 통해서 전달된다.
           3. `RoundThread`의 시각적인 부분은 `GroundService`를 통해서만 접근이 가능하다. 상대방 Ui는 `RoundThread`에서 MapService를 통해 접근된다.  
             ※ 자세한 사항은 _의존성 주입_ 에서 설명
       2. 주변 뿌요 탐색: `Flood Fill` 알고리즘

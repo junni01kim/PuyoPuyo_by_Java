@@ -1,5 +1,8 @@
+<<<<<<<< HEAD:src/puyopuyo/frame/Frame.java
+package puyopuyo.frame;
+========
 package puyopuyo.client.frame;
-
+>>>>>>>> main:src/puyopuyo/client/frame/Frame.java
 
 import puyopuyo.Panel.PanelState;
 
@@ -57,7 +60,8 @@ public class Frame extends JFrame {
      */
     public void changePanel(PanelState panel) {
         if(child != null) {
-            child.close(this);        }
+            child.close(this);
+        }
 
         child = panel;
         child.open(this);
