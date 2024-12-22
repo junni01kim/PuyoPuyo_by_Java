@@ -71,7 +71,7 @@ public class RoundService {
             // 뿌요 중 하나가 바닥에 닿지 않은 경우
             else dropPuyo();
 
-            ServerProcess.getInstance().toAllClient(1, ServerProcess.getInstance().getGson().toJson(gameService.getPuyoMaps()));
+            ServerProcess.getInstance().toAllClient(player, ServerProcess.getInstance().getGson().toJson(gameService.getPuyoMaps()));
 
             try {
                 sleep(500);

@@ -66,14 +66,14 @@ public class ServerProcess {
         sockets.add(player1Socket);
         ins.add(new BufferedReader(new InputStreamReader(player1Socket.getInputStream())));
         outs.add(new BufferedWriter(new OutputStreamWriter(player1Socket.getOutputStream())));
-        toClient(0, 0, "0");
+        toClient(0, -1, "0"); // DrawFactory.Default
 
         // 두 번째 클라이언트 접속 처리
         Socket player2Socket = listener.accept();
         sockets.add(player2Socket);
         ins.add(new BufferedReader(new InputStreamReader(player2Socket.getInputStream())));
         outs.add(new BufferedWriter(new OutputStreamWriter(player2Socket.getOutputStream())));
-        toClient(1, 0, "1");
+        toClient(1, -1, "1"); // DrawFactory.Default
 
         System.out.println("All Player Access Complete. Waiting Game Start...");
 

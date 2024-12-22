@@ -15,29 +15,39 @@ public class DrawFactory {
     public static void redraw(SendDTO sendDTO) {
         switch (sendDTO.getType()) {
             case 0:
-                System.out.println("redraw: Message");
-                // Type 0: 메시지 처리 (추후 구현 가능)
-                ClientProcess.getInstance().setPlayer(Integer.parseInt(sendDTO.getData()));
+                System.out.println("redraw: player2 Puyo Map(Just Put)");
+                // Type 1: 뿌요 맵 처리
+                Type type0 = new TypeToken<ArrayList<PuyoS[][]>>() {}.getType();
+                ArrayList<PuyoS[][]> puyoMaps = ClientProcess.getGson().fromJson(sendDTO.getData(), type0);
+
+                // 각 플레이어의 맵을 그림
+                // Puyo Map 지우기
+                MapService.getInstance()
+                        .getGroundPanel(1)
+                        .clearPuyoMap();
+
+                // Puyo Map 그리기
+                MapService.getInstance()
+                        .getGroundPanel(1)
+                        .drawPuyoMap(puyoMaps.get(1));
                 break;
 
             case 1:
-                System.out.println("redraw: Puyo Map");
+                System.out.println("redraw: player1 Puyo Map(Just Put)");
                 // Type 1: 뿌요 맵 처리
                 Type type1 = new TypeToken<ArrayList<PuyoS[][]>>() {}.getType();
-                ArrayList<PuyoS[][]> puyoMaps = ClientProcess.getGson().fromJson(sendDTO.getData(), type1);
+                puyoMaps = ClientProcess.getGson().fromJson(sendDTO.getData(), type1);
 
                 // 각 플레이어의 맵을 그림
-                for (int player = 0; player < puyoMaps.size(); player++) {
                     // Puyo Map 지우기
                     MapService.getInstance()
-                            .getGroundPanel(player)
+                            .getGroundPanel(0)
                             .clearPuyoMap();
 
                     // Puyo Map 그리기
                     MapService.getInstance()
-                            .getGroundPanel(player)
-                            .drawPuyoMap(puyoMaps.get(player));
-                }
+                            .getGroundPanel(0)
+                            .drawPuyoMap(puyoMaps.get(0));
                 break;
             case 2:
                 System.out.println("redraw: LR Puyo");
@@ -126,7 +136,9 @@ public class DrawFactory {
                 break;
 
             default:
-                System.err.println("Unknown type: " + sendDTO.getType());
+                System.out.println("redraw: Message");
+                // Type 0: 메시지 처리 (추후 구현 가능)
+                ClientProcess.getInstance().setPlayer(Integer.parseInt(sendDTO.getData()));
                 break;
         }
     }
