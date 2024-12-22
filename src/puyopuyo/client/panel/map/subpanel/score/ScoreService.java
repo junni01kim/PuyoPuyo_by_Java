@@ -115,4 +115,16 @@ public class ScoreService {
     public JLabel getTimer() {
         return scoreRepository.getTimer();
     }
+
+    public void drawNextPuyo(int player, int[] nextPuyo) {
+        var nextLeftPuyo = getNextLeftPuyo(player);
+        var nextRightPuyo = getNextRightPuyo(player);
+
+        nextLeftPuyo.setColor(nextPuyo[0]);
+        nextRightPuyo.setColor(nextPuyo[1]);
+
+        // type에 맞는 아이콘을 사용한다.
+        nextLeftPuyo.setIcon(Puyo.getPuyoIcon()[nextPuyo[0]]);
+        nextRightPuyo.setIcon(Puyo.getPuyoIcon()[nextPuyo[1]]);
+    }
 }

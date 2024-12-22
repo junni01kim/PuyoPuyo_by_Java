@@ -1,7 +1,6 @@
 package puyopuyo.server;
 
 import com.google.gson.Gson;
-import puyopuyo.client.panel.map.subpanel.ground.Puyo;
 import puyopuyo.dto.SendDTO;
 import puyopuyo.server.game.GameService;
 import puyopuyo.server.game.GameThread;

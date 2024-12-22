@@ -2,13 +2,16 @@ package puyopuyo.client.panel.map.subpanel;
 
 import com.google.gson.reflect.TypeToken;
 import puyopuyo.client.ClientProcess;
+import puyopuyo.client.frame.Frame;
 import puyopuyo.client.panel.map.MapService;
-import puyopuyo.client.panel.map.subpanel.score.ScorePanel;
+import puyopuyo.client.panel.start.StartPanel;
 import puyopuyo.dto.SendDTO;
 import puyopuyo.server.game.round.PuyoS;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import static java.lang.Thread.sleep;
 
 // TODO: 커멘드 패턴으로 변경하기
 public class DrawFactory {
@@ -128,13 +131,66 @@ public class DrawFactory {
                 break;
 
             case 6:
-                System.out.println("redraw: player1 NextPuyo");
+                System.out.println("redraw: player2 NextPuyo");
+
+                Type type6 = new TypeToken<int[]>() {}.getType();
+                int[] nextPuyo6 = ClientProcess.getGson().fromJson(sendDTO.getData(), type6);
+
+                MapService.getInstance()
+                        .getScorePanel()
+                        .getScoreService()
+                        .drawNextPuyo(1, nextPuyo6);
                 break;
 
             case 7:
-                System.out.println("redraw: player2 NextPuyo");
+                System.out.println("redraw: player1 NextPuyo");
+
+                Type type7 = new TypeToken<int[]>() {}.getType();
+                int[] nextPuyo7 = ClientProcess.getGson().fromJson(sendDTO.getData(), type7);
+
+                MapService.getInstance()
+                        .getScorePanel()
+                        .getScoreService()
+                        .drawNextPuyo(0, nextPuyo7);
                 break;
 
+            case 8:
+                System.out.println("redraw: player2 win");
+
+                // TODO: player2 승리모션
+                // TODO: player1 패배모션
+
+                for(int player = 0; player < 2; player++) {
+                    MapService.getInstance()
+                            .getGroundPanel(player)
+                            .clearPuyoMap();
+
+                    MapService.getInstance()
+                            .getGroundPanel(player)
+                            .clearLrPuyo();
+                }
+            case 9:
+                System.out.println("redraw: player1 win");
+
+                // TODO: player1 승리모션
+                // TODO: player2 패배모션
+
+                for(int player = 0; player < 2; player++) {
+                    MapService.getInstance()
+                            .getGroundPanel(player)
+                            .clearPuyoMap();
+
+                    MapService.getInstance()
+                            .getGroundPanel(player)
+                            .clearLrPuyo();
+                }
+            case 10:
+                System.out.println("Game End");
+                try {
+                    sleep(3000);
+                } catch (InterruptedException _) {}
+                Frame.getInstance().changePanel(StartPanel.getInstance());
+                break;
             default:
                 System.out.println("redraw: Message");
                 // Type 0: 메시지 처리 (추후 구현 가능)

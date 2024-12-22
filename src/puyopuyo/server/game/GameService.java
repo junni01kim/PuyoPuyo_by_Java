@@ -140,7 +140,7 @@ public class GameService {
      * ※ 전달하는 주체의 player 번호를 주입할 것
      */
     public void tossGarbagePuyo(int player, int plusScore) {
-        game.getRoundThread(Game.otherPlayer(player)).getRoundService().plusGarbagePuyo(plusScore/70);
+        game.getRoundThread(player).getRoundService().plusGarbagePuyo(plusScore/70);
     }
 
     /**

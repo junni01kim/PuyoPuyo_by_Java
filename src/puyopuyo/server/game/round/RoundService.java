@@ -1,8 +1,11 @@
 package puyopuyo.server.game.round;
 
+import puyopuyo.client.panel.map.MapService;
 import puyopuyo.server.ServerProcess;
 import puyopuyo.server.game.Game;
 import puyopuyo.server.game.GameService;
+
+import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;
@@ -18,6 +21,8 @@ public class RoundService {
 
     private final PuyoS leftPuyo = new PuyoS(GARBAGE, 2 ,0);
     private final PuyoS rightPuyo = new PuyoS(GARBAGE, 3, 0);
+
+    private final int[] nextPuyo = {5, 5};
 
     public RoundService(int player) {
         this.player = player;
@@ -54,16 +59,23 @@ public class RoundService {
             if (isWin()) {
                 // TODO: 승리 모션
                 System.out.println("Game Over You Won!");
+                ServerProcess.getInstance().toAllClient(10, "The End");
+//                ServerProcess.getInstance().toAllClient(8+ round.getPlayer(), String.valueOf(round.getPlayer()));
                 break;
             }
             else if (isLose()) {
                 // TODO: 패배 모션
                 System.out.println("Game Over You Lose!");
+                try {
+                    sleep(3);
+                    ServerProcess.getInstance().toAllClient(10, "The End");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
             else if (algorithm.isFix()) {
                 ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
-                System.out.println("Fix");
                 algorithm.detect();
                 algorithm.dropGarbagePuyo();
                 nextPuyo();
@@ -149,6 +161,18 @@ public class RoundService {
 
         leftPuyo.pos(2,0);
         rightPuyo.pos(3,0);
+
+        changeNextPuyo();
+    }
+
+    private void changeNextPuyo() {
+        var puyoLogic = gameService.getPuyoLogic();
+        var puyoIndex = round.getPuyoIndex();
+
+        nextPuyo[0] = (puyoLogic[(puyoIndex)%puyoLogic.length])/10;
+        nextPuyo[1] = (puyoLogic[(puyoIndex)%puyoLogic.length])%10;
+
+        ServerProcess.getInstance().toAllClient(6+player, ServerProcess.getInstance().getGson().toJson(nextPuyo));
     }
 
     /**

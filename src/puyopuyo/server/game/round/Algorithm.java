@@ -73,7 +73,6 @@ public class Algorithm {
             sleep(500);
         } catch (InterruptedException _) {}
 
-        System.out.println("dropPuyo");
         ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
@@ -210,8 +209,7 @@ public class Algorithm {
         try {
             sleep(500);
         } catch (InterruptedException _) {}
-
-        System.out.println("dropPuyos");
+        
         ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
