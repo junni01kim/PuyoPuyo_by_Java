@@ -14,12 +14,10 @@ import java.awt.*;
 public class GroundPanel extends JPanel {
     private final int player;
 
-    private final Puyo leftPuyo = new Puyo(5);
-    private final Puyo rightPuyo = new Puyo(5);
+    private Puyo leftPuyo = new Puyo(5);
+    private Puyo rightPuyo = new Puyo(5);
 
     private Puyo[][] puyoMap = new Puyo[6][12];
-
-    private final GroundService groundService = new GroundService();
 
     public GroundPanel(int player) {
         this.player = player;
@@ -41,15 +39,6 @@ public class GroundPanel extends JPanel {
 
         if(player == 1) setLocation(50,60);
         else setLocation(830,60);
-
-        Puyo leftPuyo = groundService.getLeftPuyo();
-        Puyo rightPuyo = groundService.getRightPuyo();
-
-        leftPuyo.setLocation(140,10);
-        rightPuyo.setLocation(200,10);
-
-        add(leftPuyo);
-        add(rightPuyo);
     }
 
     /**
@@ -64,13 +53,18 @@ public class GroundPanel extends JPanel {
         else graphics.drawImage(GameImageIcon.player2Ground.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
     }
 
-    // getter
-    public GroundService getGroundService() {
-        return groundService;
+    public void clearPuyoMap() {
+        for (Puyo[] puyos : puyoMap) {
+            for (Puyo puyo : puyos) {
+                if(puyo != null) {
+                    remove(puyo);
+                }
+            }
+        }
+        repaint();
     }
 
     public void drawPuyoMap(PuyoS[][] puyoMapS) {
-        System.out.print("drawPuyoMapStart          ");
         for(int x = 0; x < puyoMapS.length; x++) {
             for(int y = 0; y < puyoMapS[x].length; y++) {
                 if(puyoMapS[x][y] != null) {
@@ -79,7 +73,22 @@ public class GroundPanel extends JPanel {
                 }
             }
         }
+        add(leftPuyo);
+        add(rightPuyo);
         repaint();
-        System.out.println("drawPuyoMapEnd");
+    }
+
+    public void clearLrPuyo() {
+        remove(leftPuyo);
+        remove(rightPuyo);
+        repaint();
+    }
+
+    public void drawLrPuyo(PuyoS[] puyoS) {
+        leftPuyo = new Puyo(puyoS[0].getColor(), puyoS[0].x(), puyoS[0].y());
+        rightPuyo = new Puyo(puyoS[1].getColor(), puyoS[1].x(), puyoS[1].y());
+        add(leftPuyo);
+        add(rightPuyo);
+        repaint();
     }
 }

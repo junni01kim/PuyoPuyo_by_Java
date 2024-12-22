@@ -21,6 +21,7 @@ public class UpMoveCommand implements MoveCommand {
 
     @Override
     public void execute(int player) {
+        System.out.println("Up Move Command");
         var roundService = GameService.getInstance()
                 .getRoundThread(player)
                 .getRoundService();

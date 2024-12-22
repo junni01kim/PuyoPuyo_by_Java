@@ -16,8 +16,8 @@ public class RoundService {
     private final Algorithm algorithm;
     private final PuyoS[][] puyoMap = new PuyoS[6][12];
 
-    private final PuyoS leftPuyo = new PuyoS(-1, 2 ,0);
-    private final PuyoS rightPuyo = new PuyoS(-1, 3, 0);
+    private final PuyoS leftPuyo = new PuyoS(GARBAGE, 2 ,0);
+    private final PuyoS rightPuyo = new PuyoS(GARBAGE, 3, 0);
 
     public RoundService(int player) {
         this.player = player;
@@ -62,6 +62,7 @@ public class RoundService {
                 break;
             }
             else if (algorithm.isFix()) {
+                ServerProcess.getInstance().toAllClient(1, ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
                 System.out.println("Fix");
                 algorithm.detect();
                 algorithm.dropGarbagePuyo();
@@ -115,10 +116,11 @@ public class RoundService {
         // Puyo를 한 블록(+60 픽셀)만큼 내린다.
         leftPuyo.pos(leftPuyo.x(), leftPuyo.y()+MOVE);
         rightPuyo.pos(rightPuyo.x(), rightPuyo.y()+MOVE);
+
+        ServerProcess.getInstance().toAllClient(2, ServerProcess.getInstance().getGson().toJson(gameService.getLRPuyo()));
     }
 
     public void downPuyo() {
-
         // 뿌요 중 하나가 바닥에 닿은 경우
         if(leftPuyo.y() >= Y_MAX || puyoMap[leftPuyo.x()][leftPuyo.y()+MOVE] != null
                 || rightPuyo.y() >= Y_MAX || puyoMap[rightPuyo.x()][rightPuyo.y()+MOVE] != null) {

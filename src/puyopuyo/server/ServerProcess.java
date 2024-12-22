@@ -3,6 +3,7 @@ package puyopuyo.server;
 import com.google.gson.Gson;
 import puyopuyo.client.panel.map.subpanel.ground.Puyo;
 import puyopuyo.dto.SendDTO;
+import puyopuyo.server.game.GameService;
 import puyopuyo.server.game.GameThread;
 import puyopuyo.server.movecommand.*;
 
@@ -104,11 +105,10 @@ public class ServerProcess {
 
                 if (message != null) {
                     // 클라이언트는 sendDTO로 String을 무조건 반환한다.
-                    controlPuyo(sendDTO.getPlayer(), (String)sendDTO.getData());
+                    controlPuyo(sendDTO.getPlayer(), sendDTO.getData());
 
-                    // 각 플레이어에게 메시지 전달
-                    //toAllClient(0, "To Server: " +sendDTO.getData());
-                    // TODO: 조작된 결과 전송
+                    // 조작된 결과 전송
+                    toAllClient(2, gson.toJson(GameService.getInstance().getLRPuyo()));
                 }
             }
         }

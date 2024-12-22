@@ -20,6 +20,7 @@ public class LeftMoveCommand implements MoveCommand {
 
     @Override
     public void execute(int player) {
+        System.out.println("Left Move Command");
         var roundService = GameService.getInstance()
                 .getRoundThread(player)
                 .getRoundService();

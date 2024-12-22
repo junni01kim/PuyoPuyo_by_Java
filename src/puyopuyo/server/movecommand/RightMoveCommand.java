@@ -20,6 +20,7 @@ public class RightMoveCommand implements MoveCommand {
 
     @Override
     public void execute(int player) {
+        System.out.println("Right Move Command");
         var roundService = GameService.getInstance()
                 .getRoundThread(player)
                 .getRoundService();

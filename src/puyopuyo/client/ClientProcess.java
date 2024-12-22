@@ -3,7 +3,6 @@ package puyopuyo.client;
 import com.google.gson.Gson;
 import puyopuyo.client.panel.map.subpanel.DrawFactory;
 import puyopuyo.dto.SendDTO;
-import puyopuyo.server.ServerProcess;
 
 import java.io.*;
 import java.net.Socket;
@@ -72,8 +71,6 @@ public class ClientProcess {
         String serverMessage;
         try {
             while ((serverMessage = in.readLine()) != null) {
-                //System.out.println("From Server: " + serverMessage);
-                
                 // TODO: observer 설정
                 DrawFactory.redraw(gson.fromJson(serverMessage, SendDTO.class));
             }
@@ -99,5 +96,9 @@ public class ClientProcess {
 
     public static Gson getGson() {
         return gson;
+    }
+
+    public void setPlayer(int player) {
+        this.player = player;
     }
 }

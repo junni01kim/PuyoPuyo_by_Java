@@ -16,6 +16,7 @@ import static java.lang.Thread.sleep;
 public class GameService {
     private static GameService instance;
     private final ArrayList<PuyoS[][]> puyoMaps = new ArrayList<>();
+    private final ArrayList<PuyoS[]> lrPuyo = new ArrayList<>();
 
     public synchronized static GameService getInstance() {
         if (instance == null) {
@@ -171,5 +172,15 @@ public class GameService {
             puyoMaps.add(getRoundThread(1).getRoundService().getPuyoMap());
         }
         return puyoMaps;
+    }
+
+    public ArrayList<PuyoS[]> getLRPuyo() {
+        if(lrPuyo.isEmpty()) {
+            PuyoS[] leftPuyo = {getRoundThread(0).getRoundService().getLeftPuyo(), getRoundThread(0).getRoundService().getRightPuyo()};
+            PuyoS[] rightPuyo = {getRoundThread(1).getRoundService().getLeftPuyo(), getRoundThread(1).getRoundService().getRightPuyo()};
+            lrPuyo.add(leftPuyo);
+            lrPuyo.add(rightPuyo);
+        }
+        return lrPuyo;
     }
 }
