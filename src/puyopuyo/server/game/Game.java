@@ -1,8 +1,6 @@
-<<<<<<<< HEAD:src/puyopuyo/Panel/map/game/Game.java
-package puyopuyo.Panel.map.game;
-========
+
 package puyopuyo.server.game;
->>>>>>>> main:src/puyopuyo/server/game/Game.java
+
 
 import puyopuyo.Panel.map.subpanel.ground.round.RoundThread;
 

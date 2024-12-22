@@ -1,8 +1,6 @@
-<<<<<<<< HEAD:src/puyopuyo/frame/Frame.java
-package puyopuyo.frame;
-========
+
 package puyopuyo.client.frame;
->>>>>>>> main:src/puyopuyo/client/frame/Frame.java
+
 
 import puyopuyo.Panel.PanelState;
 

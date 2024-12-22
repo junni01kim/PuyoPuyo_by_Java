@@ -4,6 +4,7 @@ package puyopuyo.client.panel.explain;
 import puyopuyo.Panel.PanelState;
 import puyopuyo.client.panel.start.StartPanel;
 import puyopuyo.client.frame.Frame;
+import puyopuyo.resource.GameImageIcon;
 
 
 import javax.swing.*;
@@ -30,6 +31,7 @@ public class ExplainPanel extends JPanel implements PanelState {
         setLayout(null); // 절대 레이아웃 사용
 
         // 이미지 레이블 추가
+        GameImageIcon GameImageIcon = null;
         JLabel explainImageLabel = new JLabel(GameImageIcon.explainGameButtonImage);
         explainImageLabel.setBounds(50, 50, GameImageIcon.explainGameButtonImage.getIconWidth(), GameImageIcon.explainGameButtonImage.getIconHeight());
         this.add(explainImageLabel);
@@ -38,12 +40,7 @@ public class ExplainPanel extends JPanel implements PanelState {
         var homeButton = new JButton("홈화면으로 이동");
         homeButton.setBounds(550, 750, 150, 30);
         homeButton.addActionListener(new HomeButtonActionListener());
-<<<<<<<< HEAD:src/puyopuyo/Panel/explain/ExplainPanel.java
-========
 
-        homeButton.setLocation(550, 540);
-        homeButton.setSize(150, 60);
->>>>>>>> main:src/puyopuyo/client/panel/explain/ExplainPanel.java
         this.add(homeButton);
     }
 

@@ -42,6 +42,7 @@ public class ClientProcess {
         } catch (IOException e) {
             System.err.println("Error connecting to puyopuyo.server: " + e.getMessage());
             e.printStackTrace();
+            out = null; // 초기화 실패 표시
         }
     }
 
@@ -50,6 +51,10 @@ public class ClientProcess {
      * @param message
      */
     public void send(String message) {
+        if (out == null) {
+            System.err.println("Connection to server is not established. Message not sent.");
+            return;
+        }
         try {
             var sendDTO = new SendDTO<>(player, message);
             var json = gson.toJson(sendDTO);
@@ -86,6 +91,7 @@ public class ClientProcess {
             if (out != null) out.close();
             if (in != null) in.close();
             if (socket != null) socket.close();
+            System.out.println("Socket closed successfully.");
         } catch (IOException e) {
             System.err.println("Error closing resources: " + e.getMessage());
             e.printStackTrace();

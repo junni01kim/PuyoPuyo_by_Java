@@ -4,9 +4,9 @@ import puyopuyo.client.ClientKeyListener;
 import puyopuyo.client.ClientProcess;
 import puyopuyo.client.frame.Frame;
 import puyopuyo.Panel.PanelState;
-import puyopuyo.server.game.GameThread;
 
 import puyopuyo.resource.GameImageIcon;
+import puyopuyo.server.game.GameThread;
 
 import javax.swing.*;
 import java.awt.*;
