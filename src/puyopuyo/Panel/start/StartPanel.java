@@ -1,14 +1,8 @@
-<<<<<<<< HEAD:src/puyopuyo/Panel/start/StartPanel.java
-package puyopuyo.Panel.start;
-
-import puyopuyo.Panel.explain.ExplainPanel;
-import puyopuyo.frame.Frame;
-========
 package puyopuyo.client.panel.start;
 
 import puyopuyo.client.panel.explain.ExplainPanel;
 import puyopuyo.client.frame.Frame;
->>>>>>>> main:src/puyopuyo/client/panel/start/StartPanel.java
+
 import puyopuyo.Panel.PanelState;
 import puyopuyo.Panel.map.MapPanel;
 import puyopuyo.resource.GameImageIcon;

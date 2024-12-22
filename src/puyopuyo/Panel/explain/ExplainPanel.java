@@ -2,7 +2,7 @@ package puyopuyo.client.panel.explain;
 
 import puyopuyo.Panel.PanelState;
 import puyopuyo.client.panel.start.StartPanel;
->>>>>>>> main:src/puyopuyo/client/panel/explain/ExplainPanel.java
+import puyopuyo.client.frame.Frame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -36,12 +36,6 @@ public class ExplainPanel extends JPanel implements PanelState {
         var homeButton = new JButton("홈화면으로 이동");
         homeButton.setBounds(550, 750, 150, 30);
         homeButton.addActionListener(new HomeButtonActionListener());
-<<<<<<<< HEAD:src/puyopuyo/Panel/explain/ExplainPanel.java
-========
-
-        homeButton.setLocation(550, 540);
-        homeButton.setSize(150, 60);
->>>>>>>> main:src/puyopuyo/client/panel/explain/ExplainPanel.java
         this.add(homeButton);
     }
 
