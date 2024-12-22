@@ -61,11 +61,6 @@ public class MapPanel extends JPanel implements PanelState {
     }
 
     @Override
-    public void process() {
-        //GameThread.getInstance().start();
-    }
-
-    @Override
     public void open(Frame frame) {
         var me = getInstance();
         me.setVisible(true);
@@ -99,6 +94,6 @@ public class MapPanel extends JPanel implements PanelState {
          */
         addKeyListener(new ClientKeyListener());
         setFocusable(true);
-        requestFocus();
+        SwingUtilities.invokeLater(this::requestFocus);
     }
 }

@@ -33,11 +33,6 @@ public class ExplainPanel extends JPanel implements PanelState {
     }
 
     @Override
-    public void process() {
-
-    }
-
-    @Override
     public void open(Frame frame) {
         var me = getInstance();
         me.setVisible(true);
