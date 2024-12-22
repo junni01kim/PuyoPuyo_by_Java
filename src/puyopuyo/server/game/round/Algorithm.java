@@ -128,11 +128,12 @@ public class Algorithm {
                             // 득점 점수 합산 (전체 점수 Label에 작성)
                             score.setScore(plusScore);
 
-                            // TODO: [Send] PlusScore
+                            // [Send] PlusScore
+                            ServerProcess.getInstance().toAllClient(11+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(plusScore));
 
                             // TODO: 전달될 방해뿌요 수를 그림으로 출력
-                            // TODO: [Send] GarbagePuyoCount (player, plusScore/70)
-//                            scoreService.setGarbagePuyoCount(player, plusScore/70);
+                            // [Send] GarbagePuyoCount (player, plusScore/70)
+                            ServerProcess.getInstance().toAllClient(13+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(plusScore/70));
 
                             deletePuyos(x, y);
                             check = true;
@@ -147,8 +148,8 @@ public class Algorithm {
         }
 
         // 득점 점수로 바뀌었던 점수 기존 점수로 전환
-        // TODO: [Send] Score
-//        scoreService.setScore(player, score.getScore());
+        // [Send] Score
+        ServerProcess.getInstance().toAllClient(11+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(score.getScore()));
 
         // 추가된 총 점수의 /70 만큼 방해 뿌요 상대방에게 전달
         gameService.tossGarbagePuyo(round.getPlayer(), plusScore);
