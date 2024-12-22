@@ -2,6 +2,7 @@ package puyopuyo.server.game;
 
 import puyopuyo.client.panel.map.MapPanel;
 import puyopuyo.client.panel.map.MapService;
+import puyopuyo.server.ServerProcess;
 import puyopuyo.server.game.round.PuyoS;
 import puyopuyo.server.game.round.RoundThread;
 import puyopuyo.client.panel.start.StartPanel;
@@ -93,8 +94,8 @@ public class GameService {
 
         countThreeSecond(); // 3초 뒤 시작
 
-        game.setRoundThread1P(new RoundThread(1)).start();
-        game.setRoundThread2P(new RoundThread(2)).start();
+        game.setRoundThread1P(new RoundThread(0)).start();
+        game.setRoundThread2P(new RoundThread(1)).start();
 
         mapPanel.requestFocus();
 
@@ -103,12 +104,11 @@ public class GameService {
         LocalTime start = LocalTime.now();
 
         while(game.isPlaying()) {
-
             try {
                 sleep(100);
                 
                 // ScorePanel Timer에 시간초 출력
-                scoreService.setTimer((int) Duration.between(start, LocalTime.now()).toSeconds());
+                ServerProcess.getInstance().toAllClient(5, String.valueOf(Duration.between(start, LocalTime.now()).toSeconds()));
             } catch (InterruptedException _) {}
         }
     }

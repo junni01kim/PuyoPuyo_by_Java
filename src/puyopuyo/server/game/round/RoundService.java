@@ -62,7 +62,7 @@ public class RoundService {
                 break;
             }
             else if (algorithm.isFix()) {
-                ServerProcess.getInstance().toAllClient(3, ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
+                ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
                 System.out.println("Fix");
                 algorithm.detect();
                 algorithm.dropGarbagePuyo();

@@ -3,6 +3,7 @@ package puyopuyo.client.panel.map.subpanel;
 import com.google.gson.reflect.TypeToken;
 import puyopuyo.client.ClientProcess;
 import puyopuyo.client.panel.map.MapService;
+import puyopuyo.client.panel.map.subpanel.score.ScorePanel;
 import puyopuyo.dto.SendDTO;
 import puyopuyo.server.game.round.PuyoS;
 
@@ -56,20 +57,20 @@ public class DrawFactory {
                             .drawLrPuyo(lrPuyo.get(player));
                 }
                 break;
-            case 3: // TODO: 임시
-                System.out.println("redraw: splash");
+            case 3:
+                System.out.println("redraw: player1 splash");
 
                 // Type 1: 뿌요 맵 처리
                 Type type3 = new TypeToken<ArrayList<PuyoS[][]>>() {}.getType();
                 puyoMaps = ClientProcess.getGson().fromJson(sendDTO.getData(), type3);
 
+                // LR Puyo 지우기
+                MapService.getInstance()
+                        .getGroundPanel(1)
+                        .clearLrPuyo();
+
                 // 각 플레이어의 맵을 그림
                 for (int player = 0; player < puyoMaps.size(); player++) {
-                    // LR Puyo 지우기
-                    MapService.getInstance()
-                            .getGroundPanel(player)
-                            .clearLrPuyo();
-
                     // Puyo Map 지우기
                     MapService.getInstance()
                             .getGroundPanel(player)
@@ -81,6 +82,49 @@ public class DrawFactory {
                             .drawPuyoMap(puyoMaps.get(player));
                 }
                 break;
+
+            case 4:
+                System.out.println("redraw: player2 splash");
+
+                // Type 1: 뿌요 맵 처리
+                Type type4 = new TypeToken<ArrayList<PuyoS[][]>>() {}.getType();
+                puyoMaps = ClientProcess.getGson().fromJson(sendDTO.getData(), type4);
+
+                // LR Puyo 지우기
+                MapService.getInstance()
+                        .getGroundPanel(0)
+                        .clearLrPuyo();
+
+                // 각 플레이어의 맵을 그림
+                for (int player = 0; player < puyoMaps.size(); player++) {
+                    // Puyo Map 지우기
+                    MapService.getInstance()
+                            .getGroundPanel(player)
+                            .clearPuyoMap();
+
+                    // Puyo Map 그리기
+                    MapService.getInstance()
+                            .getGroundPanel(player)
+                            .drawPuyoMap(puyoMaps.get(player));
+                }
+                break;
+
+            case 5:
+                System.out.println("redraw: Timer");
+                MapService.getInstance()
+                        .getScorePanel()
+                        .getScoreService()
+                        .setTimer(Integer.parseInt(sendDTO.getData()));
+                break;
+
+            case 6:
+                System.out.println("redraw: player1 NextPuyo");
+                break;
+
+            case 7:
+                System.out.println("redraw: player2 NextPuyo");
+                break;
+
             default:
                 System.err.println("Unknown type: " + sendDTO.getType());
                 break;

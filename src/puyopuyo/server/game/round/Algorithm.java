@@ -74,7 +74,7 @@ public class Algorithm {
         } catch (InterruptedException _) {}
 
         System.out.println("dropPuyo");
-        ServerProcess.getInstance().toAllClient(3, ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
+        ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
     /**
@@ -107,7 +107,7 @@ public class Algorithm {
 
                         if (numberOfSamePuyo >= 4) {
                             System.out.println("checkPuyo");
-                            ServerProcess.getInstance().toAllClient(3, ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
+                            ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
                             // [색수 보너스] 뿌요 폭발 조건에서 폭발된 새로운 색상을 기록
                             if(!colorBonusChecker[COLOR]) {
                                 colorBonusChecker[COLOR]=true;
@@ -138,7 +138,7 @@ public class Algorithm {
                             check = true;
 
                             System.out.println("deletePuyos");
-                            ServerProcess.getInstance().toAllClient(3, ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
+                            ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
                         }
                     }
                     
@@ -212,7 +212,7 @@ public class Algorithm {
         } catch (InterruptedException _) {}
 
         System.out.println("dropPuyos");
-        ServerProcess.getInstance().toAllClient(3, ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
+        ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
     void dropGarbagePuyo() {
@@ -249,7 +249,7 @@ public class Algorithm {
         scoreService.setGarbagePuyoCount(round.getPlayer(), round.getGarbagePuyo());
 
         System.out.println("dropGarbagePuyo");
-        ServerProcess.getInstance().toAllClient(3, ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
+        ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
     private void splashGarbagePuyo(int x, int y) {
@@ -268,7 +268,7 @@ public class Algorithm {
         }
 
         System.out.println("splashGarbagePuyo");
-        ServerProcess.getInstance().toAllClient(3, ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
+        ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
     // CheckNumberOfSamePuyo와 deletePuyos에 필요한 변수들을 초기화 하는 함수
