@@ -151,6 +151,12 @@ public class Algorithm {
         gameService.tossGarbagePuyo(round.getPlayer(), plusScore);
     }
 
+    /**
+     * 주변의 뿌요가 4개 이상 존재하는지 판단하는 함수
+     *
+     * @param x
+     * @param y
+     */
     private void checkPuyo(int x, int y) {
         // 1. 터질 뿌요 체크 후 다음 드롭 뿌요 체크 진행
 
@@ -211,6 +217,9 @@ public class Algorithm {
         ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
+    /**
+     * 전달받은 방해 뿌요를 배치하는 함수이다.
+     */
     void dropGarbagePuyo() {
         // 1. 상대 유저에게 방해뿌요 전달
         var garbagePuyo = round.getGarbagePuyo();
@@ -247,6 +256,11 @@ public class Algorithm {
         ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
+    /**
+     * 폭발한 뿌요 주변에 존재하는 방해 뿌요를 삭제하는 함수이다.
+     * @param x 제거된 뿌요의 x인덱스
+     * @param y 제거된 뿌요의 y인덱스
+     */
     private void splashGarbagePuyo(int x, int y) {
         // 1. 주변에 방해뿌요를 탐색하고 삭제한다.
         if (x+1 <= X_MAX && puyoMap[x+1][y] != null && puyoMap[x+1][y].getColor() == GARBAGE) {
@@ -266,7 +280,9 @@ public class Algorithm {
         ServerProcess.getInstance().toAllClient(3+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(GameService.getInstance().getPuyoMaps()));
     }
 
-    // CheckNumberOfSamePuyo와 deletePuyos에 필요한 변수들을 초기화 하는 함수
+    /**
+     * CheckNumberOfSamePuyo와 deletePuyos에 필요한 변수들을 초기화 하는 함수
+     */
     private void initVar() {
         numberOfSamePuyo = 0;
 

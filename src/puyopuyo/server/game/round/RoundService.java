@@ -8,17 +8,25 @@ import static java.lang.Thread.sleep;
 import static puyopuyo.resource.Constants.*;
 
 public class RoundService {
+    /** @property 해당 객체가 관리하고 있는 플레이어 번호 */
     private final int player;
+    /** @property RoundService가 관리하는 라운드 정보 */
     private Round round;
 
+    /** @property 클래스가 소속된 GameService 객체 */
     private final GameService gameService = GameService.getInstance();
 
+    /** @property 라운드 진행에 필요한 알고리즘이 들어있는 클래스 */
     private final Algorithm algorithm;
+    /** @property 뿌요뿌요가 진행될 게임 보드 */
     private final PuyoS[][] puyoMap = new PuyoS[6][12];
 
+    /** @property 클라이언트가 조작하는 왼쪽 뿌요 */
     private final PuyoS leftPuyo = new PuyoS(GARBAGE, 2 ,0);
+    /** @property 클라이언트가 조작하는 오른쪽 뿌요 */
     private final PuyoS rightPuyo = new PuyoS(GARBAGE, 3, 0);
 
+    /** @property 다음 뿌요 색상(타입) [좌, 우] */
     private final int[] nextPuyo = {5, 5};
 
     public RoundService(int player) {
@@ -90,6 +98,11 @@ public class RoundService {
         }
     }
 
+    /**
+     * 승리를 판단하는 함수
+     * 
+     * @return
+     */
     public boolean isWin() {
         if(!round.isWin()) return false;
 
@@ -164,6 +177,9 @@ public class RoundService {
         changeNextPuyo();
     }
 
+    /**
+     * 다음 뿌요를 계산하여 클라이언트에게 해당 정보를 전달하는 함수
+     */
     private void changeNextPuyo() {
         var puyoLogic = gameService.getPuyoLogic();
         var puyoIndex = round.getPuyoIndex();

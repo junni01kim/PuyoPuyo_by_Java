@@ -1,5 +1,8 @@
 package puyopuyo.server.game.round;
 
+/**
+ * 하나의 라운드가 가지고 있는 모든 정보를 저장하는 클래스 
+ */
 public class Round {
     public Round(int player) {
         this.player = player;

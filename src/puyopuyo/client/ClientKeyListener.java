@@ -3,6 +3,11 @@ package puyopuyo.client;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * 클라이언트가 이용할 KeyListener
+ *
+ * 해당 정보는 String으로 player정보와 함게 서버에 전송된다.
+ */
 public class ClientKeyListener extends KeyAdapter {
     private ClientProcess clientProcess = ClientProcess.getInstance();
 
