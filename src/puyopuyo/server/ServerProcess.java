@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import puyopuyo.dto.SendDTO;
 import puyopuyo.server.game.GameService;
 import puyopuyo.server.game.GameThread;
-import puyopuyo.server.movecommand.*;
+import puyopuyo.server.move_command.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -22,7 +22,6 @@ public class ServerProcess {
     private static ServerProcess instance;
 
     private final Gson gson = new Gson();
-    private MoveCommand moveCommand;
 
     public synchronized static ServerProcess getInstance() {
         if (instance == null) {
@@ -119,8 +118,7 @@ public class ServerProcess {
      * @param direction
      */
     private void controlPuyo(int player, String direction) {
-        moveCommand = MoveCommandFactory.getMoveCommand(direction);
-        moveCommand.execute(player);
+        MoveCommandFactory.getMoveCommand(direction).execute(player);
     }
 
     /**

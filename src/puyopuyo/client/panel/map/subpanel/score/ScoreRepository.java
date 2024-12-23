@@ -4,6 +4,11 @@ import puyopuyo.client.panel.map.subpanel.ground.Puyo;
 
 import javax.swing.*;
 
+/**
+ * ScoreService가 이용하는 모든 객체를 분리하여 관리하는 클래스
+ *
+ * 사용 객체 및 setter/getter가 작성되어있다.
+ */
 public class ScoreRepository {
     /** 필요한 아이템 */
     private final Puyo nextLeftPuyo1P = new Puyo(5);

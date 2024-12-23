@@ -1,7 +1,5 @@
 package puyopuyo.server.game.round;
 
-import puyopuyo.client.panel.map.MapService;
-import puyopuyo.client.panel.map.subpanel.score.Score;
 import puyopuyo.server.ServerProcess;
 import puyopuyo.server.game.GameService;
 import puyopuyo.client.panel.map.subpanel.ground.Puyo;
@@ -11,7 +9,7 @@ import static puyopuyo.resource.Constants.*;
 
 public class Algorithm {
     private Round round;
-    private final Score score;
+    private int score = 0;
 
     private final GameService gameService = GameService.getInstance();
     private final RoundService roundService;
@@ -23,9 +21,7 @@ public class Algorithm {
     private final boolean[] colorBonusChecker = new boolean[Puyo.getPuyoIcon().length];
     private int numberOfSamePuyo = 0;
 
-    public Algorithm(int player, RoundService roundService) {
-        score = new Score(player);
-
+    public Algorithm(RoundService roundService) {
         this.roundService = roundService;
         puyoMap = roundService.getPuyoMap();
     }
@@ -126,7 +122,7 @@ public class Algorithm {
                             plusScore = puyoRemovedSum * (COMBO_BONUS[puyoCombo] + COLOR_BONUS[puyoColor] + CONNECT_BONUS[puyoConnect]) * 10;
 
                             // 득점 점수 합산 (전체 점수 Label에 작성)
-                            score.setScore(plusScore);
+                            score += plusScore;
 
                             // [Send] PlusScore
                             ServerProcess.getInstance().toAllClient(11+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(plusScore));
@@ -149,7 +145,7 @@ public class Algorithm {
 
         // 득점 점수로 바뀌었던 점수 기존 점수로 전환
         // [Send] Score
-        ServerProcess.getInstance().toAllClient(11+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(score.getScore()));
+        ServerProcess.getInstance().toAllClient(11+ round.getPlayer(), ServerProcess.getInstance().getGson().toJson(score));
 
         // 추가된 총 점수의 /70 만큼 방해 뿌요 상대방에게 전달
         gameService.tossGarbagePuyo(round.getPlayer(), plusScore);

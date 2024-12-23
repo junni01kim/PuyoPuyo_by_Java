@@ -8,6 +8,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * 게임의 규칙을 설명하는 패널이다. <br>
+ *
+ * 시각적인 책임을 가지며, MVC 패턴의 View의 역할을 한다.
+ *
+ * 설명 창은 하나만 구현되므로, 싱글 통 패턴을 이용하여 개발했다.
+ *
+ * ※ 따로 관리할 엔티티가 존재하지 않아 Model은 생략하였다.
+ */
 public class ExplainPanel extends JPanel implements PanelState {
     private static ExplainPanel instance;
 
@@ -22,6 +31,11 @@ public class ExplainPanel extends JPanel implements PanelState {
         setUi();
     }
 
+    /**
+     * 화면 설정을 하는 함수이다. <br>
+     *
+     * 1. 플레이어가 뒤로가기를 진행할 Button을 배치한다.
+     */
     @Override
     public void setUi() {
         var homeButton = new JButton("Nav Home");

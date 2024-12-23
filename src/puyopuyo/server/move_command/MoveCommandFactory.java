@@ -1,8 +1,8 @@
-package puyopuyo.server.movecommand;
+package puyopuyo.server.move_command;
 
 /**
  * MoveCommand를 생성하는 Factory 클래스
- * Factory Method Pattern을 적용하였다.
+ * Factory Pattern을 적용하였다.
  */
 public class MoveCommandFactory {
     public static MoveCommand getMoveCommand(String direction) {

@@ -5,6 +5,8 @@ import puyopuyo.client.frame.Frame;
 /**
  * Frame의 Panel 객체를 관리하기 위한 인터페이스 <br>
  *
+ * 게임 플레이 화면을 이루는 최상위 패널의 필수적인 구성 요소를 명시한다. <br>
+ *
  * 상태 패턴(state pattern)을 적용하여 개발했다.
  */
 public interface PanelState {

@@ -23,7 +23,7 @@ public class RoundService {
 
     public RoundService(int player) {
         this.player = player;
-        algorithm = new Algorithm(player, this);
+        algorithm = new Algorithm(this);
     }
 
     /**

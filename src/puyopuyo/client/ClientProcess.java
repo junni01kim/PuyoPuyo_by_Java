@@ -1,7 +1,7 @@
 package puyopuyo.client;
 
 import com.google.gson.Gson;
-import puyopuyo.client.panel.map.subpanel.DrawFactory;
+import puyopuyo.client.panel.map.subpanel.socket_command.SocketFactory;
 import puyopuyo.dto.SendDTO;
 
 import java.io.*;
@@ -69,10 +69,12 @@ public class ClientProcess {
      */
     private void fromServer() {
         String serverMessage;
+        SendDTO sendDTO;
         try {
             while ((serverMessage = in.readLine()) != null) {
                 // TODO: observer 설정
-                DrawFactory.redraw(gson.fromJson(serverMessage, SendDTO.class));
+                sendDTO = gson.fromJson(serverMessage, SendDTO.class);
+                SocketFactory.getDrawCommand(sendDTO.getType()).execute(sendDTO.getData());
             }
         } catch (IOException e) {
             System.err.println("Error while reading puyopuyo.server message: " + e.getMessage());

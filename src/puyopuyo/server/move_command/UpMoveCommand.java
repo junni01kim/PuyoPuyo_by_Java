@@ -1,4 +1,4 @@
-package puyopuyo.server.movecommand;
+package puyopuyo.server.move_command;
 
 import puyopuyo.server.game.GameService;
 import puyopuyo.server.game.round.PuyoS;

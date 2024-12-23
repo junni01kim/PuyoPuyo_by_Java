@@ -11,12 +11,18 @@ import java.awt.*;
  * 시각적인 책임을 가지며, MVC 패턴의 View의 역할을 한다.
  */
 public class ScorePanel extends JPanel {
+    /** @property ScorePanel에서 진행되는 책임들을 수행하는 객체 */
     private final ScoreService scoreService = new ScoreService(this);
 
     public ScorePanel() {
         setUi();
     }
 
+    /**
+     * 패널의 백그라운드 이미지를 그리기 위한 함수 <br>
+     *
+     * 전체 화면 크기로 이미지가 배치 된다.
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);

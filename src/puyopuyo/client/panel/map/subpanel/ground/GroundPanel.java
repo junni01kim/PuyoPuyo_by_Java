@@ -14,9 +14,14 @@ import java.awt.*;
 public class GroundPanel extends JPanel {
     private final int player;
 
+    /** @property 사용자가 조작하는 왼쪽 뿌요 */
     private Puyo leftPuyo = new Puyo(5);
+
+
+    /** @property 사용자가 조작하는 오른쪽 뿌요 */
     private Puyo rightPuyo = new Puyo(5);
 
+    /** @property 뿌요의 UI 배치도 */
     private Puyo[][] puyoMap = new Puyo[6][12];
 
     public GroundPanel(int player) {
@@ -43,6 +48,7 @@ public class GroundPanel extends JPanel {
 
     /**
      * 패널의 백그라운드 이미지를 그리기 위한 함수 <br>
+     *
      * 전체 화면 크기로 이미지가 배치 된다.
      */
     @Override
@@ -53,6 +59,11 @@ public class GroundPanel extends JPanel {
         else graphics.drawImage(GameImageIcon.player2Ground.getImage(), 0, 0, this.getWidth(), this.getHeight(), this);
     }
 
+    /**
+     * 현재 화면에 그려진 모든 뿌요를 제거한다.
+     *
+     * 수신된 Puyo Map 정보를 출력하기 위해 사용한다.
+     */
     public void clearPuyoMap() {
         for (Puyo[] puyos : puyoMap) {
             for (Puyo puyo : puyos) {
@@ -64,6 +75,15 @@ public class GroundPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * 파라미터를 기반으로 puyoMap을 다시 그리는 함수
+     * 
+     * 새로운 puyoMap을 할당 배치한다.
+     *
+     * puyoMap 전체를 순회하며, 할당된 위치에 puyo를 그린다.
+     * 
+     * @param puyoMapS
+     */
     public void drawPuyoMap(PuyoS[][] puyoMapS) {
         for(int x = 0; x < puyoMapS.length; x++) {
             for(int y = 0; y < puyoMapS[x].length; y++) {
@@ -73,11 +93,17 @@ public class GroundPanel extends JPanel {
                 }
             }
         }
+
+        // puyoMapS에 작성되지 않은 L/R Puyo는 추가로 그린다.
         if(leftPuyo != null) add(leftPuyo);
         if(rightPuyo != null) add(rightPuyo);
         repaint();
     }
 
+    /**
+     * puyoMap에 그려진 L/R Puyo를 지운다.
+     * 
+     */
     public void clearLrPuyo() {
         if(leftPuyo != null) remove(leftPuyo);
         if(rightPuyo != null) remove(rightPuyo);
@@ -86,6 +112,12 @@ public class GroundPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * 파라미터를 기반으로 L/R Puyo를 다시 그리는 함수
+     * 
+     * 새로운 L/R Puyo를 할당 배치한다.
+     * @param puyoS
+     */
     public void drawLrPuyo(PuyoS[] puyoS) {
         leftPuyo = new Puyo(puyoS[0].getColor(), puyoS[0].x(), puyoS[0].y());
         rightPuyo = new Puyo(puyoS[1].getColor(), puyoS[1].x(), puyoS[1].y());
